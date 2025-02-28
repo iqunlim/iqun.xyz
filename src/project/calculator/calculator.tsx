@@ -106,7 +106,7 @@ export default function Calculator() {
 
   return (
     <div className="bg-accent h-fit max-w-2xl min-w-md flex-1 rounded-md p-2">
-      <p>Simple Calculator</p>
+      <p className="ml-1 text-lg">Simple Calculator</p>
       <div>
         <p className="min-w-l bg-background text-foreground border-border max-w-2xl rounded-md border-2 p-1 text-right">
           {`${calcState.num1}${calcState.operand ? calcState.operand : ""}${
@@ -115,7 +115,7 @@ export default function Calculator() {
         </p>
       </div>
       <div>
-        <p>Result:</p>
+        <p className="ml-1">Result:</p>
         <p className="min-w-l bg-background text-foreground border-border min-h-9 max-w-2xl rounded-md border-2 p-1 text-right">
           {calcState.result ? calcState.result : ""}
         </p>
@@ -123,6 +123,7 @@ export default function Calculator() {
       <div className="mt-1 grid grid-cols-4 grid-rows-5 gap-1">
         {buttonStates.map((state) => (
           <Button
+            key={state}
             className={`${
               typeof state === "string" ? "bg-amber-500 hover:bg-amber-700" : ""
             }`}
