@@ -104,19 +104,27 @@ export default function Calculator() {
     if (!calcState.decimal) setCalcState((prev) => ({ ...prev, decimal: 0.1 }));
   };
 
+  const calcValues = `${calcState.num1}${calcState.operand ? calcState.operand : ""}${
+    calcState.num2 !== undefined ? calcState.num2 : ""
+  }`;
+
   return (
-    <div className="bg-accent h-fit max-w-2xl min-w-md flex-1 rounded-md p-2">
+    <div className="bg-accent h-fit max-w-2xl min-w-md flex-1 rounded-md p-4">
       <p className="ml-1 text-lg">Simple Calculator</p>
       <div>
-        <p className="min-w-l bg-background text-foreground border-border max-w-2xl rounded-md border-2 p-1 text-right">
-          {`${calcState.num1}${calcState.operand ? calcState.operand : ""}${
-            calcState.num2 !== undefined ? calcState.num2 : ""
-          }`}
+        <p
+          aria-label={calcValues}
+          className="min-w-l bg-background text-foreground border-border max-w-2xl rounded-md border-2 p-1 text-right"
+        >
+          {calcValues}
         </p>
       </div>
       <div>
         <p className="ml-1">Result:</p>
-        <p className="min-w-l bg-background text-foreground border-border min-h-9 max-w-2xl rounded-md border-2 p-1 text-right">
+        <p
+          aria-label={calcState.result ? calcState.result : "No Value"}
+          className="min-w-l bg-background text-foreground border-border min-h-9 max-w-2xl rounded-md border-2 p-1 text-right"
+        >
           {calcState.result ? calcState.result : ""}
         </p>
       </div>
