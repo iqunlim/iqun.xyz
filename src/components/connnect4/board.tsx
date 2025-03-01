@@ -77,11 +77,8 @@ export default function Board({ rows, cols }: { rows: number; cols: number }) {
     });
   }
 
-  function CheckLastWinner(
-    grid: Array<Array<BoardEntry>>,
-    last?: [number, number],
-  ) {
-    if (!last) return;
+  function CheckLastWinner() {
+    if (!boardState.last) return;
     function dfs(
       location: [number, number],
       orientation:
@@ -94,17 +91,18 @@ export default function Board({ rows, cols }: { rows: number; cols: number }) {
         | "downright",
       iterator: number,
     ): number {
-      if (!last) return 0;
+      if (!boardState.last) return 0;
       if (
         location[0] < 0 ||
         location[1] < 0 ||
-        location[0] >= grid.length ||
-        location[1] >= grid[location[0]].length
+        location[0] >= boardState.grid.length ||
+        location[1] >= boardState.grid[location[0]].length
       )
         return iterator;
 
       if (
-        grid[location[0]][location[1]].state === grid[last[0]][last[1]].state
+        boardState.grid[location[0]][location[1]].state ===
+        boardState.grid[boardState.last[0]][boardState.last[1]].state
       ) {
         // check based on orientation
 
@@ -118,15 +116,20 @@ export default function Board({ rows, cols }: { rows: number; cols: number }) {
     }
     //-1 because we dont use a visited array so it re-visits the first one each dfs
     const dfsResults = [
-      dfs(last, "down", 0),
-      dfs(last, "left", 0) + dfs(last, "right", 0) - 1,
-      dfs(last, "upleft", 0) + dfs(last, "downright", 0) - 1,
-      dfs(last, "upright", 0) + dfs(last, "downleft", 0) - 1,
+      dfs(boardState.last, "down", 0),
+      dfs(boardState.last, "left", 0) + dfs(boardState.last, "right", 0) - 1,
+      dfs(boardState.last, "upleft", 0) +
+        dfs(boardState.last, "downright", 0) -
+        1,
+      dfs(boardState.last, "upright", 0) +
+        dfs(boardState.last, "downleft", 0) -
+        1,
     ];
 
     // Check if any value is 4
     if (dfsResults.some((val) => val >= 4)) {
-      const winner = grid[last[0]][last[1]].state;
+      const winner =
+        boardState.grid[boardState.last[0]][boardState.last[1]].state;
       if (winner !== "red" && winner !== "blue") {
         throw new Error("Invalid winner! Error!");
       }
@@ -137,20 +140,17 @@ export default function Board({ rows, cols }: { rows: number; cols: number }) {
     }
   }
 
-  const checkForDeadlock = () => {
-    if (boardState.grid.flat().every((tile) => tile.state !== "empty")) {
-      setBoardState((prevState) => ({
-        ...prevState,
-        winner: "NOBODY",
-      }));
-    }
-  };
+  if (!boardState.winner) CheckLastWinner();
 
-  useEffect(() => {
-    if (boardState.winner) return;
-    CheckLastWinner(boardState.grid, boardState.last);
-    checkForDeadlock();
-  }, [boardState]);
+  if (
+    boardState.grid.flat().every((tile) => tile.state !== "empty") &&
+    !boardState.winner
+  ) {
+    setBoardState((prevState) => ({
+      ...prevState,
+      winner: "NOBODY",
+    }));
+  }
 
   return (
     <div className="bg-accent relative flex flex-col items-center rounded-md p-2">
