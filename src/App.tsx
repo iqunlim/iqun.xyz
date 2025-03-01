@@ -3,6 +3,7 @@ import "./App.css";
 import Calculator from "./components/calculator/calculator";
 import ContainerPage from "./Container";
 import PageIframe from "./pages/PageFrame";
+import Board from "./components/connnect4/board";
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
               />
             }
           />
+          <Route path="connect4" element={<Board rows={6} cols={7} />} />
         </Route>
       </Routes>
     </BrowserRouter>

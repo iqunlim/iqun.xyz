@@ -21,9 +21,9 @@ const components: ComponentInformation[] = [
     description: "A Basic calculator with decimals",
   },
   {
-    title: "Test",
-    href: "/test",
-    description: "A Test component",
+    title: "Connect Four",
+    href: "/connect4",
+    description: "A Basic Connect 4 Game",
   },
 ];
 
@@ -47,7 +47,7 @@ export function NavMenu() {
         <NavigationMenuItem>
           <NavigationMenuTrigger>Components</NavigationMenuTrigger>
           <NavigationMenuContent>
-            <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
+            <ul className="z-100 grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
               {components.map((component) => (
                 <NavLinkContent key={component.title} component={component} />
               ))}
@@ -69,9 +69,9 @@ export function NavMenu() {
             About Me
           </NavLink>
         </NavigationMenuItem>
-        <NavigationMenuItem>
+        <NavigationMenuItem className="hidden sm:block">
           <a
-            className={navigationMenuTriggerStyle()}
+            className={`${navigationMenuTriggerStyle()}`}
             href="https://github.com/iqunlim/random-components"
             target="#"
           >

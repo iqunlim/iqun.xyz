@@ -5,12 +5,12 @@ export default function PageIframe({ src, gh }: { src: string; gh?: string }) {
     <div className="h-[calc(100vh-200px)] w-full rounded-md px-5">
       <div className="my-2 flex gap-2">
         <Button variant="ghost">
-          <a href={src}>View directly on the website</a>
+          <a href={src}>View Page directly on the website</a>
         </Button>
         {gh && (
-          <Button variant="ghost">
+          <Button variant="ghost" asChild>
             <a href={gh} target="#">
-              View source code for this page
+              View source code
             </a>
           </Button>
         )}
