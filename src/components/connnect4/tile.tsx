@@ -5,16 +5,21 @@ type TileState = "red" | "blue" | "empty";
 export default function Tile({
   textValue,
   tileState,
+  glowing,
   onClick,
 }: {
   textValue?: string;
   tileState: TileState;
+  glowing?: boolean;
   onClick: () => void;
 }) {
   const stateToStyle = (state: TileState): React.CSSProperties => {
     switch (state) {
       case "blue":
-        return { backgroundColor: "oklch(0.623 0.214 259.815)" };
+        return {
+          backgroundColor: "oklch(0.623 0.214 259.815)",
+          border: glowing ? "solid 4px yellow" : "",
+        };
       case "empty":
         return {
           backgroundColor: "#000",
@@ -23,7 +28,10 @@ export default function Tile({
           color: "#fff",
         };
       case "red":
-        return { backgroundColor: "oklch(0.637 0.237 25.331)" };
+        return {
+          backgroundColor: "oklch(0.637 0.237 25.331)",
+          border: glowing ? "solid 4px yellow" : "",
+        };
       default:
         return {
           color: "#fff",
