@@ -17,12 +17,18 @@ const Dropdown = ({
   const contentRef = useRef<HTMLDivElement>(null);
 
   const toggleDropdown = () => {
-    if (!open) {
+    // Checking if dropdown menu will go off the bottom of the page
+    // TODO: Calculate left/right sides as well
+    if (!open && buttonRef.current && contentRef.current) {
+      // total height - where the bottom of the "button" element is
       const spaceRemaining =
-        window.innerHeight -
-        (buttonRef.current?.getBoundingClientRect().bottom || 0);
-      const contentHeight = contentRef.current?.clientHeight || 0;
+        window.innerHeight - buttonRef.current.getBoundingClientRect().bottom;
+      // Height of the content, since its dynamic we have to get it here
+      const contentHeight = contentRef.current.clientHeight;
 
+      // Check where we should put the top in pixels, or null if its within the space remaining
+      // This will generally be a negative value, used to move the "top" css selector in the content box
+      // upwards via its absolute positioning
       const topPosition =
         spaceRemaining > contentHeight ? null : spaceRemaining - contentHeight;
 
