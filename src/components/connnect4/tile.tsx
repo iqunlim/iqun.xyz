@@ -1,18 +1,12 @@
 import React from "react";
-
-type TileState = "red" | "blue" | "empty";
+import { TileProps, TileState } from "./types";
 
 export default function Tile({
   textValue,
   tileState,
   glowing,
   onClick,
-}: {
-  textValue?: string;
-  tileState: TileState;
-  glowing?: boolean;
-  onClick: () => void;
-}) {
+}: TileProps) {
   const stateToStyle = (state: TileState): React.CSSProperties => {
     switch (state) {
       case "blue":

@@ -1,0 +1,14 @@
+div > .dd-open {
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: all;
+}
+
+.dd {
+  opacity: 0;
+  transform: translateY(-5%);
+  transition:
+    transform 150ms ease-in-out,
+    opacity 100ms ease-in-out;
+  pointer-events: none;
+}

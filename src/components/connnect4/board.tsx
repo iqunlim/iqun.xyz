@@ -1,39 +1,36 @@
-import { JSX, useState } from "react";
+import { useState } from "react";
 import Tile from "./tile";
 import { Button } from "../ui/button";
+import { BoardGridTile, BoardState } from "./types";
 
-type BoardGrid = {
-  turn: "red" | "blue";
-  last?: [number, number];
-  winner?: "red" | "blue" | "NOBODY";
-  grid: Array<Array<BoardEntry>>;
-};
-
-type BoardEntry = {
-  element: JSX.Element;
-  state: "empty" | "red" | "blue";
-};
+// Basic Connect 4 component
+// There is a lot of musings in here about what is actually good practice in react
+// I may know these answers already in the future, and may laugh at this some time later.
 
 export default function Board({ rows, cols }: { rows: number; cols: number }) {
+  // Resetter function
   const setupBoard = (rows: number, cols: number) => {
-    const boardGrid = new Array<Array<BoardEntry>>();
+    const boardGrid = new Array<Array<BoardGridTile>>();
     for (let i = 0; i < rows; i++) {
       boardGrid[i] = [];
       for (let j = 0; j < cols; j++) {
         boardGrid[i][j] = {
           state: "empty",
-          element: <Tile tileState={"empty"} onClick={() => addToCol(j)} />,
+          element: { tileState: "empty", onClick: () => addPiecetoColumn(j) },
         };
       }
     }
-    return { turn: "red", grid: boardGrid } as BoardGrid;
+    return { turn: "red", grid: boardGrid } as BoardState;
   };
 
-  const [boardState, setBoardState] = useState<BoardGrid>(
+  const [boardState, setBoardState] = useState<BoardState>(
     setupBoard(rows, cols),
   );
 
-  function addToCol(col: number) {
+  // Any piece clicked on a column adds it to the highest spot it can go to
+  // (or nothing if its at the top)
+  // (OR nothing if theres a game winner)
+  function addPiecetoColumn(col: number) {
     setBoardState((prevGrid) => {
       // If we have a winner, do not allow any updates
       if (prevGrid.winner) {
@@ -53,9 +50,10 @@ export default function Board({ rows, cols }: { rows: number; cols: number }) {
         if (newGrid[i][col].state !== "empty") {
           newGrid[i - 1][col] = {
             state: prevGrid.turn,
-            element: (
-              <Tile tileState={prevGrid.turn} onClick={() => addToCol(col)} />
-            ),
+            element: {
+              tileState: prevGrid.turn,
+              onClick: () => addPiecetoColumn(col),
+            },
           };
           return {
             last: [i - 1, col],
@@ -68,9 +66,10 @@ export default function Board({ rows, cols }: { rows: number; cols: number }) {
         if (i + 1 === rows) {
           newGrid[i][col] = {
             state: prevGrid.turn,
-            element: (
-              <Tile tileState={prevGrid.turn} onClick={() => addToCol(col)} />
-            ),
+            element: {
+              tileState: prevGrid.turn,
+              onClick: () => addPiecetoColumn(col),
+            },
           };
           return {
             last: [i, col],
@@ -83,87 +82,103 @@ export default function Board({ rows, cols }: { rows: number; cols: number }) {
     });
   }
 
-  function CheckLastWinner() {
+  function CheckForWinningMove() {
     if (!boardState.last) return;
+
+    // Searches in a direction based on changeRow and changeCol
+    // Generally, the names of the variables will tell you
+    // which direction its searching in
     function dfs(
-      location: [number, number],
-      orientation:
-        | "left"
-        | "right"
-        | "down"
-        | "upleft"
-        | "upright"
-        | "downleft"
-        | "downright",
-      iterator: number,
-      elements: Set<[number, number]>,
+      current: [number, number],
+      changeRow: number = 0,
+      changeCol: number = 0,
+      iterator: number = 0,
+      elements: Set<[number, number]> = new Set(),
     ): { elements: Set<[number, number]>; iterator: number } {
-      if (!boardState.last) return { elements: elements, iterator: 0 };
+      // Checking if out of bounds
+      if (!boardState.last) return { elements, iterator };
+      const [row, col] = current;
       if (
-        location[0] < 0 ||
-        location[1] < 0 ||
-        location[0] >= boardState.grid.length ||
-        location[1] >= boardState.grid[location[0]].length
+        row < 0 ||
+        col < 0 ||
+        row >= boardState.grid.length ||
+        col >= boardState.grid[row].length
       )
         return { elements, iterator };
 
+      // If the piece has the same player as whatever piece we just played
       if (
-        boardState.grid[location[0]][location[1]].state ===
+        boardState.grid[row][col].state ===
         boardState.grid[boardState.last[0]][boardState.last[1]].state
       ) {
-        // check based on orientation
-        elements.add(location);
+        // Add the element to the "found elements" set
+        elements.add(current);
 
+        // search further in to whatever orientation we are moving down
         return dfs(
-          iterateInOrientation(location[0], location[1], orientation),
-          orientation,
+          [row + changeRow, col + changeCol],
+          changeRow,
+          changeCol,
           iterator + 1,
           elements,
         );
       }
+      // Didn't find it, piece was different / empty so return what we've found
       return { elements, iterator };
     }
 
     // Visit all possible directions you can "win" from
-    const down = dfs(boardState.last, "down", 0, new Set());
-    const left = dfs(boardState.last, "left", 0, new Set());
-    const right = dfs(boardState.last, "right", 0, new Set());
-    const upleft = dfs(boardState.last, "upleft", 0, new Set());
-    const downright = dfs(boardState.last, "downright", 0, new Set());
-    const upright = dfs(boardState.last, "upright", 0, new Set());
-    const downleft = dfs(boardState.last, "downleft", 0, new Set());
+    const down = dfs(boardState.last, 1, 0);
+    const left = dfs(boardState.last, 0, -1);
+    const right = dfs(boardState.last, 0, 1);
+    const upleft = dfs(boardState.last, -1, -1);
+    const downright = dfs(boardState.last, 1, 1);
+    const upright = dfs(boardState.last, -1, 1);
+    const downleft = dfs(boardState.last, 1, -1);
 
     // Holding the elements here for when we want to highlight all winning circles
     const dfsResults = {
       down: { ...down },
       horizontal: {
-        elements: [...left.elements, ...right.elements],
+        elements: new Set([...left.elements, ...right.elements]),
         iterator: left.iterator + right.iterator - 1,
       },
       diagonal1: {
-        elements: [...upleft.elements, ...downright.elements],
+        elements: new Set([...upleft.elements, ...downright.elements]),
         iterator: upleft.iterator + downright.iterator - 1,
       },
       diagonal2: {
-        elements: [...upright.elements, ...downleft.elements],
+        elements: new Set([...upright.elements, ...downleft.elements]),
         iterator: upright.iterator + downleft.iterator - 1,
       },
     };
 
+    // Is updating state in a loop bad practice? It feels weird.
+    // Maybe having "winner" and "highlightedElements" variables and then setting the state once at the end
+    // Would be more ideal
+    // But like, the amount of times it will set state more than once is so small...
     Object.values(dfsResults).forEach((value) => {
       if (value.iterator >= 4) {
         if (!boardState.last) return;
+        // Is there a better way to extrapolate the winner than...this?
         const winner =
           boardState.grid[boardState.last[0]][boardState.last[1]].state;
+        // Because it causes this, which is the only thrown error...that would break the component
         if (winner !== "red" && winner !== "blue") {
-          throw new Error("Invalid winner! Error!");
+          throw new TypeError(
+            'TypeError: winner state was not in type Teams, expected "red" | "blue"',
+          );
         }
+        // Iterating through the found pairs of elements from the DFS
+        // And setting them to be indicated so the players can see
+        // Where the winning move was, and then setting the winner.
         setBoardState((prevBoardState) => {
           const newBoardState = { ...prevBoardState };
           value.elements.forEach(([row, col]) => {
-            newBoardState.grid[row][col].element = (
-              <Tile glowing {...prevBoardState.grid[row][col].element.props} />
-            );
+            newBoardState.grid[row][col].element = {
+              ...prevBoardState.grid[row][col].element,
+              glowing: true,
+            };
           });
 
           return {
@@ -175,8 +190,7 @@ export default function Board({ rows, cols }: { rows: number; cols: number }) {
     });
   }
 
-  if (!boardState.winner) CheckLastWinner();
-
+  // Checking if every tile is filled and there is no winner
   if (
     boardState.grid.flat().every((tile) => tile.state !== "empty") &&
     !boardState.winner
@@ -187,9 +201,14 @@ export default function Board({ rows, cols }: { rows: number; cols: number }) {
     }));
   }
 
+  // This is a bit hacky, if the winning move happens as the board is filled
+  // We re-set the state later, changing the winner to the correct winner from "NOBODY" in the above function
+  // I do not like this very much...
+  if (!boardState.winner) CheckForWinningMove();
+
   return (
     <div className="bg-accent relative flex flex-col items-center rounded-md p-2">
-      {boardState.winner && (
+      {boardState.winner ? (
         <div className="flex w-full flex-col items-center">
           WINNER: {boardState.winner}
           <Button
@@ -199,8 +218,11 @@ export default function Board({ rows, cols }: { rows: number; cols: number }) {
             Reset
           </Button>
         </div>
+      ) : (
+        <h1 className="flex w-full items-center justify-center">
+          {boardState.turn}'s turn
+        </h1>
       )}
-      {!boardState.winner && <h1>{boardState.turn}'s turn</h1>}
       <div
         style={{
           gridTemplateRows: `repeat(${rows}, 100px)`,
@@ -209,34 +231,9 @@ export default function Board({ rows, cols }: { rows: number; cols: number }) {
         className="m-4 grid rounded-md bg-black"
       >
         {boardState.grid.flat().map((cell, index) => (
-          <div key={index}>{cell.element}</div>
+          <Tile key={index} {...cell.element} />
         ))}
       </div>
     </div>
   );
 }
-
-const iterateInOrientation = (
-  row: number,
-  col: number,
-  orientation: string,
-): [number, number] => {
-  switch (orientation) {
-    case "left":
-      return [row, col - 1];
-    case "right":
-      return [row, col + 1];
-    case "down":
-      return [row + 1, col];
-    case "upleft":
-      return [row - 1, col - 1];
-    case "upright":
-      return [row - 1, col + 1];
-    case "downleft":
-      return [row + 1, col - 1];
-    case "downright":
-      return [row + 1, col + 1];
-    default:
-      return [row, col];
-  }
-};

@@ -25,6 +25,11 @@ const components: ComponentInformation[] = [
     href: "/connect4",
     description: "A Basic Connect 4 Game",
   },
+  {
+    title: "Dropdown Menu",
+    href: "/dropdown",
+    description: "Basic animated Dropdown menu",
+  },
 ];
 
 const pages: ComponentInformation[] = [

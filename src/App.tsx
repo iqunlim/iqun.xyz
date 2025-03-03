@@ -4,6 +4,7 @@ import Calculator from "./components/calculator/calculator";
 import ContainerPage from "./Container";
 import PageIframe from "./pages/PageFrame";
 import Board from "./components/connnect4/board";
+import CustomDropDownExampleComponent from "./components/customdropdown/Component";
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
             }
           />
           <Route path="connect4" element={<Board rows={6} cols={7} />} />
+          <Route path="dropdown" element={<CustomDropDownExampleComponent />} />
         </Route>
       </Routes>
     </BrowserRouter>

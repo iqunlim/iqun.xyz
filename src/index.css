@@ -122,3 +122,12 @@
     @apply bg-background text-foreground;
   }
 }
+
+@utility no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  &::-webkit-scrollbar {
+    height: 0;
+    width: 0;
+  }
+}
