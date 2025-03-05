@@ -133,7 +133,9 @@ export default function Calculator() {
           <Button
             key={state}
             className={`${
-              typeof state === "string" ? "bg-amber-500 hover:bg-amber-700" : ""
+              typeof state === "string"
+                ? "bg-amber-500 text-black hover:bg-amber-700"
+                : ""
             }`}
             onClick={() =>
               typeof state === "number"

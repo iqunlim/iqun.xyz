@@ -39,7 +39,7 @@ export default function Tile({
   return (
     <div
       onClick={onClick}
-      className="h-full w-full border border-white bg-black"
+      className="aspect-square h-full w-full border border-white bg-black"
     >
       <div
         style={stateToStyle(tileState)}

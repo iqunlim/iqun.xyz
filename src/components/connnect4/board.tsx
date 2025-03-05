@@ -225,10 +225,10 @@ export default function Board({ rows, cols }: { rows: number; cols: number }) {
       )}
       <div
         style={{
-          gridTemplateRows: `repeat(${rows}, 100px)`,
-          gridTemplateColumns: `repeat(${cols}, 100px)`,
+          gridTemplateRows: `repeat(${rows}, 1fr)`,
+          gridTemplateColumns: `repeat(${cols}, 1fr)`,
         }}
-        className="m-4 grid rounded-md bg-black"
+        className="m-4 grid w-[350px] rounded-md bg-black transition-all sm:w-[600px]"
       >
         {boardState.grid.flat().map((cell, index) => (
           <Tile key={index} {...cell.element} />

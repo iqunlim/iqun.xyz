@@ -51,7 +51,7 @@ const pages: ComponentInformation[] = [
 export function NavMenu() {
   return (
     <NavigationMenu className="mx-4">
-      <NavigationMenuList>
+      <NavigationMenuList className="grid grid-cols-2 grid-rows-2 gap-2 sm:flex">
         <NavigationMenuItem>
           <NavigationMenuTrigger>Components</NavigationMenuTrigger>
           <NavigationMenuContent>
@@ -85,7 +85,7 @@ export function NavMenu() {
             About Me
           </NavLink>
         </NavigationMenuItem>
-        <NavigationMenuItem className="hidden sm:block">
+        <NavigationMenuItem>
           <a
             className={`${navigationMenuTriggerStyle()}`}
             href="https://github.com/iqunlim/random-components"
@@ -117,7 +117,7 @@ function NavLinkContent({ component }: { component: ComponentInformation }) {
 function SectionTitleBar({ title }: { title: string }) {
   return (
     <div>
-      <h3 className="w-[75%] pt-4 pl-4 text-base">{title}</h3>
+      <h3 className="w-3/4 pt-4 pl-4 text-base">{title}</h3>
       <div className="border-primary ml-4 w-1/2 rounded-full border"></div>
     </div>
   );

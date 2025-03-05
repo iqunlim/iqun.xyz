@@ -1,5 +1,4 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import "./App.css";
 import Calculator from "./components/calculator/calculator";
 import ContainerPage from "./Container";
 import PageIframe from "./pages/PageFrame";
