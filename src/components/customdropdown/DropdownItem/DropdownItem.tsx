@@ -9,7 +9,7 @@ const DropdownItem = ({
 }) => {
   return (
     <div
-      className="hover:bg-accent m-[0.1rem] w-full cursor-pointer rounded-sm p-2"
+      className="hover:bg-accent m-[0.1rem] w-full cursor-pointer p-2 pl-4"
       onClick={onClick}
     >
       {children}

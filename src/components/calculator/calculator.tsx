@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import clsx from "clsx";
 import { useState } from "react";
 
 export type CalculatorState = {
@@ -132,11 +133,10 @@ export default function Calculator() {
         {buttonStates.map((state) => (
           <Button
             key={state}
-            className={`${
-              typeof state === "string"
-                ? "bg-amber-500 text-black hover:bg-amber-700"
-                : ""
-            }`}
+            className={clsx({
+              "bg-amber-500 text-black hover:bg-amber-700":
+                typeof state === "string",
+            })}
             onClick={() =>
               typeof state === "number"
                 ? onNumberClick(state)

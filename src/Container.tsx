@@ -1,14 +1,16 @@
 import { Outlet } from "react-router-dom";
 import { NavMenu } from "./components/nav-content";
 import { ModeToggle } from "./components/theme/mode-toggle";
+import Av from "./Foobar";
 
 export default function ContainerPage() {
   return (
     <div className="flex min-h-screen flex-col">
       <header className="bg-accent flex h-15 items-center justify-between px-6">
-        <h1 className="scroll-m-20 text-2xl font-extrabold tracking-tight text-nowrap">
-          IQ's Random React Stuff
-        </h1>
+        <div className="flex scroll-m-20 items-center justify-center gap-2 text-2xl font-extrabold tracking-tight text-nowrap">
+          <Av />
+          <h1>IQ's Random React Stuff</h1>
+        </div>
         <ModeToggle />
       </header>
       <nav className="bg-muted border-b-2 pb-2">

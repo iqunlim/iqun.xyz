@@ -39,11 +39,11 @@ export default function Tile({
   return (
     <div
       onClick={onClick}
-      className="aspect-square h-full w-full border border-white bg-black"
+      className="h-full w-full border border-white bg-black"
     >
       <div
         style={stateToStyle(tileState)}
-        className="flex h-full w-full items-center justify-center rounded-full"
+        className="flex aspect-square h-full w-full items-center justify-center rounded-full"
       >
         {textValue || ""}
       </div>

@@ -1,15 +1,16 @@
 import React, { useState, useEffect, useRef } from "react";
 import DropdownButton from "../DopdownButton/DropdownButton";
 import DropdownContent from "../DropdownContent/DropdownContent";
+import { useDropdownContext } from "./DropdownContext";
 
 const Dropdown = ({
   buttonText,
-  content,
+  children,
 }: {
   buttonText: string;
-  content: React.JSX.Element;
+  children: React.JSX.Element;
 }) => {
-  const [open, setOpen] = useState(false);
+  const { open, setOpen } = useDropdownContext();
   const [dropdownTop, setDropdownTop] = useState<number | null>(null);
 
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -49,7 +50,7 @@ const Dropdown = ({
     };
     document.addEventListener("click", handler);
     return () => document.removeEventListener("click", handler);
-  }, [dropdownRef]);
+  }, [dropdownRef, setOpen]);
 
   return (
     <div className="relative" ref={dropdownRef}>
@@ -57,7 +58,7 @@ const Dropdown = ({
         <span>{buttonText}</span>
       </DropdownButton>
       <DropdownContent top={dropdownTop} ref={contentRef} open={open}>
-        {content}
+        {children}
       </DropdownContent>
     </div>
   );
