@@ -1,13 +1,17 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import { NavMenu } from "./components/nav-content";
 import { ModeToggle } from "./components/theme/mode-toggle";
 import Av from "./Foobar";
 
 export default function ContainerPage() {
+  const navigate = useNavigate();
   return (
     <div className="flex min-h-screen flex-col">
-      <header className="bg-accent flex h-15 items-center justify-between px-6">
-        <div className="flex scroll-m-20 items-center justify-center gap-2 text-2xl font-extrabold tracking-tight text-nowrap">
+      <header className="bg-accent flex h-15 cursor-pointer items-center justify-between px-4 py-8">
+        <div
+          className="flex scroll-m-20 items-center justify-center gap-2 text-2xl font-extrabold tracking-tight text-nowrap"
+          onClick={() => navigate("/")}
+        >
           <Av />
           <h1>IQ's Random React Stuff</h1>
         </div>

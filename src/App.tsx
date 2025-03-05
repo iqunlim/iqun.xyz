@@ -12,6 +12,13 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<ContainerPage />}>
+            {/* TODO: A proper landing page */}
+            <Route
+              index
+              element={
+                <div>Hello! Click anything above to check out my stuff</div>
+              }
+            />
             <Route path="calc" element={<Calculator />} />
             <Route
               path="vanlife"

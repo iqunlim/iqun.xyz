@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Dropdown from "./Dropdown/Dropdown";
 import DropdownItem from "./DropdownItem/DropdownItem";
 import clsx from "clsx";
 import { Checkbox } from "../ui/checkbox";
 import { CheckedState } from "@radix-ui/react-checkbox";
 import { DropdownContext } from "./Context";
+import { useFadeInWithStyle } from "@/hooks/hooks";
 
 export default function CustomDropDownExampleComponent() {
   const items = [1, 2, 3, 4, 5, 6, 7, 8];
@@ -12,8 +13,13 @@ export default function CustomDropDownExampleComponent() {
   const [open, setOpen] = useState(false);
   const [text, setText] = useState<string>();
 
+  const containerRef = useRef(null);
+  const fadeinStyle = useFadeInWithStyle([containerRef]);
+
   return (
     <div
+      ref={containerRef}
+      style={fadeinStyle}
       className={clsx({
         "bg-accent relative flex h-[calc(100vh-200px)] w-full flex-col items-center gap-2 pb-2":
           true,

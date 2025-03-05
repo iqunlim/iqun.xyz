@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Tile from "./tile";
 import { Button } from "../ui/button";
 import { BoardGridTile, BoardState } from "./types";
+import { useFadeInWithStyle } from "@/hooks/hooks";
 
 // Basic Connect 4 component
 // There is a lot of musings in here about what is actually good practice in react
@@ -206,8 +207,15 @@ export default function Board({ rows, cols }: { rows: number; cols: number }) {
   // I do not like this very much...
   if (!boardState.winner) CheckForWinningMove();
 
+  const boardRef = useRef(null);
+  const fadeinStyle = useFadeInWithStyle([boardRef]);
+
   return (
-    <div className="bg-accent relative flex flex-col items-center rounded-md p-2">
+    <div
+      style={fadeinStyle}
+      ref={boardRef}
+      className="bg-accent relative flex flex-col items-center rounded-md p-2"
+    >
       {boardState.winner ? (
         <div className="flex w-full flex-col items-center">
           WINNER: {boardState.winner}
