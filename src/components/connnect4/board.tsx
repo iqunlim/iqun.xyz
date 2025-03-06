@@ -3,6 +3,7 @@ import Tile from "./tile";
 import { Button } from "../ui/button";
 import { BoardGridTile, BoardState } from "./types";
 import { useFadeInWithStyle } from "@/hooks/hooks";
+import clsx from "clsx";
 
 // Basic Connect 4 component
 // There is a lot of musings in here about what is actually good practice in react
@@ -17,7 +18,12 @@ export default function Board({ rows, cols }: { rows: number; cols: number }) {
       for (let j = 0; j < cols; j++) {
         boardGrid[i][j] = {
           state: "empty",
-          element: { tileState: "empty", onClick: () => addPiecetoColumn(j) },
+          element: {
+            row: i,
+            col: j,
+            tileState: "empty",
+            onClick: () => addPiecetoColumn(j),
+          },
         };
       }
     }
@@ -52,8 +58,8 @@ export default function Board({ rows, cols }: { rows: number; cols: number }) {
           newGrid[i - 1][col] = {
             state: prevGrid.turn,
             element: {
+              ...newGrid[i - 1][col].element,
               tileState: prevGrid.turn,
-              onClick: () => addPiecetoColumn(col),
             },
           };
           return {
@@ -68,8 +74,8 @@ export default function Board({ rows, cols }: { rows: number; cols: number }) {
           newGrid[i][col] = {
             state: prevGrid.turn,
             element: {
+              ...newGrid[i][col].element,
               tileState: prevGrid.turn,
-              onClick: () => addPiecetoColumn(col),
             },
           };
           return {
@@ -216,21 +222,10 @@ export default function Board({ rows, cols }: { rows: number; cols: number }) {
       ref={boardRef}
       className="bg-accent relative flex flex-col items-center rounded-md p-2"
     >
-      {boardState.winner ? (
-        <div className="flex w-full flex-col items-center">
-          WINNER: {boardState.winner}
-          <Button
-            className="w-full"
-            onClick={() => setBoardState(setupBoard(rows, cols))}
-          >
-            Reset
-          </Button>
-        </div>
-      ) : (
-        <h1 className="flex w-full items-center justify-center">
-          {boardState.turn}'s turn
-        </h1>
-      )}
+      <div className="flex w-full flex-col items-center"></div>
+      <h1 className="flex w-full items-center justify-center">
+        {boardState.turn}'s turn
+      </h1>
       <div
         style={{
           gridTemplateRows: `repeat(${rows}, 1fr)`,
@@ -242,6 +237,21 @@ export default function Board({ rows, cols }: { rows: number; cols: number }) {
           <Tile key={index} {...cell.element} />
         ))}
       </div>
+      {
+        <p className={clsx({ invisible: !boardState.winner })}>
+          WINNER: {boardState.winner}
+        </p>
+      }
+      <Button
+        className={clsx({
+          "w-full": true,
+          invisible: !boardState.winner,
+        })}
+        // className="w-full"
+        onClick={() => setBoardState(setupBoard(rows, cols))}
+      >
+        Reset
+      </Button>
     </div>
   );
 }

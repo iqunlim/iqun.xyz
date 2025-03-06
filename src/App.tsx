@@ -5,6 +5,7 @@ import PageIframe from "./pages/PageFrame";
 import Board from "./components/connnect4/board";
 import CustomDropDownExampleComponent from "./components/customdropdown/Component";
 import { ThemeProvider } from "./components/theme/theme-provider";
+import SimonSays from "./components/simon-says/simon";
 
 function App() {
   return (
@@ -43,6 +44,7 @@ function App() {
               path="dropdown"
               element={<CustomDropDownExampleComponent />}
             />
+            <Route path="simon" element={<SimonSays />} />
           </Route>
         </Routes>
       </BrowserRouter>

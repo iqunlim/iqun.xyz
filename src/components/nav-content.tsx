@@ -18,12 +18,12 @@ const basicComponents: ComponentInformation[] = [
   {
     title: "Calculator",
     href: "/calc",
-    description: "A Basic calculator with decimals",
+    description: "A Basic calculator",
   },
   {
     title: "Dropdown Menu",
     href: "/dropdown",
-    description: "Basic animated Dropdown menu",
+    description: "Animated Dropdown menu",
   },
 ];
 
@@ -31,7 +31,12 @@ const gameComponents: ComponentInformation[] = [
   {
     title: "Connect Four",
     href: "/connect4",
-    description: "A Basic Connect 4 Game",
+    description: "Connect Four board game",
+  },
+  {
+    title: "Simon Says",
+    href: "/simon",
+    description: "Simon says Click The mouse!",
   },
 ];
 

@@ -21,14 +21,14 @@ export default function CustomDropDownExampleComponent() {
       ref={containerRef}
       style={fadeinStyle}
       className={clsx({
-        "bg-accent relative flex h-[calc(100vh-200px)] w-full flex-col items-center gap-2 pb-2":
+        "bg-accent relative flex h-[calc(100vh-200px)] w-1/2 flex-col items-center gap-2 rounded-md pb-2":
           true,
         "justify-center": !checked,
         "justify-end": checked,
       })}
     >
       <p>{text || "Click an Item!"}</p>
-      <div className="bg-background flex items-center justify-center gap-2 rounded-sm px-4 py-2">
+      <div className="bg-background flex items-center justify-center gap-2 rounded-sm px-4 py-2 shadow-sm">
         <Checkbox
           id="bottomofDiv"
           checked={checked}
