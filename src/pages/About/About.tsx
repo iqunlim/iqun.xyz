@@ -4,7 +4,7 @@ import { useRef } from "react";
 import { BsArrowDown } from "react-icons/bs";
 import { SlUser } from "react-icons/sl";
 
-import go from "../../img/logos/go.svg";
+import linux from "../../img/logos/linux.svg";
 import ts from "../../img/logos/typescript.svg";
 import py from "../../img/logos/python.svg";
 import docker from "../../img/logos/docker.svg";
@@ -16,6 +16,8 @@ import sql from "../../img/logos/sql-database-generic-svgrepo-com.svg";
 import html from "../../img/logos/html5.svg";
 
 import { useFadeIn } from "@/hooks/hooks";
+import ContactForm from "@/components/aboutpage/ContactForm";
+import SectionTitle from "@/components/ui/section-title";
 
 export default function About() {
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -32,18 +34,18 @@ export default function About() {
         className="flex h-[calc(100vh+6rem)] flex-col items-center justify-center gap-4 border-b-4 border-b-blue-500"
       >
         <div className="flex flex-col gap-2">
-          <p className="text-center text-6xl">
+          <p className="text-center text-5xl md:text-6xl">
             Hi! I'm{" "}
             <span className="font-semibold text-purple-500">Daniel</span>.
           </p>
-          <p className="text-center text-5xl">
+          <p className="text-center text-4xl md:text-5xl">
             I'm an I.T. professional turned web developer.
           </p>
         </div>
         <Button
           className="text-xl"
           onClick={() =>
-            sectionRef?.current?.scrollIntoView({ behavior: "smooth" })
+            sectionRef.current?.scrollIntoView({ behavior: "smooth" })
           }
         >
           Learn about me <BsArrowDown />
@@ -52,9 +54,9 @@ export default function About() {
       <section
         ref={sectionRef}
         style={aboutStyle}
-        className="my-8 flex flex-col justify-center"
+        className="my-8 flex flex-col justify-center border-b-4 border-b-blue-500 py-8"
       >
-        <h1 className="flex justify-center text-6xl">About</h1>
+        <SectionTitle>About</SectionTitle>
         <div className="flex w-full flex-col items-center justify-around lg:flex-row">
           <div className="flex w-full flex-col items-center gap-8 p-4 lg:w-1/3">
             <SlUser className="h-[20rem] w-[20rem]" />
@@ -84,12 +86,28 @@ export default function About() {
               </div>
               <div className="flex flex-col justify-center gap-4">
                 <StackBadge text="TailwindCSS" image={tailwind} />
-                <StackBadge text="Go" image={go} />
+                <StackBadge text="Linux" image={linux} />
                 <StackBadge text="Python" image={py} />
               </div>
             </div>
           </div>
         </div>
+      </section>
+      <section className="flex flex-col items-center gap-4 pb-8">
+        <SectionTitle>Contact</SectionTitle>
+        <p className="text-center">
+          Want to collaborate? Interested in hiring me? Have any questions? Feel
+          free to drop me an email!
+        </p>
+        <ContactForm />
+        <Button
+          className="m-auto"
+          onClick={() =>
+            introRef.current?.scrollIntoView({ behavior: "smooth" })
+          }
+        >
+          ^^^^
+        </Button>
       </section>
     </main>
   );
