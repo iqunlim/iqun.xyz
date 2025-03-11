@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { useFadeInWithStyle } from "@/hooks/hooks";
+import { useFadeIn } from "@/hooks/hooks";
 import clsx from "clsx";
 import { useRef, useState } from "react";
 
@@ -36,7 +36,7 @@ export default function Calculator() {
   });
 
   const calcRef = useRef(null);
-  const fadeinStyle = useFadeInWithStyle([calcRef]);
+  const fadeinStyle = useFadeIn([calcRef]);
 
   const onNumberClick = (value: number) => {
     if (calcState.decimal && value === 0) {

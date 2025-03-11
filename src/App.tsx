@@ -6,6 +6,7 @@ import Board from "./components/connnect4/board";
 import CustomDropDownExampleComponent from "./components/customdropdown/Component";
 import { ThemeProvider } from "./components/theme/theme-provider";
 import SimonSays from "./components/simon-says/simon";
+import About from "./pages/About/About";
 
 function App() {
   return (
@@ -46,6 +47,8 @@ function App() {
             />
             <Route path="simon" element={<SimonSays />} />
           </Route>
+
+          <Route path="/about" element={<About />} />
         </Routes>
       </BrowserRouter>
     </ThemeProvider>

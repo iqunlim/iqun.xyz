@@ -17,6 +17,7 @@ export type BoardGridTile = {
 export type TileProps = {
   row: number;
   col: number;
+  totalRows: number;
   textValue?: string;
   tileState: TileState;
   glowing?: boolean;
