@@ -47,8 +47,9 @@ function App() {
             />
             <Route path="simon" element={<SimonSays />} />
           </Route>
-
-          <Route path="/about" element={<About />} />
+          <Route path="about" element={<About />} />
+          {/* Temporary */}
+          <Route path="*" element={<div>404</div>} />
         </Routes>
       </BrowserRouter>
     </ThemeProvider>

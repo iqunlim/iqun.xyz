@@ -1,37 +1,91 @@
-import { useActionState } from "react";
 import { Button } from "../ui/button";
+import { useForm, SubmitHandler } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from "../ui/form";
+import { Input } from "../ui/input";
+import { Textarea } from "../ui/textarea";
+import { useRef } from "react";
+import { useFadeIn } from "@/hooks/hooks";
 
-async function handleSubmit(prevState: any, formData: FormData) {
-  console.log(formData.get("name"));
-}
+const EmailInputSchema = z.object({
+  name: z.string().min(1).max(50),
+  email: z.string().email().min(5),
+  message: z.string().min(1).max(5000),
+});
 
 export default function ContactForm() {
-  const [state, action, isPending] = useActionState(handleSubmit, null);
+  const formRef = useRef<HTMLFormElement>(null);
+  const style = useFadeIn([formRef], "up");
+
+  const form = useForm<z.infer<typeof EmailInputSchema>>({
+    resolver: zodResolver(EmailInputSchema),
+    defaultValues: {
+      name: "",
+      email: "",
+      message: "",
+    },
+  });
+
+  const onSubmit: SubmitHandler<z.infer<typeof EmailInputSchema>> = (data) =>
+    console.log(data);
 
   return (
-    <form className="flex w-3/4 flex-col gap-2 lg:w-1/2" action={action}>
-      <input
-        id="name"
-        type="text"
-        placeholder="Name"
-        aria-label="Name"
-        className="bg-accent rounded-sm p-2"
-      />
-      <input
-        id="name"
-        type="text"
-        placeholder="Email"
-        aria-label="Name"
-        className="bg-accent rounded-sm p-2"
-      />
-      <textarea
-        id="message"
-        placeholder="Message"
-        aria-label="Message"
-        className="bg-accent resize-none rounded-sm p-2"
-        rows={7}
-      />
-      <Button type="submit">Submit</Button>
-    </form>
+    <Form {...form}>
+      <form
+        style={style}
+        ref={formRef}
+        className="flex w-3/4 flex-col gap-2 lg:w-1/2"
+        onSubmit={form.handleSubmit(onSubmit)}
+      >
+        <FormField
+          control={form.control}
+          name="name"
+          render={({ field }) => (
+            <FormItem>
+              <FormControl>
+                <Input placeholder="Name" {...field} />
+              </FormControl>
+              <FormMessage className="text-destructive" />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="email"
+          render={({ field }) => (
+            <FormItem>
+              <FormControl>
+                <Input placeholder="Email" {...field} />
+              </FormControl>
+              <FormMessage className="text-destructive" />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="message"
+          render={({ field }) => (
+            <FormItem>
+              <FormControl>
+                <Textarea
+                  placeholder="Message..."
+                  {...field}
+                  className="min-h-48"
+                />
+              </FormControl>
+              <FormMessage className="text-destructive" />
+            </FormItem>
+          )}
+        />
+        <Button type="submit">Submit</Button>
+      </form>
+    </Form>
   );
 }

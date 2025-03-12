@@ -93,6 +93,7 @@ export default function About() {
           </div>
         </div>
       </section>
+      <section></section>
       <section className="flex flex-col items-center gap-4 pb-8">
         <SectionTitle>Contact</SectionTitle>
         <p className="text-center">
