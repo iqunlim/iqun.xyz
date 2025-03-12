@@ -115,11 +115,3 @@
     width: 0;
   }
 }
-
-@utility hover-enlarge {
-  transition: transform 0.5s ease-in;
-
-  :hover {
-    transform: scale(1.2);
-  }
-}

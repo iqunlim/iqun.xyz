@@ -1,9 +1,11 @@
 import vanlife from "../img/projects/vanlife.png";
+import poring from "../img/projects/poring.png";
 
 export type ComponentInformation = {
   title: string;
   img?: string;
   href: string;
+  src?: string;
   description: string;
 };
 
@@ -38,11 +40,14 @@ export const Pages: ComponentInformation[] = [
     title: "#VanLife",
     img: vanlife,
     href: "/vanlife",
-    description: "#Vanlife App",
+    src: "https://github.com/iqunlim/vanlife",
+    description: "Figma Design to Real Webpage",
   },
   {
     title: "poring.xyz",
+    img: poring,
     href: "/poring",
-    description: "React 19-based File uploader",
+    src: "https://github.com/iqunlim/poring.xyz",
+    description: "React 19 and S3-based File uploader",
   },
 ];

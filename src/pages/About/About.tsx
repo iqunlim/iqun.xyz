@@ -19,17 +19,26 @@ import { useFadeIn } from "@/hooks/hooks";
 import ContactForm from "@/components/aboutpage/ContactForm";
 import SectionTitle from "@/components/ui/section-title";
 import ProjectCard from "@/components/aboutpage/ProjectCard";
-import { GameComponents, Pages } from "@/lib/projectdata";
+import { Pages } from "@/lib/projectdata";
+import { ModeToggle } from "@/components/theme/mode-toggle";
+import { DelayGenerator } from "@/lib/utils";
 
 export default function About() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const introRef = useRef<HTMLDivElement>(null);
+  const projectRef = useRef<HTMLDivElement>(null);
 
   const introStyle = useFadeIn([introRef], "up");
   const aboutStyle = useFadeIn([sectionRef], "right");
+  const projectStyle = useFadeIn([projectRef], "down");
+
+  const delayGenerator = DelayGenerator();
 
   return (
     <main className="px-2">
+      <div className="pointer-events-auto fixed top-5 right-5 z-10 h-fit w-fit">
+        <ModeToggle />
+      </div>
       <section
         style={introStyle}
         ref={introRef}
@@ -56,7 +65,7 @@ export default function About() {
       <section
         ref={sectionRef}
         style={aboutStyle}
-        className="my-8 flex flex-col justify-center border-b-4 border-b-blue-500 py-8"
+        className="flex flex-col justify-center border-b-4 border-b-blue-500 pb-8"
       >
         <SectionTitle>About</SectionTitle>
         <div className="flex w-full flex-col items-center justify-around lg:flex-row">
@@ -95,20 +104,19 @@ export default function About() {
           </div>
         </div>
       </section>
-      <section className="border-b-4 border-b-blue-500 py-8">
+      <section
+        ref={projectRef}
+        style={projectStyle}
+        className="border-b-4 border-b-blue-500 pb-8"
+      >
         <SectionTitle>Projects</SectionTitle>
-        <div className="grid max-h-[calc(100svh/2)] grid-cols-1 gap-4 overflow-x-hidden overflow-y-auto rounded-lg p-2 md:max-h-fit md:grid-cols-2 md:overflow-y-hidden lg:grid-cols-3">
+        <div className="grid max-h-[calc(100svh/2)] grid-cols-1 gap-4 overflow-x-visible overflow-y-auto rounded-lg p-2 md:max-h-fit md:grid-cols-2 md:overflow-y-visible lg:grid-cols-3">
           {Pages.map((entry) => (
-            <ProjectCard key={entry.title} info={entry} />
-          ))}
-          {GameComponents.map((entry) => (
-            <ProjectCard key={entry.title} info={entry} />
-          ))}
-          {Pages.map((entry) => (
-            <ProjectCard key={entry.title} info={entry} />
-          ))}
-          {GameComponents.map((entry) => (
-            <ProjectCard key={entry.title} info={entry} />
+            <ProjectCard
+              key={entry.title}
+              info={entry}
+              delay={delayGenerator.next().value || 0}
+            />
           ))}
         </div>
       </section>

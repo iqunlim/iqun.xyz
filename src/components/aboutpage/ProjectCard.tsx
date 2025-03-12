@@ -2,7 +2,6 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "../ui/card";
@@ -10,13 +9,29 @@ import {
 import avi from "../../img/av2.png";
 import { ComponentInformation } from "@/lib/projectdata";
 import { useNavigate } from "react-router-dom";
+import { useRef } from "react";
+import { useFadeIn } from "@/hooks/hooks";
 
-function ProjectCard({ info }: { info: ComponentInformation }) {
+function ProjectCard({
+  info,
+  delay = 0,
+}: {
+  info: ComponentInformation;
+  delay?: number;
+}) {
   const navigate = useNavigate();
+
+  const cardRef = useRef<HTMLDivElement>(null);
+  const cardStyle = useFadeIn([cardRef], "right", delay + 0.5);
+
   if (!info) return;
   // onHover: Grow hook
   return (
-    <div className="flex h-full w-full items-center justify-center rounded-md bg-gradient-to-br from-blue-500 to-purple-500 transition-transform hover:scale-110">
+    <div
+      ref={cardRef}
+      style={cardStyle}
+      className="flex h-full w-full items-center justify-center rounded-md bg-gradient-to-br from-blue-500 to-purple-500 transition-transform hover:scale-110"
+    >
       <Card
         className="h-[calc(100%-4px)] w-[calc(100%-4px)] cursor-pointer"
         onClick={() => navigate(info.href)}
@@ -32,9 +47,15 @@ function ProjectCard({ info }: { info: ComponentInformation }) {
             <img className="m-auto max-h-48 rounded-md" src={avi} />
           )}
         </CardContent>
-        <CardFooter className="mt-auto">
-          <p>Hello</p>
-        </CardFooter>
+        {/* <CardFooter className="mt-auto">
+          {info.src ? (
+            <a href={info.src} target="#">
+              View Source Code
+            </a>
+          ) : (
+            <p>No source code available</p>
+          )}
+        </CardFooter> */}
       </Card>
     </div>
   );
