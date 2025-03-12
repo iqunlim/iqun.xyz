@@ -18,6 +18,7 @@ import html from "../../img/logos/html5.svg";
 import { useFadeIn } from "@/hooks/hooks";
 import ContactForm from "@/components/aboutpage/ContactForm";
 import SectionTitle from "@/components/ui/section-title";
+import ProjectCard from "@/components/aboutpage/ProjectCard";
 
 export default function About() {
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -27,7 +28,7 @@ export default function About() {
   const aboutStyle = useFadeIn([sectionRef], "right");
 
   return (
-    <main className="main">
+    <main className="px-2">
       <section
         style={introStyle}
         ref={introRef}
@@ -93,7 +94,17 @@ export default function About() {
           </div>
         </div>
       </section>
-      <section></section>
+      <section className="border-b-4 border-b-blue-500 py-8">
+        <SectionTitle>Projects</SectionTitle>
+        <div className="grid max-h-48 grid-cols-1 gap-4 overflow-scroll md:max-h-fit md:grid-cols-2 lg:grid-cols-3">
+          <ProjectCard />
+          <ProjectCard />
+          <ProjectCard />
+          <ProjectCard />
+          <ProjectCard />
+          <ProjectCard />
+        </div>
+      </section>
       <section className="flex flex-col items-center gap-4 pb-8">
         <SectionTitle>Contact</SectionTitle>
         <p className="text-center">
