@@ -19,6 +19,7 @@ import { useFadeIn } from "@/hooks/hooks";
 import ContactForm from "@/components/aboutpage/ContactForm";
 import SectionTitle from "@/components/ui/section-title";
 import ProjectCard from "@/components/aboutpage/ProjectCard";
+import { GameComponents, Pages } from "@/lib/projectdata";
 
 export default function About() {
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -96,13 +97,19 @@ export default function About() {
       </section>
       <section className="border-b-4 border-b-blue-500 py-8">
         <SectionTitle>Projects</SectionTitle>
-        <div className="grid max-h-48 grid-cols-1 gap-4 overflow-scroll md:max-h-fit md:grid-cols-2 lg:grid-cols-3">
-          <ProjectCard />
-          <ProjectCard />
-          <ProjectCard />
-          <ProjectCard />
-          <ProjectCard />
-          <ProjectCard />
+        <div className="grid max-h-[calc(100svh/2)] grid-cols-1 gap-4 overflow-x-hidden overflow-y-auto rounded-lg p-2 md:max-h-fit md:grid-cols-2 md:overflow-y-hidden lg:grid-cols-3">
+          {Pages.map((entry) => (
+            <ProjectCard key={entry.title} info={entry} />
+          ))}
+          {GameComponents.map((entry) => (
+            <ProjectCard key={entry.title} info={entry} />
+          ))}
+          {Pages.map((entry) => (
+            <ProjectCard key={entry.title} info={entry} />
+          ))}
+          {GameComponents.map((entry) => (
+            <ProjectCard key={entry.title} info={entry} />
+          ))}
         </div>
       </section>
       <section className="flex flex-col items-center gap-4 pb-8">

@@ -1,11 +1,13 @@
-type ComponentInformation = {
+import vanlife from "../img/projects/vanlife.png";
+
+export type ComponentInformation = {
   title: string;
   img?: string;
   href: string;
   description: string;
 };
 
-const basicComponents: ComponentInformation[] = [
+export const BasicComponents: ComponentInformation[] = [
   {
     title: "Calculator",
     href: "/calc",
@@ -18,7 +20,7 @@ const basicComponents: ComponentInformation[] = [
   },
 ];
 
-const gameComponents: ComponentInformation[] = [
+export const GameComponents: ComponentInformation[] = [
   {
     title: "Connect Four",
     href: "/connect4",
@@ -31,9 +33,10 @@ const gameComponents: ComponentInformation[] = [
   },
 ];
 
-const pages: ComponentInformation[] = [
+export const Pages: ComponentInformation[] = [
   {
     title: "#VanLife",
+    img: vanlife,
     href: "/vanlife",
     description: "#Vanlife App",
   },
