@@ -25,7 +25,6 @@ function ProjectCard({
   const cardStyle = useFadeIn([cardRef], "right", delay + 0.5);
 
   if (!info) return;
-  // onHover: Grow hook
   return (
     <div
       ref={cardRef}

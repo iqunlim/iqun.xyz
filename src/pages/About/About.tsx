@@ -22,6 +22,7 @@ import ProjectCard from "@/components/aboutpage/ProjectCard";
 import { Pages } from "@/lib/projectdata";
 import { ModeToggle } from "@/components/theme/mode-toggle";
 import { DelayGenerator } from "@/lib/utils";
+import Circlevis from "@/components/aboutpage/Circlevis";
 
 export default function About() {
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -49,7 +50,7 @@ export default function About() {
             Hi! I'm{" "}
             <span className="font-semibold text-purple-500">Daniel</span>.
           </p>
-          <p className="text-center text-4xl md:text-5xl">
+          <p className="text text-center text-4xl md:text-5xl">
             I'm an I.T. professional turned web developer.
           </p>
         </div>
@@ -65,13 +66,13 @@ export default function About() {
       <section
         ref={sectionRef}
         style={aboutStyle}
-        className="flex flex-col justify-center border-b-4 border-b-blue-500 pb-8"
+        className="flex max-h-fit min-h-svh flex-col justify-center border-b-4 border-b-blue-500 pb-8"
       >
         <SectionTitle>About</SectionTitle>
         <div className="flex w-full flex-col items-center justify-around lg:flex-row">
           <div className="flex w-full flex-col items-center gap-8 p-4 lg:w-1/3">
             <SlUser className="h-[20rem] w-[20rem]" />
-            <p>
+            <p className="text-md bg-background rounded-md border p-2 font-bold">
               With a strong foundation in I.T. and a passion for
               problem-solving, I've transitioned through self-learning into the
               world of web development, specializing in React, JavaScript, and
@@ -136,6 +137,19 @@ export default function About() {
           ^^^^
         </Button>
       </section>
+      {/*  */}
+      <div className="transform-[translate(-50%, -50%)] fixed top-1/2 left-1/2 -z-10">
+        <Circlevis
+          size={600}
+          innerCircleSize={10}
+          gap={10}
+          colors={[
+            "oklch(0.623 0.214 259.815)",
+            "oklch(0.627 0.265 303.9)",
+            "oklch(0.723 0.219 149.579)",
+          ]}
+        />
+      </div>
     </main>
   );
 }

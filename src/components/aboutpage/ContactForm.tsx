@@ -50,7 +50,11 @@ export default function ContactForm() {
           render={({ field }) => (
             <FormItem>
               <FormControl>
-                <Input placeholder="Name" {...field} />
+                <Input
+                  className="bg-background"
+                  placeholder="Name"
+                  {...field}
+                />
               </FormControl>
               <FormMessage className="text-destructive" />
             </FormItem>
@@ -62,7 +66,11 @@ export default function ContactForm() {
           render={({ field }) => (
             <FormItem>
               <FormControl>
-                <Input placeholder="Email" {...field} />
+                <Input
+                  className="bg-background"
+                  placeholder="Email"
+                  {...field}
+                />
               </FormControl>
               <FormMessage className="text-destructive" />
             </FormItem>
@@ -75,9 +83,9 @@ export default function ContactForm() {
             <FormItem>
               <FormControl>
                 <Textarea
+                  className="bg-background min-h-48"
                   placeholder="Message..."
                   {...field}
-                  className="min-h-48"
                 />
               </FormControl>
               <FormMessage className="text-destructive" />
