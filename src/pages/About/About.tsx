@@ -14,7 +14,7 @@ import node from "../../img/logos/nodejs-icon.svg";
 import git from "../../img/logos/Git_icon.svg";
 import sql from "../../img/logos/sql-database-generic-svgrepo-com.svg";
 import html from "../../img/logos/html5.svg";
-import github from "../../img/logos/github-mark-white.svg";
+import github from "../../img/logos/github-mark.svg";
 import linkedin from "../../img/logos/LI-Logo.png";
 import av from "../../img/av2.png";
 
@@ -26,8 +26,6 @@ import { Pages } from "@/lib/projectdata";
 import { ModeToggle } from "@/components/theme/mode-toggle";
 import { DelayGenerator } from "@/lib/utils";
 import Circlevis from "@/components/aboutpage/Circlevis";
-import Av from "@/Foobar";
-import { info } from "console";
 
 export default function About() {
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -49,9 +47,9 @@ export default function About() {
       <section
         style={introStyle}
         ref={introRef}
-        className="flex h-[calc(100vh+6rem)] flex-col items-center justify-center gap-4 border-b-4 border-b-blue-500"
+        className="flex h-[calc(100vh+6rem)] flex-col items-center justify-center gap-4 border-b-4"
       >
-        <div className="flex flex-col gap-2">
+        <div className="bg-background-transparent flex flex-col gap-2 rounded-md border p-4">
           <p className="drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8) text-center text-5xl md:text-6xl">
             Hi! I'm{" "}
             <span className="drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8) font-semibold text-purple-500">
@@ -81,7 +79,7 @@ export default function About() {
         <div className="flex w-full flex-col items-center justify-around lg:flex-row">
           <div className="flex w-full flex-col items-center gap-8 p-4 lg:w-1/3">
             <SlUser className="h-[20rem] w-[20rem]" />
-            <p className="text-md bg-background rounded-md border p-2 font-bold">
+            <p className="text-md bg-background-transparent rounded-md border p-2 font-bold">
               With a strong foundation in I.T. and a passion for
               problem-solving, I've transitioned through self-learning into the
               world of web development, specializing in React, JavaScript, and
@@ -113,6 +111,15 @@ export default function About() {
             </div>
           </div>
         </div>
+
+        <Button
+          className="m-auto my-4 w-fit text-xl"
+          onClick={() =>
+            projectRef.current?.scrollIntoView({ behavior: "smooth" })
+          }
+        >
+          My Projects <BsArrowDown />
+        </Button>
       </section>
       <section
         ref={projectRef}
@@ -164,7 +171,7 @@ export default function About() {
       </section>
       <section className="flex flex-col items-center gap-4 pb-8">
         <SectionTitle>Contact</SectionTitle>
-        <p className="bg-background rounded-md border p-2 text-center">
+        <p className="bg-background-transparent rounded-md border p-2 text-center">
           Want to collaborate? Interested in hiring me? Have any questions? Feel
           free to drop me an email!
         </p>

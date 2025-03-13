@@ -25,6 +25,24 @@ const CircleVis = memo(function ({
   let totalPercent = innerCircleSize; // Start with the inner circle percentage and go from there
   let reverse = false; // Used to make the borders rotate in an alternating style
 
+  const getRandomBorderStyle = (): React.CSSProperties => {
+    const sides = [
+      "borderTopColor",
+      "borderBottomColor",
+      "borderLeftColor",
+      "borderRightColor",
+    ];
+    const shouldApplyBorder = Math.random() < 0.9; // 10% chance for no border, for some flair
+
+    if (!shouldApplyBorder) return {};
+
+    // Set a random side to a random color
+    const randomSide = sides[Math.floor(Math.random() * sides.length)];
+    return {
+      [randomSide]: colors[Math.floor(Math.random() * colors.length)],
+    } as React.CSSProperties;
+  };
+
   while (totalPercent + 10 <= 100) {
     // Iterate by 10% until you hit 100% width and height
     totalPercent += 10;
@@ -37,24 +55,6 @@ const CircleVis = memo(function ({
       borderRightColor: "transparent",
       borderTopColor: "transparent",
       borderBottomColor: "transparent",
-    };
-
-    const getRandomBorderStyle = (): React.CSSProperties => {
-      const sides = [
-        "borderTopColor",
-        "borderBottomColor",
-        "borderLeftColor",
-        "borderRightColor",
-      ];
-      const shouldApplyBorder = Math.random() < 0.9; // 10% chance for no border, for some flair
-
-      if (!shouldApplyBorder) return {};
-
-      // Set a random side to a random color
-      const randomSide = sides[Math.floor(Math.random() * sides.length)];
-      return {
-        [randomSide]: colors[Math.floor(Math.random() * colors.length)],
-      } as React.CSSProperties;
     };
 
     newStyles.push({ ...initialStyle, ...getRandomBorderStyle() });

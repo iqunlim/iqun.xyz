@@ -13,6 +13,7 @@ import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
 import { useRef } from "react";
 import { useFadeIn } from "@/hooks/hooks";
+import clsx from "clsx";
 
 const EmailInputSchema = z.object({
   name: z.string().min(1).max(50),
@@ -33,15 +34,47 @@ export default function ContactForm() {
     },
   });
 
-  const onSubmit: SubmitHandler<z.infer<typeof EmailInputSchema>> = (data) =>
-    console.log(data);
+  const onSubmit: SubmitHandler<z.infer<typeof EmailInputSchema>> = async (
+    data,
+  ) => {
+    const formData = new FormData();
+    formData.append("name", data.name);
+    formData.append("email", data.email);
+    formData.append("message", data.message);
+    await fetch("https://formspree.io/f/mnnpqkld", {
+      method: "POST",
+      body: formData,
+      headers: {
+        Accept: "application/json",
+      },
+    }).then((res) => {
+      if (!res.ok) {
+        form.setError("root", {
+          type: "custom",
+          message:
+            "Error submitting form. Please refresh the page or try again later!",
+        });
+        throw new Error(`Error: Form failed:  Return values: ${res.json()}`);
+      }
+    });
+  };
 
   return (
     <Form {...form}>
+      {form.formState.isSubmitSuccessful && (
+        <p className="bg-background-transparent rounded-md border p-2 font-bold">
+          Thank you! I will reply to you as soon as possible!
+        </p>
+      )}
+      {form.formState.errors.root && (
+        <p className="text-destructive bg-background-transparent rounded-md border p-2 font-bold">
+          There was an error submitting the form. Please try again later.
+        </p>
+      )}
       <form
         style={style}
         ref={formRef}
-        className="flex w-3/4 flex-col gap-2 lg:w-1/2"
+        className="relative flex w-3/4 flex-col gap-2 lg:w-1/2"
         onSubmit={form.handleSubmit(onSubmit)}
       >
         <FormField
@@ -51,7 +84,7 @@ export default function ContactForm() {
             <FormItem>
               <FormControl>
                 <Input
-                  className="bg-background"
+                  className="bg-background-transparent"
                   placeholder="Name"
                   {...field}
                 />
@@ -67,7 +100,7 @@ export default function ContactForm() {
             <FormItem>
               <FormControl>
                 <Input
-                  className="bg-background"
+                  className="bg-background-transparent"
                   placeholder="Email"
                   {...field}
                 />
@@ -83,7 +116,7 @@ export default function ContactForm() {
             <FormItem>
               <FormControl>
                 <Textarea
-                  className="bg-background min-h-48"
+                  className="bg-background-transparent min-h-48"
                   placeholder="Message..."
                   {...field}
                 />
@@ -92,7 +125,20 @@ export default function ContactForm() {
             </FormItem>
           )}
         />
-        <Button type="submit">Submit</Button>
+        <Button
+          type="submit"
+          className={clsx({
+            invisible:
+              form.formState.isSubmitting || form.formState.isSubmitSuccessful,
+          })}
+        >
+          Submit
+        </Button>
+        {form.formState.isSubmitting && (
+          <div className="absolute flex h-full w-full items-center justify-center bg-[oklch(0_0_0_/_0.5)]">
+            <div className="border-tranparent h-20 w-20 animate-spin rounded-full border-4 border-t-green-500"></div>
+          </div>
+        )}
       </form>
     </Form>
   );

@@ -27,9 +27,9 @@ function ProjectCard({
       <div
         ref={cardRef}
         style={cardStyle}
-        className="flex h-full w-full items-center justify-center rounded-md bg-gradient-to-br from-blue-500 to-purple-500 transition-transform hover:scale-110"
+        className="flex h-full w-full items-center justify-center rounded-md transition-transform hover:scale-110"
       >
-        <Card className="h-[calc(100%-4px)] w-[calc(100%-4px)] cursor-pointer">
+        <Card className="bg-background-transparent border-gradient h-full w-full cursor-pointer border-4">
           <CardHeader>
             <CardTitle>{info.title}</CardTitle>
             <CardDescription>{info.description}</CardDescription>
