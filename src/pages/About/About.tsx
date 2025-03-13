@@ -66,7 +66,7 @@ export default function About() {
       <section
         ref={sectionRef}
         style={aboutStyle}
-        className="flex max-h-fit min-h-svh flex-col justify-center border-b-4 border-b-blue-500 pb-8"
+        className="flex max-h-fit min-h-svh flex-col justify-center border-b-4 pb-8"
       >
         <SectionTitle>About</SectionTitle>
         <div className="flex w-full flex-col items-center justify-around lg:flex-row">
@@ -108,7 +108,7 @@ export default function About() {
       <section
         ref={projectRef}
         style={projectStyle}
-        className="border-b-4 border-b-blue-500 pb-8"
+        className="border-b-4 pb-8"
       >
         <SectionTitle>Projects</SectionTitle>
         <div className="grid max-h-[calc(100svh/2)] grid-cols-1 gap-4 overflow-x-visible overflow-y-auto rounded-lg p-2 md:max-h-fit md:grid-cols-2 md:overflow-y-visible lg:grid-cols-3">
@@ -143,6 +143,18 @@ export default function About() {
           size={600}
           innerCircleSize={10}
           gap={10}
+          colors={[
+            "oklch(0.623 0.214 259.815)",
+            "oklch(0.627 0.265 303.9)",
+            "oklch(0.723 0.219 149.579)",
+          ]}
+        />
+      </div>
+      <div className="transform-[translate(-50%, -50%)] fixed top-10 left-0 -z-10">
+        <Circlevis
+          size={200}
+          innerCircleSize={5}
+          gap={5}
           colors={[
             "oklch(0.623 0.214 259.815)",
             "oklch(0.627 0.265 303.9)",
