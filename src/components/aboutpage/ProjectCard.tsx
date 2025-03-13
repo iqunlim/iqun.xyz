@@ -8,7 +8,6 @@ import {
 // import vanlife from "../../img/projects/vanlife.png";
 import avi from "../../img/av2.png";
 import { ComponentInformation } from "@/lib/projectdata";
-import { useNavigate } from "react-router-dom";
 import { useRef } from "react";
 import { useFadeIn } from "@/hooks/hooks";
 
@@ -19,34 +18,30 @@ function ProjectCard({
   info: ComponentInformation;
   delay?: number;
 }) {
-  const navigate = useNavigate();
-
   const cardRef = useRef<HTMLDivElement>(null);
   const cardStyle = useFadeIn([cardRef], "right", delay + 0.5);
 
   if (!info) return;
   return (
-    <div
-      ref={cardRef}
-      style={cardStyle}
-      className="flex h-full w-full items-center justify-center rounded-md bg-gradient-to-br from-blue-500 to-purple-500 transition-transform hover:scale-110"
-    >
-      <Card
-        className="h-[calc(100%-4px)] w-[calc(100%-4px)] cursor-pointer"
-        onClick={() => navigate(info.href)}
+    <a href={info.href} target="#">
+      <div
+        ref={cardRef}
+        style={cardStyle}
+        className="flex h-full w-full items-center justify-center rounded-md bg-gradient-to-br from-blue-500 to-purple-500 transition-transform hover:scale-110"
       >
-        <CardHeader>
-          <CardTitle>{info.title}</CardTitle>
-          <CardDescription>{info.description}</CardDescription>
-        </CardHeader>
-        <CardContent>
-          {info.img ? (
-            <img className="m-auto max-h-48 rounded-md" src={info.img} />
-          ) : (
-            <img className="m-auto max-h-48 rounded-md" src={avi} />
-          )}
-        </CardContent>
-        {/* <CardFooter className="mt-auto">
+        <Card className="h-[calc(100%-4px)] w-[calc(100%-4px)] cursor-pointer">
+          <CardHeader>
+            <CardTitle>{info.title}</CardTitle>
+            <CardDescription>{info.description}</CardDescription>
+          </CardHeader>
+          <CardContent>
+            {info.img ? (
+              <img className="m-auto max-h-48 rounded-md" src={info.img} />
+            ) : (
+              <img className="m-auto max-h-48 rounded-md" src={avi} />
+            )}
+          </CardContent>
+          {/* <CardFooter className="mt-auto">
           {info.src ? (
             <a href={info.src} target="#">
               View Source Code
@@ -55,8 +50,9 @@ function ProjectCard({
             <p>No source code available</p>
           )}
         </CardFooter> */}
-      </Card>
-    </div>
+        </Card>
+      </div>
+    </a>
   );
 }
 

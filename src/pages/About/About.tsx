@@ -14,6 +14,9 @@ import node from "../../img/logos/nodejs-icon.svg";
 import git from "../../img/logos/Git_icon.svg";
 import sql from "../../img/logos/sql-database-generic-svgrepo-com.svg";
 import html from "../../img/logos/html5.svg";
+import github from "../../img/logos/github-mark-white.svg";
+import linkedin from "../../img/logos/LI-Logo.png";
+import av from "../../img/av2.png";
 
 import { useFadeIn } from "@/hooks/hooks";
 import ContactForm from "@/components/aboutpage/ContactForm";
@@ -23,6 +26,8 @@ import { Pages } from "@/lib/projectdata";
 import { ModeToggle } from "@/components/theme/mode-toggle";
 import { DelayGenerator } from "@/lib/utils";
 import Circlevis from "@/components/aboutpage/Circlevis";
+import Av from "@/Foobar";
+import { info } from "console";
 
 export default function About() {
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -34,6 +39,7 @@ export default function About() {
   const projectStyle = useFadeIn([projectRef], "down");
 
   const delayGenerator = DelayGenerator();
+  const infoGenerator = DelayGenerator();
 
   return (
     <main className="px-2">
@@ -46,11 +52,14 @@ export default function About() {
         className="flex h-[calc(100vh+6rem)] flex-col items-center justify-center gap-4 border-b-4 border-b-blue-500"
       >
         <div className="flex flex-col gap-2">
-          <p className="text-center text-5xl md:text-6xl">
+          <p className="drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8) text-center text-5xl md:text-6xl">
             Hi! I'm{" "}
-            <span className="font-semibold text-purple-500">Daniel</span>.
+            <span className="drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8) font-semibold text-purple-500">
+              Daniel
+            </span>
+            .
           </p>
-          <p className="text text-center text-4xl md:text-5xl">
+          <p className="text rounded-md text-center text-4xl drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)] md:text-5xl">
             I'm an I.T. professional turned web developer.
           </p>
         </div>
@@ -121,9 +130,41 @@ export default function About() {
           ))}
         </div>
       </section>
+      <section className="border-b-4 pb-8">
+        <SectionTitle>More Information</SectionTitle>
+        <div className="grid max-h-svh grid-cols-1 gap-4 overflow-visible rounded-lg p-2 md:max-h-fit md:grid-cols-2 lg:grid-cols-3">
+          <ProjectCard
+            info={{
+              title: "Github",
+              img: github,
+              href: "https://github.com/iqunlim",
+              description: "Check out my github!",
+            }}
+            delay={infoGenerator.next().value || 0}
+          />
+          <ProjectCard
+            info={{
+              title: "Linkedin",
+              img: linkedin,
+              href: "https://www.linkedin.com/in/daniel-carpenter-2371309b/",
+              description: "Check out my Linkedin!",
+            }}
+            delay={infoGenerator.next().value || 0}
+          />
+          <ProjectCard
+            info={{
+              title: "Resume",
+              img: av,
+              href: "#",
+              description: "TODO: Check out my resume!",
+            }}
+            delay={infoGenerator.next().value || 0}
+          />
+        </div>
+      </section>
       <section className="flex flex-col items-center gap-4 pb-8">
         <SectionTitle>Contact</SectionTitle>
-        <p className="text-center">
+        <p className="bg-background rounded-md border p-2 text-center">
           Want to collaborate? Interested in hiring me? Have any questions? Feel
           free to drop me an email!
         </p>
@@ -137,7 +178,6 @@ export default function About() {
           ^^^^
         </Button>
       </section>
-      {/*  */}
       <div className="transform-[translate(-50%, -50%)] fixed top-1/2 left-1/2 -z-10">
         <Circlevis
           size={600}
