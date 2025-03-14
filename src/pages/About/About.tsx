@@ -37,7 +37,7 @@ export default function About() {
   const aboutStyle = useFadeIn([sectionRef], "right");
   const projectStyle = useFadeIn([projectRef, moreInfoRef], "down");
 
-  const delayGenerator = DelayGenerator();
+  // const delayGenerator = DelayGenerator();
   const infoGenerator = DelayGenerator();
 
   return (
