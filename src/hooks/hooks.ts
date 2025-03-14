@@ -38,6 +38,7 @@ export default function useVisibleObserver<T extends HTMLElement | null>(
 export const useFadeIn = <T extends HTMLElement | null>(
   ref: React.RefObject<T>[],
   direction?: "up" | "down" | "left" | "right",
+  delay: number = 0.5,
 ): React.CSSProperties => {
   const visible = useVisibleObserver(ref);
 
@@ -45,7 +46,7 @@ export const useFadeIn = <T extends HTMLElement | null>(
 
   const ret: React.CSSProperties = {
     transition: "opacity 0.5s ease-out, transform 0.5s ease-out",
-    transitionDelay: "0.5s",
+    transitionDelay: `${delay}s`,
   };
 
   if (visible) {

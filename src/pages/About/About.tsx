@@ -14,31 +14,48 @@ import node from "../../img/logos/nodejs-icon.svg";
 import git from "../../img/logos/Git_icon.svg";
 import sql from "../../img/logos/sql-database-generic-svgrepo-com.svg";
 import html from "../../img/logos/html5.svg";
+import github from "../../img/logos/github-mark.svg";
+import linkedin from "../../img/logos/LI-Logo.png";
+import av from "../../img/av2.png";
 
 import { useFadeIn } from "@/hooks/hooks";
 import ContactForm from "@/components/aboutpage/ContactForm";
 import SectionTitle from "@/components/ui/section-title";
+import ProjectCard from "@/components/aboutpage/ProjectCard";
+import { Pages } from "@/lib/projectdata";
+import { ModeToggle } from "@/components/theme/mode-toggle";
+import { DelayGenerator } from "@/lib/utils";
+import Circlevis from "@/components/aboutpage/Circlevis";
 
 export default function About() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const introRef = useRef<HTMLDivElement>(null);
+  const projectRef = useRef<HTMLDivElement>(null);
+  const moreInfoRef = useRef<HTMLDivElement>(null);
 
   const introStyle = useFadeIn([introRef], "up");
   const aboutStyle = useFadeIn([sectionRef], "right");
+  const projectStyle = useFadeIn([projectRef, moreInfoRef], "down");
+
+  // const delayGenerator = DelayGenerator();
+  const infoGenerator = DelayGenerator();
 
   return (
-    <main className="main">
+    <main className="px-2">
+      <div className="pointer-events-auto absolute top-5 right-5 z-10 h-fit w-fit">
+        <ModeToggle />
+      </div>
       <section
         style={introStyle}
         ref={introRef}
-        className="flex h-[calc(100vh+6rem)] flex-col items-center justify-center gap-4 border-b-4 border-b-blue-500"
+        className="flex h-[calc(100vh+6rem)] flex-col items-center justify-center gap-4 border-b-4"
       >
-        <div className="flex flex-col gap-2">
+        <div className="bg-background-transparent flex flex-col gap-2 border p-4">
           <p className="text-center text-5xl md:text-6xl">
             Hi! I'm{" "}
             <span className="font-semibold text-purple-500">Daniel</span>.
           </p>
-          <p className="text-center text-4xl md:text-5xl">
+          <p className="text text-center text-4xl md:text-5xl">
             I'm an I.T. professional turned web developer.
           </p>
         </div>
@@ -54,13 +71,13 @@ export default function About() {
       <section
         ref={sectionRef}
         style={aboutStyle}
-        className="my-8 flex flex-col justify-center border-b-4 border-b-blue-500 py-8"
+        className="flex max-h-fit min-h-svh flex-col justify-center border-b-4 pb-8"
       >
         <SectionTitle>About</SectionTitle>
         <div className="flex w-full flex-col items-center justify-around lg:flex-row">
           <div className="flex w-full flex-col items-center gap-8 p-4 lg:w-1/3">
-            <SlUser className="h-[20rem] w-[20rem]" />
-            <p>
+            <SlUser className="h-[10rem] w-[10rem] md:h-[20rem] md:w-[20rem]" />
+            <p className="text-md bg-background-transparent border p-2 font-bold">
               With a strong foundation in I.T. and a passion for
               problem-solving, I've transitioned through self-learning into the
               world of web development, specializing in React, JavaScript, and
@@ -92,10 +109,75 @@ export default function About() {
             </div>
           </div>
         </div>
+
+        <Button
+          className="m-auto my-4 w-fit text-xl"
+          onClick={() =>
+            projectRef.current?.scrollIntoView({ behavior: "smooth" })
+          }
+        >
+          My Projects <BsArrowDown />
+        </Button>
+      </section>
+      <section
+        ref={projectRef}
+        style={projectStyle}
+        className="pb-auto flex max-h-fit min-h-svh flex-col border-b-4"
+      >
+        <SectionTitle>Projects</SectionTitle>
+        <div className="grid max-h-[calc(100svh*2/3)] grid-cols-1 gap-4 overflow-x-visible overflow-y-auto rounded-lg p-2 md:max-h-fit md:grid-cols-2 md:overflow-y-visible lg:grid-cols-3">
+          {Pages.map((entry) => (
+            <ProjectCard
+              key={entry.title}
+              info={entry}
+              // delay={delayGenerator.next().value || 0}
+            />
+          ))}
+        </div>
+        <Button
+          className="mt-auto mb-8 w-fit self-center text-xl"
+          onClick={() =>
+            moreInfoRef.current?.scrollIntoView({ behavior: "smooth" })
+          }
+        >
+          More Information <BsArrowDown />
+        </Button>
+      </section>
+      <section ref={moreInfoRef} className="border-b-4 pb-8">
+        <SectionTitle>More Information</SectionTitle>
+        <div className="grid max-h-svh grid-cols-1 gap-4 overflow-visible rounded-lg p-2 md:max-h-fit md:grid-cols-2 lg:grid-cols-3">
+          <ProjectCard
+            info={{
+              title: "Github",
+              img: github,
+              href: "https://github.com/iqunlim",
+              description: "Check out my github!",
+            }}
+            delay={infoGenerator.next().value || 0}
+          />
+          <ProjectCard
+            info={{
+              title: "Linkedin",
+              img: linkedin,
+              href: "https://www.linkedin.com/in/daniel-carpenter-2371309b/",
+              description: "Check out my Linkedin!",
+            }}
+            delay={infoGenerator.next().value || 0}
+          />
+          <ProjectCard
+            info={{
+              title: "Resume",
+              img: av,
+              href: "#",
+              description: "TODO: Check out my resume!",
+            }}
+            delay={infoGenerator.next().value || 0}
+          />
+        </div>
       </section>
       <section className="flex flex-col items-center gap-4 pb-8">
         <SectionTitle>Contact</SectionTitle>
-        <p className="text-center">
+        <p className="bg-background-transparent border p-2 text-center">
           Want to collaborate? Interested in hiring me? Have any questions? Feel
           free to drop me an email!
         </p>
@@ -109,6 +191,30 @@ export default function About() {
           ^^^^
         </Button>
       </section>
+      <div className="transform-[translate(-50%, -50%)] fixed top-1/2 left-1/2 -z-10">
+        <Circlevis
+          size={600}
+          innerCircleSize={10}
+          gap={10}
+          colors={[
+            "oklch(0.623 0.214 259.815)",
+            "oklch(0.627 0.265 303.9)",
+            "oklch(0.723 0.219 149.579)",
+          ]}
+        />
+      </div>
+      <div className="transform-[translate(-50%, -50%)] fixed top-10 left-0 -z-10">
+        <Circlevis
+          size={200}
+          innerCircleSize={5}
+          gap={5}
+          colors={[
+            "oklch(0.623 0.214 259.815)",
+            "oklch(0.627 0.265 303.9)",
+            "oklch(0.723 0.219 149.579)",
+          ]}
+        />
+      </div>
     </main>
   );
 }

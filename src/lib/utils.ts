@@ -9,3 +9,11 @@ export function cn(...inputs: ClassValue[]) {
 export function remToPixels(rem: number) {
   return rem * parseFloat(getComputedStyle(document.documentElement).fontSize);
 }
+
+export function* DelayGenerator() {
+  let test = 0.25;
+  while (true) {
+    yield test;
+    test += 0.25;
+  }
+}

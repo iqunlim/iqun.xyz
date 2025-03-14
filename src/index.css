@@ -6,6 +6,7 @@
 
 :root {
   --background: hsl(0 0% 100%);
+  --background-transparent: hsla(0, 0%, 100%, 0.75);
   --foreground: hsl(224 71.4% 4.1%);
   --card: hsl(0 0% 100%);
   --card-foreground: hsl(224 71.4% 4.1%);
@@ -34,6 +35,7 @@
 
 .dark {
   --background: hsl(224 71.4% 4.1%);
+  --background-transparent: hsla(223, 70%, 4%, 0.75);
   --foreground: hsl(210 20% 98%);
   --card: hsl(224 71.4% 4.1%);
   --card-foreground: hsl(210 20% 98%);
@@ -47,7 +49,7 @@
   --muted-foreground: hsl(217.9 10.6% 64.9%);
   --accent: hsl(215 27.9% 16.9%);
   --accent-foreground: hsl(210 20% 98%);
-  --destructive: hsl(0 62.8% 30.6%);
+  --destructive: hsl(0 84.2% 60.2%);
   --destructive-foreground: hsl(210 20% 98%);
   --border: hsl(215 27.9% 16.9%);
   --input: hsl(215 27.9% 16.9%);
@@ -114,4 +116,18 @@
     height: 0;
     width: 0;
   }
+}
+
+@utility bg-background-transparent {
+  background-color: var(--background-transparent);
+}
+
+@utility border-gradient {
+  border-style: solid;
+  border-image: linear-gradient(
+      to right bottom,
+      oklch(0.623 0.214 259.815),
+      oklch(0.627 0.265 303.9)
+    )
+    1;
 }

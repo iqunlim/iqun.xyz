@@ -9,7 +9,7 @@ export default function SectionTitle({
 }) {
   return (
     <h1
-      className={`text-foreground flex justify-center py-4 text-5xl underline underline-offset-8 ${className}`}
+      className={`text-foreground drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8) flex justify-center py-8 text-5xl underline underline-offset-8 ${className}`}
     >
       {children}
     </h1>
