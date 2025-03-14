@@ -31,17 +31,18 @@ export default function About() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const introRef = useRef<HTMLDivElement>(null);
   const projectRef = useRef<HTMLDivElement>(null);
+  const moreInfoRef = useRef<HTMLDivElement>(null);
 
   const introStyle = useFadeIn([introRef], "up");
   const aboutStyle = useFadeIn([sectionRef], "right");
-  const projectStyle = useFadeIn([projectRef], "down");
+  const projectStyle = useFadeIn([projectRef, moreInfoRef], "down");
 
   const delayGenerator = DelayGenerator();
   const infoGenerator = DelayGenerator();
 
   return (
     <main className="px-2">
-      <div className="pointer-events-auto fixed top-5 right-5 z-10 h-fit w-fit">
+      <div className="pointer-events-auto absolute top-5 right-5 z-10 h-fit w-fit">
         <ModeToggle />
       </div>
       <section
@@ -49,15 +50,12 @@ export default function About() {
         ref={introRef}
         className="flex h-[calc(100vh+6rem)] flex-col items-center justify-center gap-4 border-b-4"
       >
-        <div className="bg-background-transparent flex flex-col gap-2 rounded-md border p-4">
-          <p className="drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8) text-center text-5xl md:text-6xl">
+        <div className="bg-background-transparent flex flex-col gap-2 border p-4">
+          <p className="text-center text-5xl md:text-6xl">
             Hi! I'm{" "}
-            <span className="drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8) font-semibold text-purple-500">
-              Daniel
-            </span>
-            .
+            <span className="font-semibold text-purple-500">Daniel</span>.
           </p>
-          <p className="text rounded-md text-center text-4xl drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)] md:text-5xl">
+          <p className="text text-center text-4xl md:text-5xl">
             I'm an I.T. professional turned web developer.
           </p>
         </div>
@@ -78,8 +76,8 @@ export default function About() {
         <SectionTitle>About</SectionTitle>
         <div className="flex w-full flex-col items-center justify-around lg:flex-row">
           <div className="flex w-full flex-col items-center gap-8 p-4 lg:w-1/3">
-            <SlUser className="h-[20rem] w-[20rem]" />
-            <p className="text-md bg-background-transparent rounded-md border p-2 font-bold">
+            <SlUser className="h-[10rem] w-[10rem] md:h-[20rem] md:w-[20rem]" />
+            <p className="text-md bg-background-transparent border p-2 font-bold">
               With a strong foundation in I.T. and a passion for
               problem-solving, I've transitioned through self-learning into the
               world of web development, specializing in React, JavaScript, and
@@ -124,20 +122,28 @@ export default function About() {
       <section
         ref={projectRef}
         style={projectStyle}
-        className="border-b-4 pb-8"
+        className="pb-auto flex max-h-fit min-h-svh flex-col border-b-4"
       >
         <SectionTitle>Projects</SectionTitle>
-        <div className="grid max-h-[calc(100svh/2)] grid-cols-1 gap-4 overflow-x-visible overflow-y-auto rounded-lg p-2 md:max-h-fit md:grid-cols-2 md:overflow-y-visible lg:grid-cols-3">
+        <div className="grid max-h-[calc(100svh*2/3)] grid-cols-1 gap-4 overflow-x-visible overflow-y-auto rounded-lg p-2 md:max-h-fit md:grid-cols-2 md:overflow-y-visible lg:grid-cols-3">
           {Pages.map((entry) => (
             <ProjectCard
               key={entry.title}
               info={entry}
-              delay={delayGenerator.next().value || 0}
+              // delay={delayGenerator.next().value || 0}
             />
           ))}
         </div>
+        <Button
+          className="mt-auto mb-8 w-fit self-center text-xl"
+          onClick={() =>
+            moreInfoRef.current?.scrollIntoView({ behavior: "smooth" })
+          }
+        >
+          More Information <BsArrowDown />
+        </Button>
       </section>
-      <section className="border-b-4 pb-8">
+      <section ref={moreInfoRef} className="border-b-4 pb-8">
         <SectionTitle>More Information</SectionTitle>
         <div className="grid max-h-svh grid-cols-1 gap-4 overflow-visible rounded-lg p-2 md:max-h-fit md:grid-cols-2 lg:grid-cols-3">
           <ProjectCard
@@ -171,7 +177,7 @@ export default function About() {
       </section>
       <section className="flex flex-col items-center gap-4 pb-8">
         <SectionTitle>Contact</SectionTitle>
-        <p className="bg-background-transparent rounded-md border p-2 text-center">
+        <p className="bg-background-transparent border p-2 text-center">
           Want to collaborate? Interested in hiring me? Have any questions? Feel
           free to drop me an email!
         </p>

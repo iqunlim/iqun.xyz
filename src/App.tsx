@@ -5,7 +5,6 @@ import PageIframe from "./pages/PageFrame";
 import Board from "./components/connnect4/board";
 import CustomDropDownExampleComponent from "./components/customdropdown/Component";
 import { ThemeProvider } from "./components/theme/theme-provider";
-import SimonSays from "./components/simon-says/simon";
 import About from "./pages/About/About";
 import Circlevis from "./components/aboutpage/Circlevis";
 
@@ -46,7 +45,6 @@ function App() {
               path="dropdown"
               element={<CustomDropDownExampleComponent />}
             />
-            <Route path="simon" element={<SimonSays />} />
             <Route
               path="circle"
               element={
