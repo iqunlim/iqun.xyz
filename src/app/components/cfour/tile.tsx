@@ -1,3 +1,4 @@
+"use client";
 import React, { useEffect, useState } from "react";
 import { TileProps, TileState } from "./types";
 import { remToPixels } from "@/lib/utils";
@@ -12,8 +13,7 @@ export default function Tile({
   onClick,
 }: TileProps) {
   // Calculate piece position providing it isnt already "dropped"
-  const [width, setWidth] = useState(window.innerWidth);
-  const widthBreakpoints = width >= remToPixels(40) ? 600 : 350; // sm breakpoints are 40rem, below that we want a 350px board
+  const [widthBreakpoints, setWidthBreakpoints] = useState(0);
   const Y = Math.floor(widthBreakpoints / totalRows) * (row + 1); // calculating so that its in an extra grid-sized "space" above the board
 
   // This effect is a little bit overkill, as how often are users going to resize their window?
@@ -21,7 +21,7 @@ export default function Tile({
   // and the board sizes down (on breakpoint 40rem)
   useEffect(() => {
     const handleResize = () => {
-      setWidth(window.innerWidth);
+      setWidthBreakpoints(window.innerWidth >= remToPixels(40) ? 600 : 350); // sm breakpoints are 40rem, below that we want a 350px board
     };
 
     window.addEventListener("resize", handleResize);

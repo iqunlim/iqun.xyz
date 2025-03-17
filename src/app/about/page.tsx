@@ -1,31 +1,41 @@
+"use client";
 import StackBadge from "@/components/aboutpage/StackBadge";
 import { Button } from "@/components/ui/button";
 import { useRef } from "react";
 import { BsArrowDown } from "react-icons/bs";
 import { SlUser } from "react-icons/sl";
 
-import linux from "../../img/logos/linux.svg";
-import ts from "../../img/logos/typescript.svg";
-import py from "../../img/logos/python.svg";
-import docker from "../../img/logos/docker.svg";
-import react from "../../img/logos/react.svg";
-import tailwind from "../../img/logos/tailwind.svg";
-import node from "../../img/logos/nodejs-icon.svg";
-import git from "../../img/logos/Git_icon.svg";
-import sql from "../../img/logos/sql-database-generic-svgrepo-com.svg";
-import html from "../../img/logos/html5.svg";
-import github from "../../img/logos/github-mark.svg";
-import linkedin from "../../img/logos/LI-Logo.png";
-import av from "../../img/av2.png";
+import linux from "../img/logos/linux.svg";
+import ts from "../img/logos/typescript.svg";
+import py from "../img/logos/python.svg";
+import docker from "../img/logos/docker.svg";
+import react from "../img/logos/react.svg";
+import tailwind from "../img/logos/tailwind.svg";
+import node from "../img/logos/nodejs-icon.svg";
+import git from "../img/logos/Git_icon.svg";
+import sql from "../img/logos/sql-database-generic-svgrepo-com.svg";
+import html from "../img/logos/html5.svg";
+import github from "../img/logos/github-mark.svg";
+import linkedin from "../img/logos/LI-Logo.png";
+import av from "../img/av2.png";
 
 import { useFadeIn } from "@/hooks/hooks";
 import ContactForm from "@/components/aboutpage/ContactForm";
 import SectionTitle from "@/components/ui/section-title";
-import ProjectCard from "@/components/aboutpage/ProjectCard";
+import ProjectCard, {
+  CardInformation,
+} from "@/components/aboutpage/ProjectCard";
 import { Pages } from "@/lib/projectdata";
 import { ModeToggle } from "@/components/theme/mode-toggle";
 import { DelayGenerator } from "@/lib/utils";
-import Circlevis from "@/components/aboutpage/Circlevis";
+import dynamic from "next/dynamic";
+
+// Because there is an element of randomness, this cant be SSR'd, so we must do this
+// TODO: Investigate if there is a better way to do this
+const Circlevis = dynamic(
+  () => import("../../components/aboutpage/Circlevis"),
+  { ssr: false },
+);
 
 export default function About() {
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -52,11 +62,11 @@ export default function About() {
       >
         <div className="bg-background-transparent flex flex-col gap-2 border p-4">
           <p className="text-center text-5xl md:text-6xl">
-            Hi! I'm{" "}
+            Hi! I&apos;m{" "}
             <span className="font-semibold text-purple-500">Daniel</span>.
           </p>
           <p className="text text-center text-4xl md:text-5xl">
-            I'm an I.T. professional turned web developer.
+            I&apos;m an I.T. professional turned web developer.
           </p>
         </div>
         <Button
@@ -79,10 +89,10 @@ export default function About() {
             <SlUser className="h-[10rem] w-[10rem] md:h-[20rem] md:w-[20rem]" />
             <p className="text-md bg-background-transparent border p-2 font-bold">
               With a strong foundation in I.T. and a passion for
-              problem-solving, I've transitioned through self-learning into the
-              world of web development, specializing in React, JavaScript, and
-              modern frontend technologies. My background in I.T. has equipped
-              me with a deep understanding of system architecture,
+              problem-solving, I&apos;ve transitioned through self-learning into
+              the world of web development, specializing in React, JavaScript,
+              and modern frontend technologies. My background in I.T. has
+              equipped me with a deep understanding of system architecture,
               troubleshooting, and efficiency—skills I now apply to building
               sleek, high-performing web applications. When not working on my
               newest project, I enjoy old school videogames and making music.
@@ -91,20 +101,20 @@ export default function About() {
           <div>
             <div className="flex gap-4">
               <div className="flex flex-col justify-center gap-4">
-                <StackBadge text="Docker" image={docker} />
-                <StackBadge text="Typescript" image={ts} />
-                <StackBadge text="React" image={react} />
+                <StackBadge text="Docker" image={docker.src} />
+                <StackBadge text="Typescript" image={ts.src} />
+                <StackBadge text="React" image={react.src} />
               </div>
               <div className="flex flex-col justify-center gap-4">
-                <StackBadge text="HTML" image={html} />
-                <StackBadge text="SQL" image={sql} />
-                <StackBadge text="Git" image={git} />
-                <StackBadge text="Node.js" image={node} />
+                <StackBadge text="HTML" image={html.src} />
+                <StackBadge text="SQL" image={sql.src} />
+                <StackBadge text="Git" image={git.src} />
+                <StackBadge text="Node.js" image={node.src} />
               </div>
               <div className="flex flex-col justify-center gap-4">
-                <StackBadge text="TailwindCSS" image={tailwind} />
-                <StackBadge text="Linux" image={linux} />
-                <StackBadge text="Python" image={py} />
+                <StackBadge text="TailwindCSS" image={tailwind.src} />
+                <StackBadge text="Linux" image={linux.src} />
+                <StackBadge text="Python" image={py.src} />
               </div>
             </div>
           </div>
@@ -129,7 +139,7 @@ export default function About() {
           {Pages.map((entry) => (
             <ProjectCard
               key={entry.title}
-              info={entry}
+              info={entry as CardInformation} // TODO: do this better
               // delay={delayGenerator.next().value || 0}
             />
           ))}
@@ -149,7 +159,7 @@ export default function About() {
           <ProjectCard
             info={{
               title: "Github",
-              img: github,
+              img: github.src,
               href: "https://github.com/iqunlim",
               description: "Check out my github!",
             }}
@@ -158,7 +168,7 @@ export default function About() {
           <ProjectCard
             info={{
               title: "Linkedin",
-              img: linkedin,
+              img: linkedin.src,
               href: "https://www.linkedin.com/in/daniel-carpenter-2371309b/",
               description: "Check out my Linkedin!",
             }}
@@ -167,7 +177,7 @@ export default function About() {
           <ProjectCard
             info={{
               title: "Resume",
-              img: av,
+              img: av.src,
               href: "#",
               description: "TODO: Check out my resume!",
             }}

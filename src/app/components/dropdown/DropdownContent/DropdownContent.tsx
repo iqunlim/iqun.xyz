@@ -21,4 +21,6 @@ const DropdownContent = forwardRef<HTMLDivElement, DropdownProps>(
   },
 );
 
+DropdownContent.displayName = "DropdownContent";
+
 export default DropdownContent;

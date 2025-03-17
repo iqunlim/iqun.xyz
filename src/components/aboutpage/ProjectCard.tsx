@@ -6,16 +6,23 @@ import {
   CardTitle,
 } from "../ui/card";
 // import vanlife from "../../img/projects/vanlife.png";
-import avi from "../../img/av2.png";
-import { ComponentInformation } from "@/lib/projectdata";
+import avi from "../../app/img/av2.png";
 import { useRef } from "react";
 import { useFadeIn } from "@/hooks/hooks";
+import Image from "next/image";
+
+export type CardInformation = {
+  title: string;
+  img: string;
+  href: string;
+  description: string;
+};
 
 function ProjectCard({
   info,
   delay = 0,
 }: {
-  info: ComponentInformation;
+  info: CardInformation;
   delay?: number;
 }) {
   const cardRef = useRef<HTMLDivElement>(null);
@@ -36,9 +43,17 @@ function ProjectCard({
           </CardHeader>
           <CardContent>
             {info.img ? (
-              <img className="m-auto max-h-48 rounded-md" src={info.img} />
+              <Image
+                className="m-auto max-h-48 rounded-md"
+                src={info.img}
+                alt={"Project preview image"}
+              /> // TODO: Do this alt better
             ) : (
-              <img className="m-auto max-h-48 rounded-md" src={avi} />
+              <Image
+                className="m-auto max-h-48 rounded-md"
+                src={avi.src}
+                alt={"Generic project Image"}
+              />
             )}
           </CardContent>
           {/* <CardFooter className="mt-auto">

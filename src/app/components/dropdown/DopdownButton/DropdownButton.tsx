@@ -31,4 +31,6 @@ const DropdownButton = React.forwardRef<HTMLDivElement, DropdownButtonprops>(
   },
 );
 
+DropdownButton.displayName = "DropdownButton"; // Fixing displayname error for forwardrefs. Shouldnt be required anymore tbh
+
 export default DropdownButton;

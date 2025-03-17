@@ -1,3 +1,4 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import { useFadeIn } from "@/hooks/hooks";
 import clsx from "clsx";

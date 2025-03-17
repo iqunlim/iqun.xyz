@@ -1,6 +1,7 @@
+"use client";
 import { useRef, useState } from "react";
 import Tile from "./tile";
-import { Button } from "../ui/button";
+import { Button } from "../../../components/ui/button";
 import { BoardGridTile, BoardState } from "./types";
 import { useFadeIn } from "@/hooks/hooks";
 import clsx from "clsx";
@@ -209,8 +210,8 @@ export default function Board({ rows, cols }: { rows: number; cols: number }) {
     >
       <div className="flex w-full flex-col items-center"></div>
       <h1 className="flex w-full items-center justify-center">
-        {boardState.turn.charAt(0).toUpperCase() + boardState.turn.slice(1)}'s
-        turn
+        {boardState.turn.charAt(0).toUpperCase() + boardState.turn.slice(1)}
+        &apos;s turn
       </h1>
       <div
         style={{

@@ -1,8 +1,9 @@
+"use client";
 import { useRef, useState } from "react";
 import Dropdown from "./Dropdown/Dropdown";
 import DropdownItem from "./DropdownItem/DropdownItem";
 import clsx from "clsx";
-import { Checkbox } from "../ui/checkbox";
+import { Checkbox } from "../../../components/ui/checkbox";
 import { CheckedState } from "@radix-ui/react-checkbox";
 import { DropdownContext } from "./Context";
 import { useFadeIn } from "@/hooks/hooks";

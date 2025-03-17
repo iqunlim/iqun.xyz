@@ -89,4 +89,6 @@ const CircleVis = memo(function ({
   );
 }, isEqual);
 
+CircleVis.displayName = "CircleVis";
+
 export default CircleVis;
