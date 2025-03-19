@@ -26,3 +26,4 @@ dist-ssr
 #nextjs
 .next/
 next-env.d.ts
+.env

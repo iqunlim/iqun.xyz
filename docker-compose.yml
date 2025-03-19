@@ -1,0 +1,29 @@
+version: "3.8"
+
+services:
+  postgres:
+    image: postgres:latest
+    container_name: postgres_db
+    restart: always
+    environment:
+      POSTGRES_USER: test
+      POSTGRES_PASSWORD: newpassword
+      POSTGRES_DB: sitedb
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+  # TODO for later
+  # app:
+  #   build: .
+  #   container_name: site
+  #   restart: always
+  #   depends_on:
+  #     - postgres
+  #   environment:
+  #     DATABASE_URL: postgres://test:newpassword@postgres:5432/sitedb
+  #   ports:
+  #     - "3000:3000"
+
+volumes:
+  postgres_data:
