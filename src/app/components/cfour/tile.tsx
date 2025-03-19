@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { TileProps, TileState } from "./types";
-import { remToPixels } from "@/lib/utils";
+import { remToPixels } from "@/lib/clientutils";
 
 export default function Tile({
   row,

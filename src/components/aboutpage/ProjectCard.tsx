@@ -44,13 +44,17 @@ function ProjectCard({
           <CardContent>
             {info.img ? (
               <Image
-                className="m-auto max-h-48 rounded-md"
+                width={500}
+                height={192}
+                className="m-auto rounded-md"
                 src={info.img}
                 alt={"Project preview image"}
               /> // TODO: Do this alt better
             ) : (
               <Image
-                className="m-auto max-h-48 rounded-md"
+                width={100}
+                height={100}
+                className="m-auto rounded-md"
                 src={avi.src}
                 alt={"Generic project Image"}
               />

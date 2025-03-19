@@ -32,7 +32,10 @@ export default function Board({ rows, cols }: { rows: number; cols: number }) {
     return { turn: "red", grid: boardGrid } as BoardState;
   };
 
-  const [boardState, setBoardState] = useState<BoardState>(
+  // Optimization: A callback function will only execute once
+  // A function passed in to state will execute every single render
+  // If its "expensive" (this isnt expensive but it is O(n^2) use a callback function)
+  const [boardState, setBoardState] = useState<BoardState>(() =>
     setupBoard(rows, cols),
   );
 
