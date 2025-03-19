@@ -1,7 +1,14 @@
 import BlogCardWrapper from "@/components/blog/blogCardWrapper";
 import Link from "next/link";
+import { Suspense } from "react";
 
-export default function RootPage() {
+export default async function RootPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ [key: string]: string | undefined }>;
+}) {
+  const params = await searchParams;
+
   return (
     <div className="m-8">
       <Link
@@ -11,7 +18,18 @@ export default function RootPage() {
         Check out my components
       </Link>
       <div>
-        <BlogCardWrapper page={1} pageSize={6} />
+        <Suspense
+          fallback={
+            <div className="align-center flex h-svh w-svh justify-center">
+              LOADING...
+            </div>
+          }
+        >
+          <BlogCardWrapper
+            page={parseInt(params?.["page"] || "1")}
+            pageSize={1}
+          />
+        </Suspense>
       </div>
     </div>
   );

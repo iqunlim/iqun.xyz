@@ -16,15 +16,15 @@ export default async function BlogCard({
           src={defaultImg.src}
         />
       </div>
-      <div className="flex flex-1 flex-col p-4">
-        <div className="flex gap-4">
+      <div className="flex flex-1 flex-col gap-2 p-4">
+        <div className="flex gap-4 text-green-500">
           <span>{databaseDateToString(data.createdAt)}</span>
           {data.updatedAt && (
             <span>{`Updated at: ${databaseDateToString(data.updatedAt)}`}</span>
           )}
         </div>
-        <h1 className="">{data.title}</h1>
-        <h2>{data.summary}</h2>
+        <h1 className="mb-8 flex-0 text-2xl break-words">{data.title}</h1>
+        <p className="flex-1">{data.summary}</p>
         {/* <div className="flex flex-wrap gap-2">
           {data.tags.map((tag, i) => (
             <span className="rounded-full border p-1" key={i}>
