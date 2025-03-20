@@ -16,7 +16,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "./form";
 import { Input } from "./input";
 import { useRouter } from "next/navigation";
-import { CardTitle } from "./card";
+import { PopoverClose } from "@radix-ui/react-popover";
 
 function Pagination({ className, ...props }: React.ComponentProps<"nav">) {
   return (
@@ -162,7 +162,7 @@ function PaginationEllipsis({
             className="flex flex-col gap-2"
             onSubmit={form.handleSubmit(onSubmit)}
           >
-            <CardTitle>Navigate to page...</CardTitle>
+            <h1 className="text-xl">Navigate to page...</h1>
             <FormField
               control={form.control}
               name="page"
@@ -174,14 +174,22 @@ function PaginationEllipsis({
                       className="bg-background-transparent"
                       placeholder="..."
                       {...field}
-                      onChange={(event) => field.onChange(+event.target.value)}
                     />
                   </FormControl>
                   <FormMessage className="text-destructive" />
                 </FormItem>
               )}
             />
-            <Button type="submit">Go</Button>
+            <div className="flex justify-end gap-2">
+              <PopoverClose asChild>
+                <Button className="cursor-pointer" variant="secondary">
+                  Close
+                </Button>
+              </PopoverClose>
+              <Button className="cursor-pointer" type="submit">
+                Go
+              </Button>
+            </div>
           </form>
         </Form>
       </PopoverContent>
