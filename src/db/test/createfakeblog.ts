@@ -1,12 +1,15 @@
 import { faker } from "@faker-js/faker";
 import { db } from "..";
 import { blogTable } from "../schema";
+import fs from "fs";
 
 export function createFakeBlogs(
   count: number,
 ): (typeof blogTable.$inferInsert)[] {
+  const title = faker.lorem.sentence() + " " + faker.lorem.slug();
   return Array.from({ length: count }, () => ({
-    title: faker.lorem.sentence(),
+    title: title,
+    slug: faker.helpers.slugify(title) + " " + faker.lorem.slug(),
     content: faker.lorem.paragraphs(5, "\n\n"),
     summary: faker.lorem.sentences(2),
     image: faker.image.url(),
@@ -17,9 +20,25 @@ export function createFakeBlogs(
   }));
 }
 
+export function pullMDTestData() {
+  const mdFile = fs.readFileSync("./src/db/test/Markdown-test.txt", "utf-8");
+
+  const testData = {
+    title: "Markdown test file",
+    slug: "markdown-test-file",
+    content: mdFile,
+    summary: "Lorem",
+    tags: ["Test", "Test2"],
+  };
+  return testData;
+}
+
 export async function addTestDataToDatabase() {
+  const fakeBlogs = createFakeBlogs(20);
+  const data = Object.values(fakeBlogs).map((val) => val);
+  data.push(pullMDTestData());
   try {
-    await db.insert(blogTable).values(createFakeBlogs(12));
+    await db.insert(blogTable).values(data);
   } catch (error) {
     console.log(error);
   }

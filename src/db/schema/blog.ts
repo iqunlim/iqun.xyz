@@ -8,7 +8,8 @@ import {
 } from "drizzle-orm/pg-core";
 export const blogTable = pgTable("blog", {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),
-  title: varchar({ length: 255 }).notNull().unique(),
+  title: varchar({ length: 255 }).notNull(),
+  slug: varchar({ length: 255 }).notNull().unique(),
   content: text().notNull(),
   summary: varchar({ length: 500 }).notNull(),
   image: text(),
@@ -16,7 +17,6 @@ export const blogTable = pgTable("blog", {
   //https://orm.drizzle.team/docs/guides/empty-array-default-value#postgresql
   tags: text()
     .array()
-    .notNull()
     .default(sql`'{}'::text[]`),
   createdAt: timestamp("created_at", { mode: "string" }).notNull().defaultNow(),
   updatedAt: timestamp("updated_at", { mode: "string" }),

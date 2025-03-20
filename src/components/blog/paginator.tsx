@@ -11,23 +11,23 @@ import {
 } from "../ui/pagination";
 import { range } from "@/lib/utils";
 
+// TODO: Allow dynamic amounts of pages allowed. Right now it's hard coded to 5
 export default async function Paginator({
+  paginationUrlPrefix,
   currentPage,
   className,
   limit,
   total,
 }: {
+  paginationUrlPrefix: string;
   currentPage: number;
   limit: number;
   total: number;
   className?: string;
 }) {
-  let pageIndexes: number[] = [];
-
   if (total < 1) return; // no Div/0 errors please
+  let pageIndexes: number[] = [];
   const totalPageNumber = Math.ceil(total / limit);
-
-  if (totalPageNumber < 1) return;
 
   // Handling the page numbers displayed
   if (totalPageNumber <= 5) {
@@ -55,7 +55,10 @@ export default async function Paginator({
 
         {pageIndexes[0] > 1 && (
           <PaginationItem>
-            <PaginationEllipsis pageCount={totalPageNumber} />
+            <PaginationEllipsis
+              pageCount={totalPageNumber}
+              formSubmitUrl={paginationUrlPrefix}
+            />
           </PaginationItem>
         )}
         {pageIndexes.map((i) => (
@@ -67,7 +70,10 @@ export default async function Paginator({
         ))}
         {pageIndexes[pageIndexes.length - 1] < totalPageNumber && (
           <PaginationItem>
-            <PaginationEllipsis pageCount={totalPageNumber} />
+            <PaginationEllipsis
+              pageCount={totalPageNumber}
+              formSubmitUrl={paginationUrlPrefix}
+            />
           </PaginationItem>
         )}
         <PaginationItem>

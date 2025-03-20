@@ -109,11 +109,20 @@ function PaginationNext({
   );
 }
 
+/**
+ * Extended shadcn Pagination Ellipsis with page seeking dialogue
+ * @param {number} pageCount: Total number of pages
+ * @param {string} formSubmitUrl: The url to seek to without the page number, ex. `?page=` or `/blog/` will = `?page=1` or `/blog/1`
+ */
 function PaginationEllipsis({
   className,
   pageCount,
+  formSubmitUrl,
   ...props
-}: React.ComponentProps<"span"> & { pageCount: number }) {
+}: React.ComponentProps<"span"> & {
+  pageCount: number;
+  formSubmitUrl: string;
+}) {
   const router = useRouter();
   const [open, setOpen] = React.useState(false);
 
@@ -136,7 +145,7 @@ function PaginationEllipsis({
     data,
   ) => {
     if (!data.page) return;
-    router.push(`?page=${data.page}`);
+    router.push(`${formSubmitUrl}${data.page}`);
     setOpen(false);
   };
 

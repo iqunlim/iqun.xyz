@@ -27,7 +27,7 @@ export default async function BlogCardWrapper({
   if (!blogData)
     return (
       <div className="flex items-center justify-center">
-        <h1>No blog data found, please refresh the page or try again later</h1>
+        <h1>No blog posts found, please refresh the page or try again later</h1>
       </div>
     );
 
@@ -41,6 +41,7 @@ export default async function BlogCardWrapper({
         )}
       </div>
       <Paginator
+        paginationUrlPrefix="?page="
         total={blogCount?.[0].count || 0}
         currentPage={page}
         limit={pageSize}

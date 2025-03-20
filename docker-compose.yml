@@ -22,6 +22,5 @@ services:
   #     DATABASE_URL: postgres://test:newpassword@postgres:5432/sitedb
   #   ports:
   #     - "3000:3000"
-
 volumes:
   postgres_data:

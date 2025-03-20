@@ -28,7 +28,7 @@ export default async function RootPage({
         >
           <BlogCardWrapper
             page={parseInt(params?.["page"] || "1")}
-            pageSize={2}
+            pageSize={6}
           />
         </Suspense>
       </div>

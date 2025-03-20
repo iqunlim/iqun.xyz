@@ -10,8 +10,8 @@ export default async function BlogCard({
 }) {
   return (
     <Link
-      href={`/blog/${data.id}`}
-      className="bg-background-transparent border-gradient flex h-full w-full cursor-pointer flex-col gap-2 border-4 p-4"
+      href={`/blog/${data.slug}`}
+      className="bg-background-transparent border-gradient flex h-full w-full cursor-pointer flex-col gap-2 border-4 p-4 transition-transform hover:scale-110"
     >
       <div className="relative flex-0 overflow-clip">
         <img

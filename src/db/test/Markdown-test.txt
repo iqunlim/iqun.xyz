@@ -1,0 +1,100 @@
+Basic Markdown:
+
+# This is a level 1 heading 
+## This is a level 2 heading
+### This is a level 3 heading
+#### This is a level 4 heading
+##### This is a level 5 heading
+###### This is a level 6 heading
+
+**This text is bold**
+
+*This text is italic*
+
+***This text is bold and italic***
+
+~~This text is strikethrough~~
+
+> This is a blockquote
+
+*   Item 1
+*   Item 2
+    *   Nested item 1
+    *   Nested item 2
+*   Item 3
+
+1.  Ordered list item 1
+2.  Ordered list item 2
+    1.  Nested ordered list item 1
+    2.  Nested ordered list item 2
+3.  Ordered list item 3
+
+[Link to Google](https://www.google.com)
+
+This is an example of `inline code`.
+
+```ts
+function initialize(tags: string, postID: string) {
+  console.log("Loading editor...");
+
+  // Required because of go templating
+  const tagsArray = tags.split("%").filter((tag) => tag !== "");
+  const editor = new Editor(tagsArray, postID);
+  // Setting up form actions for the editor class
+  const form = <HTMLFormElement>document.getElementById("blog-information");
+  if (form === null) {
+    throw new Error("The Form Was never found");
+  }
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    editor.UpdatePost();
+  });
+}
+```
+
+**Horizontal Rule**
+---
+
+**Images**
+
+![Image of a cat](https://picsum.photos/id/237/200/300)
+
+**Tables**
+
+| Header 1 | Header 2 | Header 3 |
+|---|---|---|
+| Row 1, Cell 1 | Row 1, Cell 2 | Row 1, Cell 3 |
+| Row 2, Cell 1 | Row 2, Cell 2 | Row 2, Cell 3 |
+
+**Special Characters**
+
+*   `*` (asterisk)
+*   `_` (underscore)
+*   `-` (hyphen)
+*   `!` (exclamation mark)
+*   `#` (hashtag)
+*   `$` (dollar sign)
+*   `%` (percent sign)
+*   `&` (ampersand)
+*   `*` (asterisk)
+*   `(` (opening parenthesis)
+*   `)` (closing parenthesis)
+*   `[` (opening bracket)
+*   `]` (closing bracket)
+*   `{` (opening brace)
+*   `}` (closing brace)
+*   `<` (less than)
+*   `>` (greater than)
+*   `|` (pipe)
+*   `\` (backslash)
+*   `"` (double quote)
+*   `'` (single quote)
+
+Lorem ipsum odor amet, consectetuer adipiscing elit. Faucibus tempor etiam ultricies per eget praesent; mi erat? Mollis himenaeos dis eu ultrices ridiculus phasellus suspendisse. `Enim` leo fringilla rutrum mus inceptos tincidunt feugiat sociosqu turpis. Arcu pellentesque tristique lacinia sagittis dis tellus nostra iaculis. Vestibulum lacus inceptos non commodo rutrum varius. Nascetur efficitur gravida facilisi hendrerit blandit. Aliquam tempus aenean senectus, aptent vitae mattis. Sodales consequat montes ultrices sapien ultricies libero ac scelerisque adipiscing. Lorem ipsum odor amet, consectetuer adipiscing elit. Faucibus tempor etiam ultricies per eget praesent; mi erat? Mollis himenaeos dis eu ultrices ridiculus phasellus suspendisse. Enim leo fringilla rutrum mus inceptos tincidunt feugiat sociosqu turpis. Arcu pellentesque tristique lacinia sagittis dis tellus nostra iaculis. Vestibulum lacus inceptos non commodo rutrum varius. Nascetur efficitur gravida facilisi hendrerit blandit. Aliquam tempus aenean senectus, aptent vitae mattis. Sodales consequat montes ultrices sapien ultricies libero ac scelerisque adipiscing. 
+
+
+
+Summary: 
+Lorem ipsum odor amet, consectetuer adipiscing elit. Faucibus tempor etiam ultricies per eget praesent; mi erat? Mollis himenaeos dis eu ultrices ridiculus phasellus suspendisse. Enim leo fringilla rutrum mus inceptos tincidunt feugiat sociosqu turpis. Arcu pellentesque tristique lacinia sagittis dis tellus nostra iaculis. Vestibulum lacus inceptos non commodo rutrum varius. Nascetur efficitur gravida facilisi hendrerit blandit. Aliquam tempus aenean senectus, aptent vitae mattis. Sodales consequat montes ultrices sapien ultricies libero ac scelerisque adipiscing.
+
+Lorem ipsum odor amet, consectetuer adipiscing elit. Faucibus tempor etiam ultricies per eget praesent; mi erat? Mollis himenaeos dis eu ultrices ridiculus phasellus suspendisse. Enim leo fringilla rutrum mus inceptos tincidunt feugiat sociosqu turpis. Arcu pellentesque tristique lacinia sagittis dis tellus nostra iaculis. Vestibulum lacus inceptos non commodo rutrum varius. Nascetur efficitur gravida facilisi hendrerit blandit. Aliquam tempus aenean senectus, aptent vitae mattis. Sodales consequat montes ultrices sapien ultricies libero ac scelerisque adipiscing.
