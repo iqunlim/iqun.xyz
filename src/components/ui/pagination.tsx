@@ -1,3 +1,4 @@
+"use client";
 import * as React from "react";
 import {
   ChevronLeftIcon,
@@ -8,6 +9,14 @@ import {
 import { cn } from "@/lib/utils";
 import { Button, buttonVariants } from "@/components/ui/button";
 import Link from "next/link";
+import { Popover, PopoverContent, PopoverTrigger } from "./popover";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Form, FormControl, FormField, FormItem, FormMessage } from "./form";
+import { Input } from "./input";
+import { useRouter } from "next/navigation";
+import { CardTitle } from "./card";
 
 function Pagination({ className, ...props }: React.ComponentProps<"nav">) {
   return (
@@ -102,18 +111,81 @@ function PaginationNext({
 
 function PaginationEllipsis({
   className,
+  pageCount,
   ...props
-}: React.ComponentProps<"span">) {
+}: React.ComponentProps<"span"> & { pageCount: number }) {
+  const router = useRouter();
+  const [open, setOpen] = React.useState(false);
+
+  const PageVerifier = z.object({
+    page: z.coerce
+      .number()
+      .min(1)
+      .max(
+        pageCount,
+        `Must be Less than or equal to total pages (${pageCount}) `,
+      ),
+  });
+
+  const form = useForm<z.infer<typeof PageVerifier>>({
+    resolver: zodResolver(PageVerifier),
+    defaultValues: { page: 1 },
+  });
+
+  const onSubmit: SubmitHandler<z.infer<typeof PageVerifier>> = async (
+    data,
+  ) => {
+    if (!data.page) return;
+    router.push(`?page=${data.page}`);
+    setOpen(false);
+  };
+
   return (
-    <span
-      aria-hidden
-      data-slot="pagination-ellipsis"
-      className={cn("flex size-9 items-center justify-center", className)}
-      {...props}
-    >
-      <MoreHorizontalIcon className="size-4" />
-      <span className="sr-only">More pages</span>
-    </span>
+    <Popover open={open} onOpenChange={setOpen}>
+      <PopoverTrigger asChild>
+        <span
+          aria-hidden
+          data-slot="pagination-ellipsis"
+          className={cn(
+            "hover:bg-accent flex size-9 cursor-pointer items-center justify-center rounded-md",
+            className,
+          )}
+          {...props}
+        >
+          <MoreHorizontalIcon className="size-4" />
+          <span className="sr-only">More pages</span>
+        </span>
+      </PopoverTrigger>
+      <PopoverContent side="top">
+        <Form {...form}>
+          <form
+            className="flex flex-col gap-2"
+            onSubmit={form.handleSubmit(onSubmit)}
+          >
+            <CardTitle>Navigate to page...</CardTitle>
+            <FormField
+              control={form.control}
+              name="page"
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <Input
+                      type="number"
+                      className="bg-background-transparent"
+                      placeholder="..."
+                      {...field}
+                      onChange={(event) => field.onChange(+event.target.value)}
+                    />
+                  </FormControl>
+                  <FormMessage className="text-destructive" />
+                </FormItem>
+              )}
+            />
+            <Button type="submit">Go</Button>
+          </form>
+        </Form>
+      </PopoverContent>
+    </Popover>
   );
 }
 

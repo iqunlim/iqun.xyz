@@ -24,11 +24,12 @@ export default async function Paginator({
 }) {
   let pageIndexes: number[] = [];
 
+  if (total < 1) return; // no Div/0 errors please
   const totalPageNumber = Math.ceil(total / limit);
-  console.log(totalPageNumber);
 
   if (totalPageNumber < 1) return;
 
+  // Handling the page numbers displayed
   if (totalPageNumber <= 5) {
     pageIndexes = range(1, totalPageNumber);
   } else if (currentPage <= 3) {
@@ -54,7 +55,7 @@ export default async function Paginator({
 
         {pageIndexes[0] > 1 && (
           <PaginationItem>
-            <PaginationEllipsis />
+            <PaginationEllipsis pageCount={totalPageNumber} />
           </PaginationItem>
         )}
         {pageIndexes.map((i) => (
@@ -66,7 +67,7 @@ export default async function Paginator({
         ))}
         {pageIndexes[pageIndexes.length - 1] < totalPageNumber && (
           <PaginationItem>
-            <PaginationEllipsis />
+            <PaginationEllipsis pageCount={totalPageNumber} />
           </PaginationItem>
         )}
         <PaginationItem>

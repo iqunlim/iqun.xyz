@@ -25,7 +25,7 @@ export async function addTestDataToDatabase() {
   }
 }
 
-function main() {
-  addTestDataToDatabase();
-}
-main();
+// function main() {
+//   addTestDataToDatabase();
+// }
+// main();
