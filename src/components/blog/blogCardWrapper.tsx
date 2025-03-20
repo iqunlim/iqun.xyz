@@ -21,8 +21,8 @@ export default async function BlogCardWrapper({
   const blogCount = await db.select({ count: count() }).from(blogTable);
 
   return (
-    <div>
-      <div className="m-8 grid w-full grid-cols-1 gap-2 md:grid-cols-3">
+    <div className="flex flex-col gap-4">
+      <div className="grid grid-cols-1 gap-2 md:grid-cols-3">
         {blogData ? (
           blogData.map((entry) => <BlogCard key={entry.id} data={entry} />)
         ) : (
@@ -30,7 +30,6 @@ export default async function BlogCardWrapper({
         )}
       </div>
       <Paginator
-        className="mx-8 h-fit w-fit"
         total={blogCount[0].count}
         currentPage={page}
         limit={pageSize}

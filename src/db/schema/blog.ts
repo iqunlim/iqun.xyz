@@ -20,5 +20,8 @@ export const blogTable = pgTable("blog", {
     .default(sql`'{}'::text[]`),
   createdAt: timestamp("created_at", { mode: "string" }).notNull().defaultNow(),
   updatedAt: timestamp("updated_at", { mode: "string" }),
-  deletedAt: timestamp("updated_at", { mode: "string" }),
+  deletedAt: timestamp("deleted_at", { mode: "string" }),
 });
+
+export type blogTableInsertType = typeof blogTable.$inferInsert;
+export type blogTableSelectType = typeof blogTable.$inferSelect;

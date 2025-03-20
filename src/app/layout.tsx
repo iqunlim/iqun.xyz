@@ -17,6 +17,9 @@ export default function RootLayout({
     // As per https://ui.shadcn.com/docs/dark-mode/next suppressing this warning is fine?
     // Surely, this won't bite me in the butt at some point
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+      </head>
       <body>
         <ThemeProvider
           attribute="class"
