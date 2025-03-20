@@ -16,9 +16,20 @@ export default async function BlogCardWrapper({
     .from(blogTable)
     .orderBy(desc(blogTable.id))
     .limit(pageSize)
-    .offset((page - 1) * pageSize);
+    .offset((page - 1) * pageSize)
+    .catch((error) => console.error(error));
 
-  const blogCount = await db.select({ count: count() }).from(blogTable);
+  const blogCount = await db
+    .select({ count: count() })
+    .from(blogTable)
+    .catch((error) => console.error(error));
+
+  if (!blogData)
+    return (
+      <div className="flex items-center justify-center">
+        <h1>No blog data found, please refresh the page or try again later</h1>
+      </div>
+    );
 
   return (
     <div className="flex flex-col gap-4">
@@ -30,7 +41,7 @@ export default async function BlogCardWrapper({
         )}
       </div>
       <Paginator
-        total={blogCount[0].count}
+        total={blogCount?.[0].count || 0}
         currentPage={page}
         limit={pageSize}
       />
