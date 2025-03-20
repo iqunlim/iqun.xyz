@@ -3,21 +3,27 @@ import { db } from "..";
 import { blogTable } from "../schema";
 import fs from "fs";
 
+function randomNumber() {
+  return Math.floor(Math.random() * (1000 - 100 + 1)) + 100;
+}
+
 export function createFakeBlogs(
   count: number,
 ): (typeof blogTable.$inferInsert)[] {
-  const title = faker.lorem.sentence() + " " + faker.lorem.slug();
-  return Array.from({ length: count }, () => ({
-    title: title,
-    slug: faker.helpers.slugify(title) + " " + faker.lorem.slug(),
-    content: faker.lorem.paragraphs(5, "\n\n"),
-    summary: faker.lorem.sentences(2),
-    image: faker.image.url(),
-    altText: faker.lorem.words(5),
-    tags: Array.from({ length: faker.number.int({ min: 1, max: 5 }) }, () =>
-      faker.lorem.word(),
-    ),
-  }));
+  return Array.from({ length: count }, () => {
+    const title = faker.lorem.words(4) + " " + randomNumber();
+    return {
+      title: title,
+      slug: faker.helpers.slugify(title),
+      content: faker.lorem.paragraphs(5, "\n\n"),
+      summary: faker.lorem.sentences(2),
+      image: faker.image.url(),
+      altText: faker.lorem.words(5),
+      tags: Array.from({ length: faker.number.int({ min: 1, max: 5 }) }, () =>
+        faker.lorem.word(),
+      ),
+    };
+  });
 }
 
 export function pullMDTestData() {

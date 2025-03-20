@@ -29,3 +29,24 @@ export const range = (start: number, stop: number) =>
 //     {renderedHTML}
 //   )
 // }
+
+const months = [
+  "JAN",
+  "FEB",
+  "MAR",
+  "APR",
+  "MAY",
+  "JUN",
+  "JUL",
+  "AUG",
+  "SEP",
+  "OCT",
+  "NOV",
+  "DEC",
+];
+
+export function databaseDateToString(date: string) {
+  const dateObj = new Date(date);
+  if (!dateObj) throw new Error("Invalid date string");
+  return `${months[dateObj.getMonth()]} ${dateObj.getDay()} ${dateObj.getFullYear()}`;
+}

@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme/theme-provider";
+import { ModeToggle } from "@/components/theme/mode-toggle";
 
 export const metadata: Metadata = {
   title: "IQ's React Stuff",
@@ -26,6 +27,9 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
+          <div className="pointer-events-auto fixed top-5 right-5 z-10 h-fit w-fit">
+            <ModeToggle />
+          </div>
           {children}
         </ThemeProvider>
       </body>

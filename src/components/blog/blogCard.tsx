@@ -2,6 +2,7 @@
 import { blogTableSelectType } from "@/db/schema";
 import defaultImg from "../../app/img/av2.png";
 import Link from "next/link";
+import { databaseDateToString } from "@/lib/utils";
 
 export default async function BlogCard({
   data,
@@ -41,25 +42,4 @@ export default async function BlogCard({
       </div>
     </Link>
   );
-}
-
-const months = [
-  "JAN",
-  "FEB",
-  "MAR",
-  "APR",
-  "MAY",
-  "JUN",
-  "JUL",
-  "AUG",
-  "SEP",
-  "OCT",
-  "NOV",
-  "DEC",
-];
-
-function databaseDateToString(date: string) {
-  const dateObj = new Date(date);
-  if (!dateObj) throw new Error("Invalid date string");
-  return `${months[dateObj.getMonth()]} ${dateObj.getDay()} ${dateObj.getFullYear()}`;
 }

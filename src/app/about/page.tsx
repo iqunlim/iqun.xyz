@@ -26,7 +26,6 @@ import ProjectCard, {
   CardInformation,
 } from "@/components/aboutpage/ProjectCard";
 import { Pages } from "@/lib/projectdata";
-import { ModeToggle } from "@/components/theme/mode-toggle";
 import { DelayGenerator } from "@/lib/utils";
 import dynamic from "next/dynamic";
 
@@ -52,9 +51,6 @@ export default function About() {
 
   return (
     <main className="px-2">
-      <div className="pointer-events-auto absolute top-5 right-5 z-10 h-fit w-fit">
-        <ModeToggle />
-      </div>
       <section
         style={introStyle}
         ref={introRef}
