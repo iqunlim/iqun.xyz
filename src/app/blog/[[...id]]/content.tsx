@@ -20,7 +20,7 @@ export default async function BlogContent({
         alt={data.altText || "Placeholder graphic"}
       />
       <article className="prose prose-purple prose-a:hover:text-purple-300 lg:prose-2xl md:prose-xl dark:prose-invert prose-pre:bg-background prose-img:m-auto p-10">
-        <div className="flex gap-4 text-green-500">
+        <div className="between-flex-spacer flex text-green-500">
           <span>{databaseDateToString(data.createdAt)}</span>
           {data.updatedAt && (
             <span>{`Updated at: ${databaseDateToString(data.updatedAt)}`}</span>
