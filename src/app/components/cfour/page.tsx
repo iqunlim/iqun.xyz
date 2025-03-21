@@ -1,3 +1,4 @@
+"use client";
 import Board from "./board";
 
 export default function Connect4Page() {

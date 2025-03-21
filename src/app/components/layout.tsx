@@ -1,5 +1,4 @@
 import { NavMenu } from "@/components/nav-content";
-import { ModeToggle } from "@/components/theme/mode-toggle";
 import Av from "../../components/Foobar";
 import Link from "next/link";
 
@@ -18,7 +17,6 @@ export default function DashboardLayout({
           <Av />
           <h1>IQ&apos;s Random React Stuff</h1>
         </Link>
-        <ModeToggle />
       </header>
       <nav className="bg-muted border-b-2 pb-2">
         <NavMenu />
