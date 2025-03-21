@@ -18,8 +18,11 @@ export async function getPaginatedBlogPosts(
     .from(blogTable)
     .orderBy(desc(blogTable.id))
     .limit(pageSize)
-    .offset((page - 1) * pageSize)
-    .catch((error) => console.error(error));
+    .offset((page - 1) * pageSize);
+}
+
+export async function getAllBlogPosts() {
+  return db.select().from(blogTable).orderBy(desc(blogTable.id));
 }
 
 export async function getPostCount() {
