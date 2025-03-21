@@ -1,8 +1,6 @@
-import { db } from "@/db";
-import { blogTable } from "@/db/schema";
-import { eq } from "drizzle-orm";
 import BlogContent from "./content";
 import { redirect } from "next/navigation";
+import { getPostBySlug } from "../data";
 
 export default async function Page({
   params,
@@ -11,7 +9,7 @@ export default async function Page({
 }) {
   const id = (await params).id?.[0];
   if (!id) redirect("/");
-  const data = await db.select().from(blogTable).where(eq(blogTable.slug, id));
+  const data = await getPostBySlug(id);
   if (!data[0]) return <h1>Not found</h1>;
 
   return (

@@ -3,13 +3,14 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/theme/theme-provider";
 import { ModeToggle } from "@/components/theme/mode-toggle";
 import { ClerkProvider } from "@clerk/nextjs";
+import { Suspense } from "react";
 
 export const metadata: Metadata = {
   title: "IQ's React Stuff",
   description: "iqun.xyz",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
@@ -23,17 +24,19 @@ export default function RootLayout({
       </head>
       <body>
         <ClerkProvider>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
-            <div className="pointer-events-auto fixed top-5 right-5 z-10 h-fit w-fit">
-              <ModeToggle />
-            </div>
-            {children}
-          </ThemeProvider>
+          <Suspense fallback={<div>Loading...</div>}>
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="system"
+              enableSystem
+              disableTransitionOnChange
+            >
+              <div className="pointer-events-auto fixed top-5 right-5 z-10 h-fit w-fit">
+                <ModeToggle />
+              </div>
+              {children}
+            </ThemeProvider>
+          </Suspense>
         </ClerkProvider>
       </body>
     </html>

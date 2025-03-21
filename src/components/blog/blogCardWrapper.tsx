@@ -1,8 +1,6 @@
-import { db } from "@/db";
-import { blogTable } from "@/db/schema";
-import { count, desc } from "drizzle-orm";
 import BlogCard from "./blogCard";
 import Paginator from "./paginator";
+import { getPaginatedBlogPosts, getPostCount } from "@/app/blog/data";
 
 export default async function BlogCardWrapper({
   page = 1,
@@ -11,18 +9,8 @@ export default async function BlogCardWrapper({
   page?: number;
   pageSize?: number;
 }) {
-  const blogData = await db
-    .select()
-    .from(blogTable)
-    .orderBy(desc(blogTable.id))
-    .limit(pageSize)
-    .offset((page - 1) * pageSize)
-    .catch((error) => console.error(error));
-
-  const blogCount = await db
-    .select({ count: count() })
-    .from(blogTable)
-    .catch((error) => console.error(error));
+  const blogData = await getPaginatedBlogPosts(page, pageSize);
+  const blogCount = await getPostCount();
 
   if (!blogData)
     return (

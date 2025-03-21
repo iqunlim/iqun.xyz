@@ -4,6 +4,10 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
+  // Trying out "use cache" directive"
+  experimental: {
+    dynamicIO: true,
+  },
 };
 
 export default nextConfig;
