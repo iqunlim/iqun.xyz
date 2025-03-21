@@ -14,7 +14,7 @@ export default async function Page({
 
   return (
     <main className="flex w-full flex-col items-center justify-center">
-      <BlogContent data={data[0]} />
+      <BlogContent data={data[0]} className="w-full border-x-2 lg:w-2/3" />
     </main>
   );
 }

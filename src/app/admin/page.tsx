@@ -6,8 +6,8 @@ export default async function Page() {
   const data = await getAllBlogPosts();
   if (!data) return;
   return (
-    <main className="flex max-w-3/4 min-w-1/2 flex-col justify-center justify-self-center py-4">
-      <table className="table-auto border-collapse border-4">
+    <main className="min-w-1/2 justify-self-center py-4">
+      <table className="border-4">
         <tbody>
           <tr className="border p-4">
             <td colSpan={3} className="p-2 text-center">

@@ -7,13 +7,15 @@ import defaultImg from "../../img/av2.png";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { atomDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 
-export default async function BlogContent({
+export default function BlogContent({
   data,
+  className,
 }: {
   data: blogTableSelectType;
+  className?: string;
 }) {
   return (
-    <div className="w-full border-x-2 lg:w-2/3">
+    <div className={className}>
       <img
         className="aspect-[3/2] max-h-[400px] w-full border-b-2 object-cover"
         src={data.image || defaultImg.src}

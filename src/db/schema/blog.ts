@@ -6,6 +6,7 @@ import {
   text,
   timestamp,
 } from "drizzle-orm/pg-core";
+import { z } from "zod";
 export const blogTable = pgTable("blog", {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),
   title: varchar({ length: 255 }).notNull(),
@@ -25,3 +26,20 @@ export const blogTable = pgTable("blog", {
 
 export type blogTableInsertType = typeof blogTable.$inferInsert;
 export type blogTableSelectType = typeof blogTable.$inferSelect;
+
+export const blogTableZodSchema = z.object({
+  title: z
+    .string()
+    .min(1, "Required Field")
+    .max(255, "Must be less than 255 Characters"),
+  content: z.string().min(1, "Required Field"),
+  summary: z
+    .string()
+    .min(1, "Required Field")
+    .max(500, "Must be less than 500 characters. Be brief in the summary!"),
+  image: z.string().optional(),
+  altText: z.string().max(255).optional(),
+  tags: z.array(z.string()).default([]),
+});
+
+export type BlogTableZod = z.infer<typeof blogTableZodSchema>;

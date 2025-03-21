@@ -4,10 +4,10 @@ import defaultImg from "../../app/img/av2.png";
 import Link from "next/link";
 import { databaseDateToString } from "@/lib/utils";
 
-export default async function BlogCard({
+export default function BlogCard({
   data,
 }: {
-  data: blogTableSelectType;
+  data: Partial<Omit<blogTableSelectType, "id" | "deletedAt">>;
 }) {
   return (
     <Link
@@ -23,7 +23,9 @@ export default async function BlogCard({
       </div>
       <div className="flex flex-1 flex-col gap-2 p-4">
         <div className="flex gap-4 text-green-500">
-          <span>{databaseDateToString(data.createdAt)}</span>
+          {data.createdAt && (
+            <span>{databaseDateToString(data.createdAt)}</span>
+          )}
           {data.updatedAt && (
             <span>{`Updated at: ${databaseDateToString(data.updatedAt)}`}</span>
           )}
