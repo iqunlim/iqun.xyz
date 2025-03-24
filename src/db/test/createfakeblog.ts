@@ -4,7 +4,7 @@ import { blogTable } from "../schema";
 import fs from "fs";
 
 function randomNumber() {
-  return Math.floor(Math.random() * (1000 - 100 + 1)) + 100;
+  return Math.floor(Math.random() * 999) + 100;
 }
 
 export function createFakeBlogs(
