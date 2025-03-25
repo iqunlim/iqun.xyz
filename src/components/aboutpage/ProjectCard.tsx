@@ -5,8 +5,7 @@ import {
   CardHeader,
   CardTitle,
 } from "../ui/card";
-// import vanlife from "../../img/projects/vanlife.png";
-import avi from "../../app/img/av2.png";
+import avi from "@/assets/av2.png";
 import { useRef } from "react";
 import { useFadeIn } from "@/hooks/hooks";
 import Image from "next/image";

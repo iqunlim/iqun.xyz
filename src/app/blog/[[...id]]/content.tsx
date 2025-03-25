@@ -3,7 +3,7 @@ import { blogTableSelectType } from "@/db/schema";
 import { databaseDateToString } from "@/lib/utils";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import defaultImg from "../../img/av2.png";
+import defaultImg from "@/assets/av2.png";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { atomDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 
@@ -30,31 +30,7 @@ export default function BlogContent({
         </div>
         <p>{data.summary}</p>
         <h1 className="w-full underline">{data.title}</h1>
-        <ReactMarkdown
-          remarkPlugins={[remarkGfm]}
-          components={{
-            code(props) {
-              const { children, className, ...rest } = props;
-              const match = /language-(\w+)/.exec(className || "");
-              return match ? (
-                <SyntaxHighlighter
-                  // {...rest}
-                  PreTag="div"
-                  language={match[1]}
-                  style={atomDark}
-                >
-                  {String(children).replace(/\n$/, "")}
-                </SyntaxHighlighter>
-              ) : (
-                <code {...rest} className={className}>
-                  {children}
-                </code>
-              );
-            },
-          }}
-        >
-          {data.content}
-        </ReactMarkdown>
+        <ReactMarkdownWithSettings>{data.content}</ReactMarkdownWithSettings>
         <div className="flex h-8 gap-4 border-t-2 p-4">
           {data.tags?.map((tag, i) => (
             <span
@@ -67,5 +43,39 @@ export default function BlogContent({
         </div>
       </article>
     </div>
+  );
+}
+
+export function ReactMarkdownWithSettings({
+  children,
+}: {
+  children: string | null | undefined;
+}) {
+  return (
+    <ReactMarkdown
+      remarkPlugins={[remarkGfm]}
+      components={{
+        code(props) {
+          const { children, className, ...rest } = props;
+          const match = /language-(\w+)/.exec(className || "");
+          return match ? (
+            <SyntaxHighlighter
+              // {...rest}
+              PreTag="div"
+              language={match[1]}
+              style={atomDark}
+            >
+              {String(children).replace(/\n$/, "")}
+            </SyntaxHighlighter>
+          ) : (
+            <code {...rest} className={className}>
+              {children}
+            </code>
+          );
+        },
+      }}
+    >
+      {children}
+    </ReactMarkdown>
   );
 }

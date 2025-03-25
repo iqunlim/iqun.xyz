@@ -1,5 +1,5 @@
-import vanlife from "../app/img/projects/vanlife.png";
-import poring from "../app/img/projects/poring.png";
+import vanlife from "@/assets/projects/vanlife.png";
+import poring from "@/assets/projects/poring.png";
 
 export type ComponentInformation = {
   internalName: string;

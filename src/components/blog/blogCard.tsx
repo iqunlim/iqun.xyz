@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import { blogTableSelectType } from "@/db/schema";
-import defaultImg from "../../app/img/av2.png";
+import defaultImg from "@/assets/av2.png";
 import Link from "next/link";
 import { databaseDateToString } from "@/lib/utils";
 
@@ -12,7 +12,7 @@ export default function BlogCard({
   return (
     <Link
       href={`/blog/${data.slug}`}
-      className="bg-background-transparent border-gradient flex h-full w-full cursor-pointer flex-col gap-2 border-4 p-4 transition-transform hover:scale-110"
+      className="bg-background-transparent border-gradient pointer-events-none flex h-full w-full cursor-pointer flex-col gap-2 border-4 p-4 transition-transform hover:scale-110"
     >
       <div className="relative flex-0 overflow-clip">
         <img

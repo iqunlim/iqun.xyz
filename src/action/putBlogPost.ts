@@ -1,12 +1,11 @@
 "use server";
-import { getPostBySlug } from "@/app/blog/data";
+import { getPostBySlug } from "@/action/data";
 import { db } from "@/db";
 import {
   blogTable,
   blogTableInsertType,
   blogTableZodSchema,
 } from "@/db/schema";
-import { randomInt } from "crypto";
 import { eq, sql } from "drizzle-orm";
 import { kebabCase } from "lodash";
 import { z } from "zod";
@@ -14,6 +13,31 @@ import { z } from "zod";
 type FormState = {
   message: string;
 };
+
+const fileSchema = z
+  .instanceof(File)
+  .refine((file) => file.size > 0, {
+    message: "File cannot be empty",
+  })
+  .refine((file) => file.size <= 5 * 1024 * 1024, {
+    message: "File size must be less than 5MB",
+  })
+  .refine(
+    (file) => ["image/png", "image/jpeg", "image/jpg"].includes(file.type),
+    {
+      message: "Only PNG, JPEG, and JPG formats are allowed",
+    },
+  );
+
+const setupForInsertToDatabaseBlogPost = z.object({
+  title: z.string(),
+  summary: z.string(),
+  content: z.string(),
+  image: fileSchema.optional(),
+  slug: z.string().optional(),
+  altText: z.string().optional(),
+  tags: z.string(),
+});
 
 export async function PutBlogPostAction(_: FormState, data: FormData) {
   // Take form data and extract image file
@@ -31,14 +55,26 @@ export async function PutBlogPostAction(_: FormState, data: FormData) {
   // V2 might be
   // Check on the form side if exists
   // Update only fields that have changed
+  const test = data.get("image") as File;
+  if (test.name === "undefined") data.delete("image");
   const formData = Object.fromEntries(data);
-  const isFile = formData.image as File;
+  const setupParse = setupForInsertToDatabaseBlogPost.safeParse(formData);
+  if (!setupParse.success) {
+    console.error(setupParse.error);
+    return {
+      message: "Invalid user data",
+    };
+  }
+
   let ret;
-  if (isFile.size) {
+  if (setupParse.data.image) {
     ret = await putR2Object(formData.image as File);
     if (!ret || ret.error)
       return { message: "Image failed to upload. Try again later..." };
   }
+
+  const tagsString = formData.tags as string;
+  const tagsArray = tagsString.split(",");
 
   const blogInsertFormat = {
     title: formData.title,
@@ -47,10 +83,8 @@ export async function PutBlogPostAction(_: FormState, data: FormData) {
     image: ret?.fileUrl || undefined,
     slug: formData.slug ? formData.slug : kebabCase(formData.title.toString()),
     altText: formData.altText,
-    tags: formData.tags === "" ? [] : JSON.parse(formData.tags as string),
+    tags: tagsArray,
   };
-
-  console.log(blogInsertFormat.image);
 
   const parsed = blogTableZodSchema.safeParse(blogInsertFormat);
 
@@ -61,16 +95,17 @@ export async function PutBlogPostAction(_: FormState, data: FormData) {
     };
   }
 
-  // Check if exists
-  // Update yes
-  // otherwise create
-  const exists = await getPostBySlug(parsed.data.slug);
+  return InsertOrUpdateBlogPost(parsed.data);
+}
+
+async function InsertOrUpdateBlogPost(data: blogTableInsertType) {
+  const exists = await getPostBySlug(data.slug);
   if (exists.length === 0) {
-    await InsertBlogPost(parsed.data);
-    return { message: `Blog Post ${parsed.data.slug} Created` };
+    await InsertBlogPost(data);
+    return { message: `Blog Post ${data.slug} Created` };
   }
-  await UpdateBlogPost(parsed.data);
-  return { message: `Blog post ${parsed.data.slug} updated` };
+  await UpdateBlogPost(data);
+  return { message: `Blog post ${data.slug} updated` };
 }
 
 const apiUrl = "https://0e31f4dd.poring-xyz-api.pages.dev/api/v1/sign-s3";
@@ -114,22 +149,15 @@ const validateApiResponse = (ResponseData: unknown) => {
 };
 
 async function InsertBlogPost(data: blogTableInsertType) {
-  return db
-    .insert(blogTable)
-    .values({
-      title: data.title,
-      slug: data.slug,
-      summary: data.summary,
-      content: data.content,
-      image: data.image || null,
-      altText: data.altText || null,
-      tags: data.tags || [],
-      createdAt: sql`NOW()`,
-    })
-    .onConflictDoUpdate({
-      target: blogTable.slug,
-      set: { slug: data.slug + randomInt(100) },
-    });
+  return db.insert(blogTable).values({
+    title: data.title,
+    slug: data.slug,
+    summary: data.summary,
+    content: data.content,
+    image: data.image || null,
+    altText: data.altText || null,
+    tags: data.tags || [],
+  });
 }
 
 async function UpdateBlogPost(data: blogTableInsertType) {

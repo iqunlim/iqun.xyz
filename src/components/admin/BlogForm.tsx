@@ -19,7 +19,7 @@ import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
 import React, { useActionState, useRef } from "react";
-import { PutBlogPostAction } from "@/app/admin/action/putBlogPost";
+import { PutBlogPostAction } from "@/action/putBlogPost";
 
 export default function BlogForm({
   formInitialState,

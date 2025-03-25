@@ -1,7 +1,7 @@
 import { blogTableSelectType } from "@/db/schema";
 import BlogCard from "./blogCard";
 import Paginator from "./paginator";
-import { getPaginatedBlogPosts, getPostCount } from "@/app/blog/data";
+import { getPaginatedBlogPosts, getPostCount } from "@/action/data";
 
 export default async function BlogCardWrapper({
   page = 1,

@@ -1,6 +1,6 @@
 import BlogContent from "./content";
 import { redirect } from "next/navigation";
-import { getPostBySlug } from "../data";
+import { getPostBySlug } from "@/action/data";
 
 export default async function Page({
   params,

@@ -4,6 +4,7 @@ import BlogForm from "@/components/admin/BlogForm";
 import BlogCard from "@/components/blog/blogCard";
 import { blogTableInsertType } from "@/db/schema";
 import { kebabCase } from "lodash";
+import Link from "next/link";
 import React, { useState } from "react";
 
 export default function BlogEditPage({
@@ -14,6 +15,18 @@ export default function BlogEditPage({
   const [formValues, setFormValues] =
     useState<Partial<blogTableInsertType>>(blogData);
 
+  if (!blogData)
+    return (
+      <h1>
+        Blog post not found.
+        <Link
+          className="text-purple-500 underline hover:text-purple-300"
+          href="/blog"
+        >
+          Return...
+        </Link>
+      </h1>
+    );
   return (
     <div className="flex gap-8 p-4">
       <div className="w-1/2">
