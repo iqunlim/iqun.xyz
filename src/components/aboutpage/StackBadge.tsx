@@ -3,9 +3,11 @@ import Image from "next/image";
 export default function StackBadge({
   text,
   image,
+  alt,
 }: {
   text: string;
   image: string;
+  alt?: string;
 }) {
   return (
     // <div className="flex h-[calc(8rem+2px)] w-[calc(8rem+2px)] items-center justify-center rounded-md bg-transparent bg-gradient-to-br from-blue-500 to-purple-500 shadow-md md:h-[calc(10rem+4px)] md:w-[calc(10rem+4px)]">
@@ -15,7 +17,7 @@ export default function StackBadge({
         height={75}
         // className="max-h-[5.5rem] max-w-[5rem]"
         src={image}
-        alt="golang logo"
+        alt={alt || "Stack Image"}
       />
       <p className="text-md flex items-center justify-center lg:text-xl">
         {text}

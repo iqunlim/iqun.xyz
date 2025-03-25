@@ -5,7 +5,7 @@ import {
   blogTableZodSchema,
 } from "@/db/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 
 import {
   Form,
@@ -18,41 +18,54 @@ import {
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
+import React, { useActionState, useRef } from "react";
+import { PutBlogPostAction } from "@/app/admin/action/putBlogPost";
 
 export default function BlogForm({
+  formInitialState,
   setFormStateValues,
 }: {
+  formInitialState?: Partial<blogTableInsertType>;
   setFormStateValues: React.Dispatch<
     React.SetStateAction<Partial<blogTableInsertType>>
   >;
 }) {
+  const [state, formAction] = useActionState(PutBlogPostAction, {
+    message: "",
+  });
+
   const form = useForm<BlogTableZod>({
     resolver: zodResolver(blogTableZodSchema),
     //defaultValues are REQUIRED or else react will throw a "controlled to
     // uncontrolled error"
     defaultValues: {
-      title: "",
-      summary: "",
-      content: "",
-      altText: "",
-      image: "",
-      tags: [],
+      title: formInitialState?.title || "",
+      slug: formInitialState?.slug || "",
+      summary: formInitialState?.summary || "",
+      content: formInitialState?.content || "",
+      altText: formInitialState?.altText || "",
+      image: undefined,
+      tags: formInitialState?.tags || [],
     },
   });
 
   const imageValue = form.watch("image");
-
-  const onSubmit: SubmitHandler<BlogTableZod> = async (data) => {
-    console.log(data);
-    // Translate from BlogTableZod to BlogTableInsertType
-  };
+  const formRef = useRef<HTMLFormElement>(null);
 
   return (
     <Form {...form}>
       <form
+        ref={formRef}
         className="relative flex w-full flex-col gap-4"
-        onSubmit={form.handleSubmit(onSubmit)}
+        action={formAction}
+        onSubmit={() => {
+          form.handleSubmit(() => formRef.current?.submit());
+          return false; // required to stop refresh
+        }}
       >
+        {state && <h1>{state.message}</h1>}
+        <input type="hidden" {...form.register("slug")} />
+        <input type="hidden" {...form.register("tags")} />
         <FormField
           control={form.control}
           name="title"
@@ -125,47 +138,20 @@ export default function BlogForm({
               <FormMessage className="text-destructive" />
             </FormItem>
           )}
-        />{" "}
-        <FormField
-          control={form.control}
-          name="image"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Header Image (optional)</FormLabel>
-              <FormControl>
-                <Input
-                  type="file"
-                  className="bg-background-transparent"
-                  {...field}
-                  onChange={(e) => {
-                    field.onChange(e);
-                    // let url;
-                    const file = e.target.files?.[0];
-                    if (!file) return;
-                    const reader = new FileReader();
-                    reader.onload = (event) => {
-                      if (
-                        event.target === null ||
-                        event.target.result === null
-                      ) {
-                        throw new Error(
-                          "Error in setupImageElement, target or target result were null",
-                        );
-                      }
-                      // event.target?.result.toString();
-                      console.log("Hit");
-                      setFormStateValues((prev) => ({
-                        ...prev,
-                        [e.target.name]: event?.target?.result?.toString(),
-                      }));
-                    };
-                    reader.readAsDataURL(file);
-                  }}
-                />
-              </FormControl>
-              <FormMessage className="text-destructive" />
-            </FormItem>
-          )}
+        />
+        <input
+          className="rounded-md border p-2"
+          type="file"
+          {...form.register("image")}
+          onChange={(e) => {
+            const file = e.target.files?.[0];
+            if (!file) return;
+            ExtractFilePreviewUrlAndSetState(
+              e.target.name as keyof blogTableInsertType,
+              file,
+              setFormStateValues,
+            );
+          }}
         />
         {/* Only display alt text field if an image is uploaded */}
         {imageValue && (
@@ -201,4 +187,39 @@ export default function BlogForm({
       </form>
     </Form>
   );
+}
+
+// const onBlogEditFormSubmit: SubmitHandler<BlogTableZod> = async (data) => {
+//   // Translate from BlogTableZod to BlogTableInsertType
+//   const formData = new FormData();
+//   formData.append("title", data.title);
+//   formData.append("slug", data.slug || kebabCase(data.title));
+//   formData.append("content", data.content);
+//   formData.append("summary", data.summary);
+//   if (data.image) formData.append("image", data.image);
+//   if (data.altText) formData.append("altText", data.altText);
+//   formData.append("tags", JSON.stringify(data.tags));
+//   console.log(await PutBlogPostAction(formData));
+// };
+
+function ExtractFilePreviewUrlAndSetState<T extends Record<string, unknown>>(
+  fieldName: keyof T,
+  file: File,
+  setter: React.Dispatch<React.SetStateAction<T>>,
+) {
+  const reader = new FileReader();
+  reader.onload = (event) => {
+    const result = event.target?.result;
+    if (!result) {
+      throw new Error(
+        "Error in FilePreviewHandler, target or target result were null",
+      );
+    } else {
+      setter((prev) => ({
+        ...prev,
+        [fieldName]: result.toString(),
+      }));
+    }
+  };
+  reader.readAsDataURL(file);
 }

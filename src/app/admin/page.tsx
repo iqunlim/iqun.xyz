@@ -13,7 +13,7 @@ export default async function Page() {
             <td colSpan={3} className="p-2 text-center">
               <Link
                 className="text-lg font-bold text-green-500 underline hover:text-green-300"
-                href="/admin/new"
+                href="/admin/edit"
               >
                 New
               </Link>

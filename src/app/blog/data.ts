@@ -1,3 +1,4 @@
+"use server";
 import { db } from "@/db";
 // import { getGlobalTag, getIdTag } from "@/db/cache/cacheTags";
 import { blogTable } from "@/db/schema";

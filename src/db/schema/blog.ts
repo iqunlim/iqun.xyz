@@ -32,13 +32,14 @@ export const blogTableZodSchema = z.object({
     .string()
     .min(1, "Required Field")
     .max(255, "Must be less than 255 Characters"),
+  slug: z.string(),
   content: z.string().min(1, "Required Field"),
   summary: z
     .string()
     .min(1, "Required Field")
     .max(500, "Must be less than 500 characters. Be brief in the summary!"),
-  image: z.string().optional(),
   altText: z.string().max(255).optional(),
+  image: z.any(), // TODO: Better than this. It's causing a huge amount of headache to validate
   tags: z.array(z.string()).default([]),
 });
 

@@ -1,15 +1,22 @@
-import Link from "next/link";
+import { blogTableInsertType } from "@/db/schema";
+import BlogEditPage from "../../editpage";
+import { getPostBySlug } from "@/app/blog/data";
 
-export default function Page() {
-  return (
-    <div>
-      <h1>TODO</h1>
-      <Link
-        className="text-purple-500 underline hover:text-purple-300"
-        href=".."
-      >
-        Go back...
-      </Link>
-    </div>
-  );
+export default async function Page({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
+  const { slug } = await params;
+  const blogData = await extractBlogDataFromParams(slug?.[0]);
+  // get information here?
+
+  return <BlogEditPage blogData={blogData[0]} />;
+}
+
+async function extractBlogDataFromParams(
+  slug?: string,
+): Promise<Partial<blogTableInsertType>[]> {
+  if (!slug) return [{}];
+  return getPostBySlug(slug);
 }
