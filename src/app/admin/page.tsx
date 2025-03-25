@@ -1,12 +1,13 @@
 import { databaseDateToString } from "@/lib/utils";
 import { getAllBlogPosts } from "../blog/data";
 import Link from "next/link";
+import DeleteButton from "./DeleteButton";
 
 export default async function Page() {
   const data = await getAllBlogPosts();
   if (!data) return;
   return (
-    <main className="min-w-1/2 justify-self-center py-4">
+    <main className="min-w-1/2 py-4">
       <table className="border-4">
         <tbody>
           <tr className="border p-4">
@@ -40,6 +41,9 @@ export default async function Page() {
                 >
                   Edit
                 </Link>
+              </td>
+              <td>
+                <DeleteButton slug={post.slug} />
               </td>
             </tr>
           ))}

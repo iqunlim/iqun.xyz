@@ -189,19 +189,6 @@ export default function BlogForm({
   );
 }
 
-// const onBlogEditFormSubmit: SubmitHandler<BlogTableZod> = async (data) => {
-//   // Translate from BlogTableZod to BlogTableInsertType
-//   const formData = new FormData();
-//   formData.append("title", data.title);
-//   formData.append("slug", data.slug || kebabCase(data.title));
-//   formData.append("content", data.content);
-//   formData.append("summary", data.summary);
-//   if (data.image) formData.append("image", data.image);
-//   if (data.altText) formData.append("altText", data.altText);
-//   formData.append("tags", JSON.stringify(data.tags));
-//   console.log(await PutBlogPostAction(formData));
-// };
-
 function ExtractFilePreviewUrlAndSetState<T extends Record<string, unknown>>(
   fieldName: keyof T,
   file: File,

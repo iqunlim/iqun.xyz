@@ -55,6 +55,7 @@ export async function PutBlogPostAction(_: FormState, data: FormData) {
   const parsed = blogTableZodSchema.safeParse(blogInsertFormat);
 
   if (!parsed.success) {
+    console.error(parsed.error);
     return {
       message: "Invalid user data",
     };
@@ -64,9 +65,9 @@ export async function PutBlogPostAction(_: FormState, data: FormData) {
   // Update yes
   // otherwise create
   const exists = await getPostBySlug(parsed.data.slug);
-  if (!exists) {
+  if (exists.length === 0) {
     await InsertBlogPost(parsed.data);
-    return { message: "Blog Post Created" };
+    return { message: `Blog Post ${parsed.data.slug} Created` };
   }
   await UpdateBlogPost(parsed.data);
   return { message: `Blog post ${parsed.data.slug} updated` };
