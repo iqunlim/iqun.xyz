@@ -57,6 +57,15 @@ export default async function Paginator({
     <Pagination className={className}>
       <PaginationContent>
         <PaginationItem>
+          <PaginationLink
+            className="hover:bg-accent align-center flex w-fit justify-center border-none px-2"
+            isActive={currentPage === 1}
+            href={`${paginationUrlPrefix}1`}
+          >
+            First
+          </PaginationLink>
+        </PaginationItem>
+        <PaginationItem>
           <PaginationPrevious
             className={clsx({
               "pointer-events-none cursor-none text-gray-500":
@@ -97,6 +106,16 @@ export default async function Paginator({
             })}
             href={`${paginationUrlPrefix}${currentPage + 1}`}
           />
+        </PaginationItem>
+
+        <PaginationItem>
+          <PaginationLink
+            className="hover:bg-accent align-center flex w-fit justify-center border-none px-2"
+            isActive={currentPage === totalPageNumber}
+            href={`${paginationUrlPrefix}${totalPageNumber}`}
+          >
+            Last
+          </PaginationLink>
         </PaginationItem>
       </PaginationContent>
     </Pagination>

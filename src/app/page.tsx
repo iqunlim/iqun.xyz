@@ -20,7 +20,7 @@ export default async function RootPage({
         <h1 className="text-5xl font-black underline">Blog Posts</h1>
         <BlogCardWrapper
           page={parseInt(params?.["page"] || "1")}
-          pageSize={6}
+          pageSize={2}
         />
       </div>
     </main>
