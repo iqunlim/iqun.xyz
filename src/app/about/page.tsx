@@ -16,7 +16,7 @@ import git from "@/assets/logos/Git_icon.svg";
 import sql from "@/assets/logos/sql-database-generic-svgrepo-com.svg";
 import html from "@/assets/logos/html5.svg";
 import github from "@/assets/logos/github-mark.svg";
-import linkedin from "@/assets/logos/LI-Logo.png";
+// import linkedin from "@/assets/logos/LI-Logo.png";
 import av from "@/assets/av2.png";
 
 import { useFadeIn } from "@/hooks/hooks";
@@ -46,7 +46,6 @@ export default function About() {
   const aboutStyle = useFadeIn([sectionRef], "right");
   const projectStyle = useFadeIn([projectRef, moreInfoRef], "down");
 
-  // const delayGenerator = DelayGenerator();
   const infoGenerator = DelayGenerator();
 
   return (
@@ -161,7 +160,8 @@ export default function About() {
             }}
             delay={infoGenerator.next().value || 0}
           />
-          <ProjectCard
+          {/* Add in once Linkedin is in better shape */}
+          {/* <ProjectCard
             info={{
               title: "Linkedin",
               img: linkedin.src,
@@ -169,13 +169,13 @@ export default function About() {
               description: "Check out my Linkedin!",
             }}
             delay={infoGenerator.next().value || 0}
-          />
+          /> */}
           <ProjectCard
             info={{
               title: "Resume",
               img: av.src,
               href: "https://files2.iqun.xyz/8415074f/Resume.pdf",
-              description: "TODO: Check out my resume!",
+              description: "Check out my resume!",
             }}
             delay={infoGenerator.next().value || 0}
           />

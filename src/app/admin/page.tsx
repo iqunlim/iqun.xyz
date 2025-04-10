@@ -4,7 +4,7 @@ import Link from "next/link";
 import DeleteButton from "../../components/admin/DeleteButton";
 
 export default async function Page() {
-  const data = await getAllBlogPosts();
+  const data = await getAllBlogPosts().catch((error) => console.error(error));
   if (!data) return;
   return (
     <main className="min-w-1/2 justify-self-center py-4">

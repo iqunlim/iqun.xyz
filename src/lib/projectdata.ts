@@ -1,5 +1,6 @@
 import vanlife from "@/assets/projects/vanlife.png";
 import poring from "@/assets/projects/poring.png";
+import blog from "@/assets/projects/blog.png";
 
 export type ComponentInformation = {
   internalName: string;
@@ -53,5 +54,14 @@ export const Pages: ComponentInformation[] = [
     gh: "https://github.com/iqunlim/poring.xyz",
     src: "https://poring.xyz",
     description: "React 19 and S3-based File uploader",
+  },
+  {
+    internalName: "blog",
+    title: "This Site!",
+    img: blog.src,
+    href: "https://iqun.xyz",
+    gh: "https://github.com/iqunlim/iqun.xyz",
+    src: "https://iqun.xyz",
+    description: "This site is also a blog site!",
   },
 ];

@@ -32,14 +32,17 @@ export default function BlogContent({
         <h1 className="w-full underline">{data.title}</h1>
         <ReactMarkdownWithSettings>{data.content}</ReactMarkdownWithSettings>
         <div className="flex h-8 gap-4 border-t-2 p-4">
-          {data.tags?.map((tag, i) => (
-            <span
-              key={i}
-              className="flex items-center justify-center rounded-full border p-4"
-            >
-              {tag}
-            </span>
-          ))}
+          {data.tags?.map((tag, i) => {
+            if (tag === "") return;
+            return (
+              <span
+                key={i}
+                className="flex items-center justify-center rounded-full border p-4"
+              >
+                {tag}
+              </span>
+            );
+          })}
         </div>
       </article>
     </div>

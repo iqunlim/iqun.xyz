@@ -108,7 +108,7 @@ async function InsertOrUpdateBlogPost(data: blogTableInsertType) {
   return { message: `Blog post ${data.slug} updated` };
 }
 
-const apiUrl = "https://0e31f4dd.poring-xyz-api.pages.dev/api/v1/sign-s3";
+const apiUrl = process.env.IMG_API_URL;
 
 export async function putR2Object(file: File) {
   const url = `${apiUrl}?fileName=${encodeURIComponent(file.name)}&fileType=${encodeURIComponent(file.type)}`;

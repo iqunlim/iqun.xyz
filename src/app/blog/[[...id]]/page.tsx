@@ -9,8 +9,8 @@ export default async function Page({
 }) {
   const id = (await params).id?.[0];
   if (!id) redirect("/");
-  const data = await getPostBySlug(id);
-  if (!data[0]) return <h1>Not found</h1>;
+  const data = await getPostBySlug(id).catch((error) => console.error(error));
+  if (!data?.[0]) return <h1>Not found</h1>;
 
   return (
     <main className="flex w-full flex-col items-center justify-center">

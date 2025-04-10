@@ -10,10 +10,12 @@ export default async function BlogCardWrapper({
   page?: number;
   pageSize?: number;
 }) {
-  const blogData = await getPaginatedBlogPosts(page, pageSize);
-  const blogCount = await getPostCount();
+  const blogData = await getPaginatedBlogPosts(page, pageSize).catch((error) =>
+    console.error(error),
+  );
+  const blogCount = await getPostCount().catch((error) => console.error(error));
 
-  if (!blogData || !blogCount[0].count) return <BlogDataNotFound />;
+  if (!blogData || !blogCount?.[0].count) return <BlogDataNotFound />;
 
   return (
     <div className="flex flex-col gap-4">
@@ -34,7 +36,7 @@ export default async function BlogCardWrapper({
 const BlogDataNotFound = () => {
   return (
     <div className="flex items-center justify-center">
-      <h1>No blog posts found, please refresh the page or try again later</h1>
+      <h1>No blog posts found. Come back later and there might be some!</h1>
     </div>
   );
 };

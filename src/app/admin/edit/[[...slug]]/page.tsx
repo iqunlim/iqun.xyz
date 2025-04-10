@@ -1,5 +1,5 @@
 import { blogTableInsertType } from "@/db/schema";
-import BlogEditPage from "../../../../components/admin/EditPage";
+import BlogEditPage from "@/components/admin/EditPage";
 import { getPostBySlug } from "@/action/data";
 
 export default async function Page({

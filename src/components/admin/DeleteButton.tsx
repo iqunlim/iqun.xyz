@@ -5,7 +5,12 @@ import { deletePostBySlug } from "@/action/data";
 import { useRouter } from "next/navigation";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export default function DeleteButton(props: any) {
+
+type DeleteButtonProps = {
+  slug: string;
+};
+
+export default function DeleteButton(props: DeleteButtonProps) {
   const slug = props.slug;
   const router = useRouter();
 
@@ -13,8 +18,10 @@ export default function DeleteButton(props: any) {
     <Button
       variant="destructive"
       onClick={() => {
-        deletePostBySlug(slug);
-        router.push("/admin");
+        if (confirm(`Really delete ${slug}?`)) {
+          deletePostBySlug(slug);
+          router.push("/admin");
+        }
       }}
     >
       Delete
