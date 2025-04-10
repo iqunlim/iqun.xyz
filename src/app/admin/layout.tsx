@@ -22,13 +22,12 @@ export default async function Layout({
           <Button className="cursor-pointer"> Sign out</Button>
         </SignOutButton>
       </div>
-      {/* For now, disable auth */}
-      {/* <SignedIn> */}
-      <div className="p-4">{children}</div>
-      {/* </SignedIn>
+      <SignedIn>
+        <div className="p-4">{children}</div>
+      </SignedIn>
       <SignedOut>
         <RedirectToSignIn />
-      </SignedOut> */}
+      </SignedOut>
     </div>
   );
 }

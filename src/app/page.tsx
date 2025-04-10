@@ -1,5 +1,5 @@
 import BlogCardWrapper from "@/components/blog/blogCardWrapper";
-import Link from "next/link";
+// import Link from "next/link";
 
 export default async function RootPage({
   searchParams,
@@ -10,12 +10,12 @@ export default async function RootPage({
 
   return (
     <main className="flex flex-col">
-      <Link
+      {/* <Link
         className="cursor-pointer underline hover:text-blue-500"
         href="/components"
       >
         Check out my components
-      </Link>
+      </Link> */}
       <div className="m-8 flex flex-col items-center justify-center gap-4">
         <h1 className="text-5xl font-black underline">Blog Posts</h1>
         <BlogCardWrapper

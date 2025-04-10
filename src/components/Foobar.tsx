@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import imgDark from "../app/img/av2.png";
+import imgDark from "@/assets/av2.png";
 
 export default function Av() {
   return (

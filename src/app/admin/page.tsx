@@ -30,7 +30,14 @@ export default async function Page() {
           {data.map((post) => (
             <tr key={post.slug} className="border p-4">
               <td className="border p-2">{post.id}</td>
-              <td className="border p-2">{post.slug}</td>
+              <td className="border p-2">
+                <Link
+                  className="border-none hover:underline"
+                  href={`/blog/${post.slug}`}
+                >
+                  {post.slug}
+                </Link>
+              </td>
               <td className="border p-2">
                 {databaseDateToString(post.createdAt)}
               </td>

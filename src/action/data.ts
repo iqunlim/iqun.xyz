@@ -28,7 +28,7 @@ export async function getAllBlogPosts() {
     .select()
     .from(blogTable)
     .where(isNull(blogTable.deletedAt))
-    .orderBy(desc(blogTable.id));
+    .orderBy(desc(blogTable.createdAt));
 }
 
 export async function getPostCount() {

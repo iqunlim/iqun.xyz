@@ -135,7 +135,7 @@ export default function About() {
           {Pages.map((entry) => (
             <ProjectCard
               key={entry.title}
-              info={entry as CardInformation} // TODO: do this better
+              info={entry as CardInformation}
               // delay={delayGenerator.next().value || 0}
             />
           ))}
@@ -174,7 +174,7 @@ export default function About() {
             info={{
               title: "Resume",
               img: av.src,
-              href: "#",
+              href: "https://files2.iqun.xyz/8415074f/Resume.pdf",
               description: "TODO: Check out my resume!",
             }}
             delay={infoGenerator.next().value || 0}
