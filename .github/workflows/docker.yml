@@ -19,5 +19,8 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v6
         with:
+          context: .
           push: true
-          tags: iqunlim/iqun.xyz:latest
+          tags: |
+            iqunlim/iqun.xyz:latest 
+            iqunlim/iqun.xyz:${{ github.sha }}
