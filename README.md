@@ -39,8 +39,14 @@ This is a simple blog web application built using Next.js. It was created as a l
     Utilized Server and Client Components where appropriate
 
     Employed Server Actions and Custom React Hooks for interactivity
+    
+5. Authentication
+   
+    Explored using third party authentication solutions via Supabase integrations
 
-4.  Continuous Integration / Continuous Deployment
+    Set up registrations, logging in, protecting private administrator routes
+
+6.  Continuous Integration / Continuous Deployment
 
     Explored using dockerhub and a custom webhook to achieve CI/CD
 
@@ -54,11 +60,13 @@ This is a simple blog web application built using Next.js. It was created as a l
 
     Database: PostgreSQL
 
+    Authentication: Supabase
+
     Language: TypeScript
 
 # Features
 
-    🔐 Form validation with Zod
+    🔐 Form validation with Zod and Authentication with Supabase
 
     🧾 List, edit, and delete blog posts
 
