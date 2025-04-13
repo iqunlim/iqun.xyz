@@ -1,10 +1,5 @@
+// import { Button } from "@/components/ui/button";
 import { Button } from "@/components/ui/button";
-import {
-  RedirectToSignIn,
-  SignedIn,
-  SignedOut,
-  SignOutButton,
-} from "@clerk/nextjs";
 import Link from "next/link";
 
 export default async function Layout({
@@ -18,16 +13,11 @@ export default async function Layout({
         <Link href="/admin">
           <h1 className="rounded-md border p-2 px-4 text-2xl">Admin</h1>
         </Link>
-        <SignOutButton redirectUrl="/">
-          <Button className="cursor-pointer"> Sign out</Button>
-        </SignOutButton>
+        <Link href="/sign_out">
+          <Button>Sign Out</Button>
+        </Link>
       </div>
-      <SignedIn>
-        <div className="p-4">{children}</div>
-      </SignedIn>
-      <SignedOut>
-        <RedirectToSignIn />
-      </SignedOut>
+      <div className="p-4">{children}</div>
     </div>
   );
 }

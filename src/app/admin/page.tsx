@@ -2,12 +2,23 @@ import { databaseDateToString } from "@/lib/utils";
 import { getAllBlogPosts } from "@/action/data";
 import Link from "next/link";
 import DeleteButton from "../../components/admin/DeleteButton";
+import { redirect } from "next/navigation";
+import { createClient } from "@/lib/supabase/server";
 
 export default async function Page() {
-  const data = await getAllBlogPosts().catch((error) => console.error(error));
-  if (!data) return;
+  const supabase = await createClient();
+
+  const { data, error } = await supabase.auth.getUser();
+  if (error || !data?.user) {
+    redirect("/sign_in");
+  }
+
+  const blogData = await getAllBlogPosts().catch((error) =>
+    console.error(error),
+  );
+  if (!blogData) return;
   return (
-    <main className="min-w-1/2 justify-self-center py-4">
+    <main className="align-center flex min-w-1/2 justify-center py-4">
       <table className="border-4">
         <tbody>
           <tr className="border p-4">
@@ -27,7 +38,7 @@ export default async function Page() {
             <th className="border p-2">Edit</th>
           </tr>
 
-          {data.map((post) => (
+          {blogData.map((post) => (
             <tr key={post.slug} className="border p-4">
               <td className="border p-2">{post.id}</td>
               <td className="border p-2">

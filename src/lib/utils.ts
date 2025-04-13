@@ -40,5 +40,5 @@ const months = [
 export function databaseDateToString(date: string) {
   const dateObj = new Date(date);
   if (!dateObj) throw new Error("Invalid date string");
-  return `${months[dateObj.getMonth()]} ${dateObj.getDay()} ${dateObj.getFullYear()}`;
+  return `${months[dateObj.getMonth()]} ${dateObj.getDate()} ${dateObj.getFullYear()}`;
 }
