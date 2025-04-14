@@ -9,7 +9,6 @@ export default async function Page({
 }) {
   const { slug } = await params;
   const blogData = await extractBlogDataFromParams(slug?.[0]);
-  // get information here?
 
   return <BlogEditPage blogData={blogData[0]} />;
 }

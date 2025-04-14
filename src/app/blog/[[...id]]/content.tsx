@@ -63,7 +63,6 @@ export function ReactMarkdownWithSettings({
           const match = /language-(\w+)/.exec(className || "");
           return match ? (
             <SyntaxHighlighter
-              // {...rest}
               PreTag="div"
               language={match[1]}
               style={atomDark}

@@ -132,11 +132,7 @@ export default function About() {
         <SectionTitle>Projects</SectionTitle>
         <div className="grid max-h-[calc(100svh*2/3)] grid-cols-1 gap-4 overflow-x-visible overflow-y-auto rounded-lg p-2 md:max-h-fit md:grid-cols-2 md:overflow-y-visible lg:grid-cols-3">
           {Pages.map((entry) => (
-            <ProjectCard
-              key={entry.title}
-              info={entry as CardInformation}
-              // delay={delayGenerator.next().value || 0}
-            />
+            <ProjectCard key={entry.title} info={entry as CardInformation} />
           ))}
         </div>
         <Button
