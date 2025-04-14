@@ -9,11 +9,17 @@ import React, { useState } from "react";
 
 export default function BlogEditPage({
   blogData,
+  draftId,
 }: {
   blogData: Partial<blogTableInsertType>;
+  draftId: string;
 }) {
   const [formValues, setFormValues] =
     useState<Partial<blogTableInsertType>>(blogData);
+
+  const [draftIdState] = useState(
+    draftId !== "" ? draftId : crypto.randomUUID(),
+  );
 
   if (!blogData)
     return (
@@ -33,6 +39,7 @@ export default function BlogEditPage({
         <BlogForm
           formInitialState={blogData}
           setFormStateValues={setFormValues}
+          draftIdState={draftIdState}
         />
       </div>
       <div className="flex w-1/2 flex-col items-center gap-8">

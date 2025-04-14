@@ -1,25 +1,22 @@
 import { databaseDateToString } from "@/lib/utils";
 import { getAllBlogPosts } from "@/action/data";
 import Link from "next/link";
-import DeleteButton from "../../components/admin/DeleteButton";
-import { redirect } from "next/navigation";
-import { createClient } from "@/lib/supabase/server";
+import {
+  DeletePostButton,
+  DeleteDraftButton,
+} from "../../components/admin/DeleteButton";
+import { getAllDrafts } from "./edit/[[...slug]]/actions";
 
 export default async function Page() {
-  const supabase = await createClient();
-
-  const { data, error } = await supabase.auth.getUser();
-  if (error || !data?.user) {
-    redirect("/sign_in");
-  }
-
   const blogData = await getAllBlogPosts().catch((error) =>
     console.error(error),
   );
+
+  const draftData = await getAllDrafts();
   if (!blogData) return;
   return (
-    <main className="align-center flex min-w-1/2 justify-center py-4">
-      <table className="border-4">
+    <main className="flex flex-col items-center justify-center gap-4 py-4">
+      <table className="min-w-1/2 border-4">
         <tbody>
           <tr className="border p-4">
             <td colSpan={3} className="p-2 text-center">
@@ -61,12 +58,39 @@ export default async function Page() {
                 </Link>
               </td>
               <td>
-                <DeleteButton slug={post.slug} />
+                <DeletePostButton slug={post.slug} />
               </td>
             </tr>
           ))}
         </tbody>
       </table>
+      {draftData.length > 0 ? (
+        <table className="min-w-1/2 border-4">
+          <tbody>
+            <tr className="border-b-2 text-center">
+              <td>Drafts</td>
+            </tr>
+            {draftData.map((draft) => (
+              <tr key={draft.draftId}>
+                <td className="border pl-2">
+                  {draft.slug || "Draft for new post"}
+                </td>
+                <td className="border text-center">
+                  <Link
+                    className="text-green-500 underline hover:text-green-300"
+                    href={`/admin/edit${draft.slug ? "/" + draft.slug : ""}?draft=${draft.draftId}`}
+                  >
+                    Edit
+                  </Link>
+                </td>
+                <td className="border">
+                  <DeleteDraftButton slug={draft.draftId} />
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      ) : null}
     </main>
   );
 }

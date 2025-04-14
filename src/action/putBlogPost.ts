@@ -9,37 +9,28 @@ import {
 import { eq, sql } from "drizzle-orm";
 import { kebabCase } from "lodash";
 import { z } from "zod";
+import {
+  deleteDraftsByDraftIdAction,
+  deleteDraftsBySlugAction,
+} from "@/app/admin/edit/[[...slug]]/actions";
+import { VerifyUserAuthorized } from "@/lib/supabase/server";
 
 type FormState = {
   message: string;
 };
 
-const fileSchema = z
-  .instanceof(File)
-  .refine((file) => file.size > 0, {
-    message: "File cannot be empty",
-  })
-  .refine((file) => file.size <= 5 * 1024 * 1024, {
-    message: "File size must be less than 5MB",
-  })
-  .refine(
-    (file) => ["image/png", "image/jpeg", "image/jpg"].includes(file.type),
-    {
-      message: "Only PNG, JPEG, and JPG formats are allowed",
-    },
-  );
-
 const setupForInsertToDatabaseBlogPost = z.object({
   title: z.string(),
   summary: z.string(),
   content: z.string(),
-  image: fileSchema.optional(),
+  image: z.any(),
   slug: z.string().optional(),
   altText: z.string().optional(),
   tags: z.string(),
 });
 
 export async function PutBlogPostAction(_: FormState, data: FormData) {
+  await VerifyUserAuthorized();
   // Take form data and extract image file
   // Put to R2/whatever storage i want to use idk
   // Handle slug, if slug exists do not change else create slug from title
@@ -94,8 +85,22 @@ export async function PutBlogPostAction(_: FormState, data: FormData) {
       message: "Invalid user data",
     };
   }
-
-  return InsertOrUpdateBlogPost(parsed.data);
+  try {
+    const message = await InsertOrUpdateBlogPost(parsed.data);
+    if (formData.slug) {
+      deleteDraftsBySlugAction(parsed.data.slug);
+    } else {
+      // TODO: This is bad, but it should work
+      deleteDraftsByDraftIdAction((data.get("draftId") as string) || "");
+    }
+    return message;
+  } catch (e) {
+    console.error(e);
+    return {
+      message:
+        "There was an error inserting the blog post. Please refresh the page!",
+    };
+  }
 }
 
 async function InsertOrUpdateBlogPost(data: blogTableInsertType) {
@@ -110,7 +115,7 @@ async function InsertOrUpdateBlogPost(data: blogTableInsertType) {
 
 const apiUrl = process.env.IMG_API_URL;
 
-export async function putR2Object(file: File) {
+async function putR2Object(file: File) {
   const url = `${apiUrl}?fileName=${encodeURIComponent(file.name)}&fileType=${encodeURIComponent(file.type)}`;
   if (!file) {
     throw new Error("No file provided");

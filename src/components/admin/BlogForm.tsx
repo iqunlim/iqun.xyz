@@ -18,17 +18,21 @@ import {
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
-import React, { useActionState, useRef } from "react";
+import React, { useActionState, useCallback, useMemo, useRef } from "react";
 import { PutBlogPostAction } from "@/action/putBlogPost";
+import { debounce, omit } from "lodash";
+import { PutToDrafts } from "@/app/admin/edit/[[...slug]]/actions";
 
 export default function BlogForm({
   formInitialState,
   setFormStateValues,
+  draftIdState,
 }: {
   formInitialState?: Partial<blogTableInsertType>;
   setFormStateValues: React.Dispatch<
     React.SetStateAction<Partial<blogTableInsertType>>
   >;
+  draftIdState: string;
 }) {
   const [state, formAction] = useActionState(PutBlogPostAction, {
     message: "",
@@ -52,6 +56,16 @@ export default function BlogForm({
   const imageValue = form.watch("image");
   const formRef = useRef<HTMLFormElement>(null);
 
+  const updateFn = useCallback(async () => {
+    const formDataOmitted = omit(form.getValues(), "image", "tags", "altText");
+    setFormStateValues((prev) => ({ ...prev, formDataOmitted }));
+    await PutToDrafts(draftIdState, formDataOmitted);
+  }, [draftIdState, form, setFormStateValues]);
+
+  const debouncedUpdateFormState = useMemo(() => {
+    return debounce(updateFn, 1000);
+  }, [updateFn]);
+
   return (
     <Form {...form}>
       <form
@@ -66,6 +80,7 @@ export default function BlogForm({
         {state && <h1>{state.message}</h1>}
         <input type="hidden" {...form.register("slug")} />
         <input type="hidden" {...form.register("tags")} />
+        <input type="hidden" name="draftId" value={draftIdState} readOnly />
         <FormField
           control={form.control}
           name="title"
@@ -79,10 +94,7 @@ export default function BlogForm({
                   {...field}
                   onChange={(e) => {
                     field.onChange(e);
-                    setFormStateValues((prev) => ({
-                      ...prev,
-                      [e.target.name]: e.target.value,
-                    }));
+                    debouncedUpdateFormState();
                   }}
                 />
               </FormControl>
@@ -104,10 +116,7 @@ export default function BlogForm({
                   {...field}
                   onChange={(e) => {
                     field.onChange(e);
-                    setFormStateValues((prev) => ({
-                      ...prev,
-                      [e.target.name]: e.target.value,
-                    }));
+                    debouncedUpdateFormState();
                   }}
                 />
               </FormControl>
@@ -128,10 +137,7 @@ export default function BlogForm({
                   {...field}
                   onChange={(e) => {
                     field.onChange(e);
-                    setFormStateValues((prev) => ({
-                      ...prev,
-                      [e.target.name]: e.target.value,
-                    }));
+                    debouncedUpdateFormState();
                   }}
                 />
               </FormControl>
@@ -142,6 +148,7 @@ export default function BlogForm({
         <input
           className="rounded-md border p-2"
           type="file"
+          accept="image/png, image/jpeg"
           {...form.register("image")}
           onChange={(e) => {
             const file = e.target.files?.[0];
@@ -154,6 +161,7 @@ export default function BlogForm({
           }}
         />
         {/* Only display alt text field if an image is uploaded */}
+        {/* TODO: bug related to state causing this to appear when updating state */}
         {imageValue && (
           <FormField
             control={form.control}
@@ -169,10 +177,7 @@ export default function BlogForm({
                     {...field}
                     onChange={(e) => {
                       field.onChange(e);
-                      setFormStateValues((prev) => ({
-                        ...prev,
-                        [e.target.name]: e.target.value,
-                      }));
+                      debouncedUpdateFormState();
                     }}
                   />
                 </FormControl>

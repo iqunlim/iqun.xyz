@@ -2,6 +2,7 @@
 import { db } from "@/db";
 // import { getGlobalTag, getIdTag } from "@/db/cache/cacheTags";
 import { blogTable } from "@/db/schema";
+import { VerifyUserAuthorized } from "@/lib/supabase/server";
 import { count, desc, eq, isNull, and, sql } from "drizzle-orm";
 // import { cacheTag } from "next/dist/server/use-cache/cache-tag";
 
@@ -50,6 +51,7 @@ export async function getPostBySlug(slug: string) {
 }
 
 export async function deletePostBySlug(slug: string) {
+  await VerifyUserAuthorized();
   await db
     .update(blogTable)
     .set({ deletedAt: sql`NOW()` })

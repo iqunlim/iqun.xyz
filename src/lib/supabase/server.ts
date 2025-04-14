@@ -27,3 +27,14 @@ export async function createClient() {
     },
   );
 }
+
+// TODO: Flesh this out more in to a proper authorization function with user roles and etc.
+export async function VerifyUserAuthorized() {
+  const supabase = await createClient();
+  const { data, error } = await supabase.auth.getUser();
+  if (error || !data?.user) {
+    throw new Error("There was an error with authentication");
+  }
+
+  return data;
+}
