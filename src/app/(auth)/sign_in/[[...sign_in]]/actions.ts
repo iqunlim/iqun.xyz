@@ -5,15 +5,22 @@ import { createClient } from "@/lib/supabase/server";
 import { LoginSchema } from "./types";
 import { z } from "zod";
 
-export async function login(data: z.infer<typeof LoginSchema>) {
-  const supabase = await createClient();
+export async function login(loginInformation: z.infer<typeof LoginSchema>) {
+  try {
+    const data = LoginSchema.parse(loginInformation);
 
-  const { error } = await supabase.auth.signInWithPassword(data);
+    const supabase = await createClient();
 
-  if (error) {
+    const { error } = await supabase.auth.signInWithPassword(data);
+
+    if (error) {
+      console.error(error);
+      redirect("/error");
+    }
+  } catch (e) {
+    console.error(e);
     redirect("/error");
   }
-
   revalidatePath("/", "layout");
   redirect("/admin");
 }

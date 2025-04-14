@@ -50,8 +50,6 @@ export default function Page() {
               </FormItem>
             )}
           />
-          {/* <label htmlFor="email">Email:</label> */}
-          {/* <label htmlFor="password">Password:</label> */}
           <FormField
             control={form.control}
             name="password"

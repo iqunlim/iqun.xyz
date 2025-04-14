@@ -11,16 +11,17 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
-  # TODO for later
   app:
-    # build: .
-    image: "iqun.xyz:latest"
+    build: .
+    # image: "iqunlim/iqun.xyz:latest"
+    pull_policy: always
     container_name: site
     restart: always
     depends_on:
       - postgres
-    environment:
-      DATABASE_URL: postgres://test:newpassword@postgres:5432/sitedb
+    env_file:
+      - .env
+
     ports:
       - "3000:3000"
 volumes:
