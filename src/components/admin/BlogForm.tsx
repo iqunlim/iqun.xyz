@@ -58,7 +58,7 @@ export default function BlogForm({
 
   const updateFn = useCallback(async () => {
     const formDataOmitted = omit(form.getValues(), "image", "tags", "altText");
-    setFormStateValues((prev) => ({ ...prev, formDataOmitted }));
+    setFormStateValues((prev) => ({ ...prev, ...formDataOmitted }));
     await PutToDrafts(draftIdState, formDataOmitted);
   }, [draftIdState, form, setFormStateValues]);
 
