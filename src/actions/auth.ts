@@ -2,10 +2,18 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
-import { LoginSchema } from "./types";
 import { z } from "zod";
 
-export async function login(loginInformation: z.infer<typeof LoginSchema>) {
+export const LoginSchema = z.object({
+  email: z.string().email(),
+  password: z
+    .string()
+    .min(6, { message: "Password must be at least 6 charactrers log " }),
+});
+
+type LoginInformation = z.infer<typeof LoginSchema>;
+
+export async function Login(loginInformation: LoginInformation) {
   try {
     const data = LoginSchema.parse(loginInformation);
 

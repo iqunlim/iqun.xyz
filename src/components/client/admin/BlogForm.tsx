@@ -4,9 +4,6 @@ import {
   BlogTableZod,
   blogTableZodSchema,
 } from "@/db/schema";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-
 import {
   Form,
   FormControl,
@@ -14,14 +11,16 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "../../ui/form";
-import { Button } from "../../ui/button";
-import { Input } from "../../ui/input";
-import { Textarea } from "../../ui/textarea";
-import React, { useActionState, useCallback, useMemo, useRef } from "react";
+} from "@/components/ui/form";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { PutBlogPostAction } from "@/actions/blogForm";
-import { debounce, omit } from "lodash";
 import { UpsertDraft } from "@/actions/drafts";
+import React, { useActionState, useCallback, useMemo, useRef } from "react";
+import { debounce, omit } from "lodash";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 export default function BlogForm({
   formInitialState,
@@ -203,7 +202,7 @@ function ExtractFilePreviewUrlAndSetState<T extends Record<string, unknown>>(
   reader.onload = (event) => {
     const result = event.target?.result;
     if (!result) {
-      throw new Error(
+      throw new TypeError(
         "Error in FilePreviewHandler, target or target result were null",
       );
     } else {

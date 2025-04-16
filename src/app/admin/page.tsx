@@ -8,24 +8,25 @@ import { getAllBlogPosts } from "@/lib/repository/blog";
 import { getAllDrafts } from "@/lib/repository/drafts";
 
 export default async function Page() {
+  let errorMsg;
   const [blogData, draftData] = await Promise.all([
     getAllBlogPosts().catch((error) => {
       console.error("Error fetching blog posts:", error);
+      errorMsg =
+        "Error Fetching Data. It is highly unlikely that any posts will save.";
       return [];
     }),
     getAllDrafts().catch((error) => {
       console.error("Error fetching drafts:", error);
+      errorMsg =
+        "Error Fetching Data. It is highly unlikely that any posts will save.";
       return [];
     }),
   ]);
-  if (blogData.length === 0)
-    return (
-      <h1 className="text-destructive text-center text-2xl">
-        There was an error! Please refresh the page or try again later.
-      </h1>
-    );
+
   return (
     <main className="flex flex-col items-center justify-center gap-4 py-4">
+      {errorMsg ? <h1 className="text-destructive">{errorMsg}</h1> : null}
       <table className="min-w-1/2 border-4">
         <tbody>
           <tr className="border p-4">

@@ -1,11 +1,4 @@
 "use client";
-import { Input } from "@/components/ui/input";
-import { login } from "./actions";
-import { Button } from "@/components/ui/button";
-import { useForm } from "react-hook-form";
-import { LoginSchema } from "./types";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
 import {
   Form,
   FormControl,
@@ -14,6 +7,13 @@ import {
   FormItem,
   FormMessage,
 } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Login } from "@/actions/auth";
+import { Button } from "@/components/ui/button";
+import { LoginSchema } from "@/actions/auth";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { useForm } from "react-hook-form";
 
 export default function Page() {
   const form = useForm<z.infer<typeof LoginSchema>>({
@@ -28,7 +28,7 @@ export default function Page() {
     <main className="flex h-svh w-svw items-center justify-center">
       <Form {...form}>
         <form
-          onSubmit={form.handleSubmit(login)}
+          onSubmit={form.handleSubmit(Login)}
           className="flex w-1/2 flex-col gap-4 p-8"
         >
           <FormField
