@@ -1,0 +1,3 @@
+server actions should be mutations ONLY, as they are all POST requests, no getters should be allowed here
+
+If you need to GET something, do it in a server component, and then call client components from a server one

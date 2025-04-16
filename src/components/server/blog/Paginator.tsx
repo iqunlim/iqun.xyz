@@ -1,4 +1,3 @@
-// "use client";
 import clsx from "clsx";
 import {
   Pagination,
@@ -8,7 +7,7 @@ import {
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
-} from "../ui/pagination";
+} from "../../ui/pagination";
 import { range } from "@/lib/utils";
 import Link from "next/link";
 

@@ -7,6 +7,7 @@ import {
   timestamp,
 } from "drizzle-orm/pg-core";
 import { z } from "zod";
+
 export const blogTable = pgTable("blog", {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),
   title: varchar({ length: 255 }).notNull(),

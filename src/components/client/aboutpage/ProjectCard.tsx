@@ -1,10 +1,11 @@
+"use client";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "../ui/card";
+} from "../../ui/card";
 import avi from "@/assets/av2.png";
 import { useRef } from "react";
 import { useFadeIn } from "@/hooks/hooks";
@@ -59,15 +60,6 @@ function ProjectCard({
               />
             )}
           </CardContent>
-          {/* <CardFooter className="mt-auto">
-          {info.src ? (
-            <a href={info.src} target="#">
-              View Source Code
-            </a>
-          ) : (
-            <p>No source code available</p>
-          )}
-        </CardFooter> */}
         </Card>
       </div>
     </a>

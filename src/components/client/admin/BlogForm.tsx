@@ -14,14 +14,14 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "../ui/form";
-import { Button } from "../ui/button";
-import { Input } from "../ui/input";
-import { Textarea } from "../ui/textarea";
+} from "../../ui/form";
+import { Button } from "../../ui/button";
+import { Input } from "../../ui/input";
+import { Textarea } from "../../ui/textarea";
 import React, { useActionState, useCallback, useMemo, useRef } from "react";
-import { PutBlogPostAction } from "@/action/putBlogPost";
+import { PutBlogPostAction } from "@/actions/blogForm";
 import { debounce, omit } from "lodash";
-import { PutToDrafts } from "@/app/admin/edit/[[...slug]]/actions";
+import { UpsertDraft } from "@/actions/drafts";
 
 export default function BlogForm({
   formInitialState,
@@ -59,7 +59,7 @@ export default function BlogForm({
   const updateFn = useCallback(async () => {
     const formDataOmitted = omit(form.getValues(), "image", "tags", "altText");
     setFormStateValues((prev) => ({ ...prev, ...formDataOmitted }));
-    await PutToDrafts(draftIdState, formDataOmitted);
+    await UpsertDraft(draftIdState, formDataOmitted);
   }, [draftIdState, form, setFormStateValues]);
 
   const debouncedUpdateFormState = useMemo(() => {

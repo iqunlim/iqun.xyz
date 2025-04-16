@@ -1,7 +1,7 @@
 import { blogTableInsertType } from "@/db/schema";
-import BlogEditPage from "@/components/admin/EditPage";
-import { getPostBySlug } from "@/action/data";
-import { getDraft } from "./actions";
+import BlogEditPage from "@/components/client/admin/EditPage";
+import { getPostBySlug } from "@/lib/repository/blog";
+import { getDraftById } from "@/lib/repository/drafts";
 
 export default async function Page({
   params,
@@ -36,5 +36,5 @@ async function extractBlogDataFromParams(
 
 async function extractDraftId(draftId?: string) {
   if (!draftId) return [{}];
-  return getDraft(draftId);
+  return getDraftById(draftId);
 }

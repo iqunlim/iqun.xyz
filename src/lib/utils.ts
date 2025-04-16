@@ -42,3 +42,10 @@ export function databaseDateToString(date: string) {
   if (!dateObj) throw new Error("Invalid date string");
   return `${months[dateObj.getMonth()]} ${dateObj.getDate()} ${dateObj.getFullYear()}`;
 }
+
+export function ValidateParsedFileObject(data: unknown): data is File {
+  const test = data as File;
+  if (test === undefined || test.name === "undefined" || test.size === 0)
+    return false;
+  return true;
+}

@@ -1,15 +1,13 @@
 import { faker } from "@faker-js/faker";
-import { db } from "..";
-import { blogTable } from "../schema";
+import { db } from "../../db";
+import { blogTable, blogTableInsertType } from "../../db/schema";
 import fs from "fs";
 
 function randomNumber() {
   return Math.floor(Math.random() * 999) + 100;
 }
 
-export function createFakeBlogs(
-  count: number,
-): (typeof blogTable.$inferInsert)[] {
+export function createFakeBlogs(count: number): blogTableInsertType[] {
   return Array.from({ length: count }, () => {
     const title = faker.lorem.words(4) + " " + randomNumber();
     return {
@@ -26,7 +24,7 @@ export function createFakeBlogs(
   });
 }
 
-export function pullMDTestData() {
+export function pullMDTestData(): blogTableInsertType {
   const mdFile = fs.readFileSync("./src/db/test/Markdown-test.txt", "utf-8");
 
   const testData = {
@@ -43,14 +41,14 @@ export async function addTestDataToDatabase() {
   const fakeBlogs = createFakeBlogs(20);
   const data = Object.values(fakeBlogs).map((val) => val);
   data.push(pullMDTestData());
+  await db.insert(blogTable).values(data);
+}
+
+function main() {
   try {
-    await db.insert(blogTable).values(data);
+    addTestDataToDatabase();
   } catch (error) {
     console.log(error);
   }
 }
-
-// function main() {
-//   addTestDataToDatabase();
-// }
-// main();
+main();

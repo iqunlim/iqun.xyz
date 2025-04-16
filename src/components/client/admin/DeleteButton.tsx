@@ -1,9 +1,9 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { deletePostBySlug } from "@/action/data";
+import { deletePostBySlug } from "@/actions/blog";
 import { useRouter } from "next/navigation";
-import { deleteDraftsByDraftIdAction } from "@/app/admin/edit/[[...slug]]/actions";
+import { DeleteDraftBySlug } from "@/actions/drafts";
 
 type DeleteButtonProps = {
   slug: string;
@@ -19,7 +19,7 @@ export function DeletePostButton(props: DeleteButtonProps) {
       onClick={() => {
         if (confirm(`Really delete ${slug}?`)) {
           deletePostBySlug(slug);
-          router.push("/admin");
+          router.refresh();
         }
       }}
     >
@@ -37,8 +37,8 @@ export function DeleteDraftButton(props: DeleteButtonProps) {
       variant="destructive"
       onClick={() => {
         if (confirm(`Really delete ${slug}?`)) {
-          deleteDraftsByDraftIdAction(slug);
-          router.push("/admin");
+          DeleteDraftBySlug(slug);
+          router.refresh();
         }
       }}
     >

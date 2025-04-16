@@ -1,19 +1,29 @@
 import { databaseDateToString } from "@/lib/utils";
-import { getAllBlogPosts } from "@/action/data";
 import Link from "next/link";
 import {
   DeletePostButton,
   DeleteDraftButton,
-} from "../../components/admin/DeleteButton";
-import { getAllDrafts } from "./edit/[[...slug]]/actions";
+} from "../../components/client/admin/DeleteButton";
+import { getAllBlogPosts } from "@/lib/repository/blog";
+import { getAllDrafts } from "@/lib/repository/drafts";
 
 export default async function Page() {
-  const blogData = await getAllBlogPosts().catch((error) =>
-    console.error(error),
-  );
-
-  const draftData = await getAllDrafts();
-  if (!blogData) return;
+  const [blogData, draftData] = await Promise.all([
+    getAllBlogPosts().catch((error) => {
+      console.error("Error fetching blog posts:", error);
+      return [];
+    }),
+    getAllDrafts().catch((error) => {
+      console.error("Error fetching drafts:", error);
+      return [];
+    }),
+  ]);
+  if (blogData.length === 0)
+    return (
+      <h1 className="text-destructive text-center text-2xl">
+        There was an error! Please refresh the page or try again later.
+      </h1>
+    );
   return (
     <main className="flex flex-col items-center justify-center gap-4 py-4">
       <table className="min-w-1/2 border-4">

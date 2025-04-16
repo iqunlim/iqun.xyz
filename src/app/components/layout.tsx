@@ -1,5 +1,5 @@
-import { NavMenu } from "@/components/nav-content";
-import Av from "../../components/Foobar";
+import { NavMenu } from "@/components/client/nav-content";
+import Av from "../../components/client/Foobar";
 import Link from "next/link";
 
 export default function DashboardLayout({

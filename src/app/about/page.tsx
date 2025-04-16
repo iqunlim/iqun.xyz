@@ -1,5 +1,5 @@
 "use client";
-import StackBadge from "@/components/aboutpage/StackBadge";
+import StackBadge from "@/components/client/aboutpage/StackBadge";
 import { Button } from "@/components/ui/button";
 import { useRef } from "react";
 import { BsArrowDown } from "react-icons/bs";
@@ -20,11 +20,11 @@ import github from "@/assets/logos/github-mark.svg";
 import av from "@/assets/av2.png";
 
 import { useFadeIn } from "@/hooks/hooks";
-import ContactForm from "@/components/aboutpage/ContactForm";
+import ContactForm from "@/components/client/aboutpage/ContactForm";
 import SectionTitle from "@/components/ui/section-title";
 import ProjectCard, {
   CardInformation,
-} from "@/components/aboutpage/ProjectCard";
+} from "@/components/client/aboutpage/ProjectCard";
 import { Pages } from "@/lib/projectdata";
 import { DelayGenerator } from "@/lib/utils";
 import dynamic from "next/dynamic";
@@ -32,7 +32,7 @@ import dynamic from "next/dynamic";
 // Because there is an element of randomness, this cant be SSR'd, so we must do this
 // TODO: Investigate if there is a better way to do this
 const Circlevis = dynamic(
-  () => import("../../components/aboutpage/Circlevis"),
+  () => import("../../components/client/aboutpage/Circlevis"),
   { ssr: false },
 );
 

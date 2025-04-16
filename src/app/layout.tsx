@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import "./globals.css";
-import { ThemeProvider } from "@/components/theme/theme-provider";
-import { ModeToggle } from "@/components/theme/mode-toggle";
+import { ThemeProvider } from "@/components/client/theme/theme-provider";
+import { ModeToggle } from "@/components/client/theme/mode-toggle";
 import { Suspense } from "react";
 
 export const metadata: Metadata = {

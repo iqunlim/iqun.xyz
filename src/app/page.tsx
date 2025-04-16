@@ -1,4 +1,4 @@
-import BlogCardWrapper from "@/components/blog/blogCardWrapper";
+import BlogCardWrapper from "@/components/server/blog/blogCardWrapper";
 // import Link from "next/link";
 
 export default async function RootPage({

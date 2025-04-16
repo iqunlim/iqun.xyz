@@ -1,4 +1,5 @@
 import { createServerClient } from "@supabase/ssr";
+import { AuthError } from "@supabase/supabase-js";
 import { cookies } from "next/headers";
 
 export async function createClient() {
@@ -33,7 +34,7 @@ export async function VerifyUserAuthorized() {
   const supabase = await createClient();
   const { data, error } = await supabase.auth.getUser();
   if (error || !data?.user) {
-    throw new Error("There was an error with authentication");
+    throw new AuthError("There was an error with authentication");
   }
 
   return data;

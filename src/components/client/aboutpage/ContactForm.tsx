@@ -1,4 +1,5 @@
-import { Button } from "../ui/button";
+"use client";
+import { Button } from "../../ui/button";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -8,9 +9,9 @@ import {
   FormField,
   FormItem,
   FormMessage,
-} from "../ui/form";
-import { Input } from "../ui/input";
-import { Textarea } from "../ui/textarea";
+} from "../../ui/form";
+import { Input } from "../../ui/input";
+import { Textarea } from "../../ui/textarea";
 import { useRef } from "react";
 import { useFadeIn } from "@/hooks/hooks";
 import clsx from "clsx";

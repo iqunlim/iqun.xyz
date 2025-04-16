@@ -1,3 +1,4 @@
+"use client";
 /* eslint-disable @next/next/no-img-element */
 import { blogTableSelectType } from "@/db/schema";
 import defaultImg from "@/assets/av2.png";
