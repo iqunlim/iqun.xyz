@@ -1,3 +1,4 @@
+"use server";
 import { db } from "@/db";
 import { blogTable } from "@/db/schema";
 import { count, desc, eq, isNull, and } from "drizzle-orm";

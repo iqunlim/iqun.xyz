@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { deletePostBySlug } from "@/actions/blog";
 import { useRouter } from "next/navigation";
-import { DeleteDraftBySlug } from "@/actions/drafts";
+import { DeleteDraftByDraftId } from "@/actions/drafts";
 
 type DeleteButtonProps = {
   slug: string;
@@ -37,7 +37,7 @@ export function DeleteDraftButton(props: DeleteButtonProps) {
       variant="destructive"
       onClick={() => {
         if (confirm(`Really delete ${slug}?`)) {
-          DeleteDraftBySlug(slug);
+          DeleteDraftByDraftId(slug); // Do note, this is not a slug actually
           router.refresh();
         }
       }}

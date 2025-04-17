@@ -7,6 +7,9 @@ import {
 import { getAllBlogPosts } from "@/lib/repository/blog";
 import { getAllDrafts } from "@/lib/repository/drafts";
 
+// This needed to be done here, because nextjs REALLY wants to make it static
+export const dynamic = "force-dynamic";
+
 export default async function Page() {
   let errorMsg;
   const [blogData, draftData] = await Promise.all([

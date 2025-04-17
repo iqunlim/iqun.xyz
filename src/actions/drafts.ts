@@ -24,10 +24,12 @@ export async function UpsertDraft(
 
 export async function DeleteDraftBySlug(slug: string) {
   await VerifyUserAuthorized();
-  return db.delete(draftTable).where(eq(draftTable.slug, slug));
+  await db.delete(draftTable).where(eq(draftTable.slug, slug));
+  return;
 }
 
 export async function DeleteDraftByDraftId(draftId: string) {
   await VerifyUserAuthorized();
-  return db.delete(draftTable).where(eq(draftTable.draftId, draftId));
+  await db.delete(draftTable).where(eq(draftTable.draftId, draftId));
+  return;
 }
