@@ -8,15 +8,15 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Login } from "@/actions/auth";
 import { Button } from "@/components/ui/button";
-import { LoginSchema } from "@/actions/auth";
+import { Login } from "@/actions/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
 import { useForm } from "react-hook-form";
+import { LoginInformation, LoginSchema } from "./types";
+import { useState } from "react";
 
 export default function Page() {
-  const form = useForm<z.infer<typeof LoginSchema>>({
+  const form = useForm<LoginInformation>({
     resolver: zodResolver(LoginSchema),
     defaultValues: {
       email: "",
@@ -24,11 +24,15 @@ export default function Page() {
     },
   });
 
+  const [error, setError] = useState("");
+
   return (
     <main className="flex h-svh w-svw items-center justify-center">
       <Form {...form}>
         <form
-          onSubmit={form.handleSubmit(Login)}
+          onSubmit={form.handleSubmit((formValues) =>
+            Login(formValues).catch((error) => setError(error.message)),
+          )}
           className="flex w-1/2 flex-col gap-4 p-8"
         >
           <FormField
@@ -69,6 +73,7 @@ export default function Page() {
               </FormItem>
             )}
           />
+          {error && <h1 className="text-destructive text-xl">{error}</h1>}
           <Button type="submit">Log in</Button>
         </form>
       </Form>

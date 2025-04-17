@@ -1,73 +1,28 @@
 services:
-  nginx:
-    image: nginx:1.25.3-alpine
-    container_name: nginx
-    depends_on:
-      - znc
-      - app
-      - geoip
-    ports:
-      - 443:443
-      - 80:80
-      - 6969:6969
-      - 7000:7000
-    volumes:
-      - /home/iq/Docker/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
-      - /etc/letsencrypt/live/iqun.xyz/fullchain.pem:/etc/nginx/ssl/live/iqun.xyz/fullchain.pem
-      - /etc/letsencrypt/live/iqun.xyz/privkey.pem:/etc/nginx/ssl/live/iqun.xyz/privkey.pem
-      - /home/iq/tenzies:/etc/nginx/html/tenzies:rw
-      - nginx_cache:/var/cache/nginx
-    restart: always
-    networks:
-      - backend
-      - external
   postgres:
     image: postgres:latest
-    container_name: postgres
+    container_name: postgres_db
     restart: always
-    env_file:
-      - .env
-    #ports:
-    #     - 5432:5432
+    environment:
+      POSTGRES_USER: test
+      POSTGRES_PASSWORD: newpassword
+      POSTGRES_DB: sitedb
+    ports:
+      - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
-    networks:
-      - backend
-  znc:
-    image: znc:latest
-    container_name: znc
-    volumes:
-      - /home/iq/.znc:/znc-data:rw
-    restart: always
-    networks:
-      - backend
   app:
-    image: iqunlim/iqun.xyz:latest
-    container_name: app
+    build: .
+    # image: "iqunlim/iqun.xyz:latest"
     pull_policy: always
-    #ports:
-    #- 3000:3000
+    container_name: site
     restart: always
+    depends_on:
+      - postgres
     env_file:
       - .env
-    networks:
-      - backend
-  geoip:
-    image: observabilitystack/geoip-api
-    container_name: geoip
-    pull_policy: always
-    #ports:
-    #  - 8080:8080
-    networks:
-      - backend
 
-networks:
-  backend:
-    driver: bridge
-  external:
-    driver: bridge
-
+    ports:
+      - "3000:3000"
 volumes:
   postgres_data:
-    external: true
-  nginx_cache:
