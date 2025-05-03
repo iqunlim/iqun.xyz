@@ -1,8 +1,8 @@
 "use client";
 import {
   blogTableInsertType,
-  BlogTableZod,
-  blogTableZodSchema,
+  BlogTableEntry,
+  blogTableZodValidator,
 } from "@/db/schema";
 import {
   Form,
@@ -37,8 +37,8 @@ export default function BlogForm({
     message: "",
   });
 
-  const form = useForm<BlogTableZod>({
-    resolver: zodResolver(blogTableZodSchema),
+  const form = useForm<BlogTableEntry>({
+    resolver: zodResolver(blogTableZodValidator),
     //defaultValues are REQUIRED or else react will throw a "controlled to
     // uncontrolled error"
     defaultValues: {

@@ -28,7 +28,7 @@ export const blogTable = pgTable("blog", {
 export type blogTableInsertType = typeof blogTable.$inferInsert;
 export type blogTableSelectType = typeof blogTable.$inferSelect;
 
-export const blogTableZodSchema = z.object({
+export const blogTableZodValidator = z.object({
   title: z
     .string()
     .min(1, "Required Field")
@@ -40,8 +40,8 @@ export const blogTableZodSchema = z.object({
     .min(1, "Required Field")
     .max(500, "Must be less than 500 characters. Be brief in the summary!"),
   altText: z.string().max(255).optional(),
-  image: z.any(), // TODO: Better than this. It's causing a huge amount of headache to validate
+  image: z.string(), // TODO: Better than this. It's causing a huge amount of headache to validate
   tags: z.array(z.string()).default([]),
 });
 
-export type BlogTableZod = z.infer<typeof blogTableZodSchema>;
+export type BlogTableEntry = z.infer<typeof blogTableZodValidator>;

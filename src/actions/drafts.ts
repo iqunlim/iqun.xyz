@@ -1,14 +1,14 @@
 "use server";
 
 import { db } from "@/db";
-import { BlogTableZod } from "@/db/schema";
+import { BlogTableEntry } from "@/db/schema";
 import { draftTable } from "@/db/schema/draft";
 import { VerifyUserAuthorized } from "@/lib/supabase/server";
 import { eq } from "drizzle-orm";
 
 export async function UpsertDraft(
   id: string,
-  data: Omit<BlogTableZod, "image" | "tags" | "altText">,
+  data: Omit<BlogTableEntry, "image" | "tags" | "altText">,
 ) {
   await VerifyUserAuthorized();
   await db

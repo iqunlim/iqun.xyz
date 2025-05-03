@@ -1,6 +1,6 @@
 "use server";
 import { db } from "@/db";
-import { blogTable, blogTableZodSchema } from "@/db/schema";
+import { blogTable, blogTableZodValidator } from "@/db/schema";
 import { VerifyUserAuthorized } from "@/lib/supabase/server";
 import { eq, sql } from "drizzle-orm";
 
@@ -14,7 +14,7 @@ export async function deletePostBySlug(slug: string) {
 
 export async function InsertBlogPost(unparsed: unknown) {
   await VerifyUserAuthorized();
-  const data = blogTableZodSchema.parse(unparsed);
+  const data = blogTableZodValidator.parse(unparsed);
 
   return db
     .insert(blogTable)
