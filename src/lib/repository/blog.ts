@@ -2,6 +2,7 @@
 import { db } from "@/db";
 import { blogTable } from "@/db/schema";
 import { count, desc, eq, isNull, and } from "drizzle-orm";
+import { cache } from "react";
 
 export async function getPaginatedBlogPosts(
   page: number = 1,
@@ -31,9 +32,16 @@ export async function getPostCount() {
     .where(isNull(blogTable.deletedAt));
 }
 
-export async function getPostBySlug(slug: string) {
+export async function getPostBySlugOld(slug: string) {
   return db
     .select()
     .from(blogTable)
     .where(and(eq(blogTable.slug, slug), isNull(blogTable.deletedAt)));
 }
+
+export const getPostBySlug = cache(async (slug: string) => {
+  return db
+    .select()
+    .from(blogTable)
+    .where(and(eq(blogTable.slug, slug), isNull(blogTable.deletedAt)));
+});
