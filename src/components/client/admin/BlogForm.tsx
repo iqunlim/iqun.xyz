@@ -21,6 +21,7 @@ import React, { useActionState, useCallback, useMemo, useRef } from "react";
 import { debounce, omit } from "lodash";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import Tags from "./Tags";
 
 export default function BlogForm({
   formInitialState,
@@ -185,6 +186,7 @@ export default function BlogForm({
             )}
           />
         )}
+        <Tags watch={form.watch} setValue={form.setValue} />
         <Button className="cursor-pointer" type="submit">
           Submit
         </Button>

@@ -9,6 +9,9 @@ import putFileAndGetUrl from "@/lib/files/R2";
 import { DeleteDraftByDraftId } from "./drafts";
 import { InsertBlogPost } from "./blog";
 
+import av2 from "@/assets/av2.png";
+import { getPostBySlug } from "@/lib/repository/blog";
+
 type FormState = {
   message: string;
 };
@@ -18,7 +21,7 @@ const FormDataValidation = z.object({
   title: z.string(),
   summary: z.string(),
   content: z.string(),
-  image: z.any(), //TODO: when zod 4 update: Do file validation here
+  image: z.any().optional(), //TODO: when zod 4 update: Do file validation here
   slug: z.string().optional(),
   altText: z.string().optional(),
   tags: z.preprocess((obj) => {
@@ -48,7 +51,17 @@ async function UploadImageFileAndReturnUrl(
     if (!ret || ret.error) throw new Error(ret.error);
     return ret.fileUrl;
   }
-  return undefined;
+  return FallbackToDefaultImage(data.slug);
+}
+
+// I Do not love this, but it seems like the best way to handle
+// The case where the post already has an image and one was not
+// provided in the update.
+async function FallbackToDefaultImage(slug?: string) {
+  if (!slug) return av2.src;
+  const data = await getPostBySlug(slug);
+  if (!data[0]) return av2.src;
+  return data[0].image;
 }
 
 // All of the logic to go from FormDataValidatedForDatabase => BlogTableInsertType

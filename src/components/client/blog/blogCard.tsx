@@ -35,13 +35,13 @@ export default function BlogCard({
           {data.title}
         </h1>
         <p className="flex-1">{data.summary}</p>
-        {/* <div className="flex flex-wrap gap-2">
-          {data.tags.map((tag, i) => (
-            <span className="rounded-full border p-1" key={i}>
+        <div className="flex flex-wrap gap-2">
+          {data?.tags?.map((tag, i) => (
+            <span className="rounded-full border px-4" key={i}>
               {tag}
             </span>
           ))}
-        </div> */}
+        </div>
       </div>
     </Link>
   );

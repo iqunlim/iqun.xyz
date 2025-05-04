@@ -5,7 +5,6 @@ import { ModeToggle } from "@/components/client/theme/mode-toggle";
 import { Suspense } from "react";
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "/"),
   title: "IQ's React Stuff",
   description: "iqun.xyz",
 };
