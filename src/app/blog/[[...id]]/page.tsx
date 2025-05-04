@@ -13,7 +13,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     const data = await getPostBySlug(id).catch((error) => console.error(error));
     if (data?.[0]) {
       return {
-        title: data[0].title,
+        title: "iqun.xyz Blog: " + data[0].title,
         description: data[0].summary,
       };
     }
