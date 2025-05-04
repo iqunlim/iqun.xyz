@@ -1,5 +1,6 @@
 "use server";
 
+import "server-only";
 import { db } from "@/db";
 import { BlogTableEntry } from "@/db/schema";
 import { draftTable } from "@/db/schema/draft";
@@ -8,7 +9,7 @@ import { eq } from "drizzle-orm";
 
 export async function UpsertDraft(
   id: string,
-  data: Omit<BlogTableEntry, "image" | "tags" | "altText">,
+  data: Omit<BlogTableEntry, "image" | "altText">,
 ) {
   await VerifyUserAuthorized();
   await db

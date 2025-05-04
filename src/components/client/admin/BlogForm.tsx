@@ -57,7 +57,7 @@ export default function BlogForm({
   const formRef = useRef<HTMLFormElement>(null);
 
   const updateFn = useCallback(async () => {
-    const formDataOmitted = omit(form.getValues(), "image", "tags", "altText");
+    const formDataOmitted = omit(form.getValues(), "image", "altText");
     setFormStateValues((prev) => ({ ...prev, ...formDataOmitted }));
     await UpsertDraft(draftIdState, formDataOmitted);
   }, [draftIdState, form, setFormStateValues]);
@@ -79,7 +79,11 @@ export default function BlogForm({
       >
         {state && <h1>{state.message}</h1>}
         <input type="hidden" {...form.register("slug")} />
-        <input type="hidden" {...form.register("tags")} />
+        <input
+          type="text"
+          {...form.register("tags")}
+          onChange={() => debouncedUpdateFormState()}
+        />
         <input type="hidden" name="draftId" value={draftIdState} readOnly />
         <FormField
           control={form.control}
@@ -186,7 +190,11 @@ export default function BlogForm({
             )}
           />
         )}
-        <Tags watch={form.watch} setValue={form.setValue} />
+        <Tags
+          watch={form.watch}
+          setValue={form.setValue}
+          formStateRefresh={() => debouncedUpdateFormState()}
+        />
         <Button className="cursor-pointer" type="submit">
           Submit
         </Button>

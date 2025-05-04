@@ -1,4 +1,5 @@
 "use server";
+import "server-only";
 import { kebabCase } from "lodash";
 import { z } from "zod";
 
@@ -35,16 +36,14 @@ const FormDataValidation = z.object({
   }, z.array(z.string())),
 });
 
-type FormDataValidatedForDatabase = z.infer<typeof FormDataValidation>;
+type BlogData = z.infer<typeof FormDataValidation>;
 
-function ValidateFormData(data: FormData): FormDataValidatedForDatabase {
+function ValidateFormData(data: FormData): BlogData {
   const formData = Object.fromEntries(data);
   return FormDataValidation.parse(formData);
 }
 
-async function UploadImageFileAndReturnUrl(
-  data: z.infer<typeof FormDataValidation>,
-) {
+async function UploadImageFileAndReturnUrl(data: BlogData) {
   const imageFile = ValidateParsedFileObject(data.image);
   if (imageFile) {
     const ret = await putFileAndGetUrl(data.image);
@@ -65,7 +64,7 @@ async function FallbackToDefaultImage(slug?: string) {
 }
 
 // All of the logic to go from FormDataValidatedForDatabase => BlogTableInsertType
-async function AddBlogPost(newData: FormDataValidatedForDatabase) {
+async function AddBlogPost(newData: BlogData) {
   const imageUrl = await UploadImageFileAndReturnUrl(newData);
   // Create slug if the post is new
   // If it is old, we do not want to update the slug if possible
@@ -102,7 +101,7 @@ export async function PutBlogPostAction(
     };
   }
 
-  let ValidatedFormData: FormDataValidatedForDatabase;
+  let ValidatedFormData: BlogData;
   try {
     ValidatedFormData = ValidateFormData(data);
   } catch (e) {

@@ -5,9 +5,10 @@ import { UseFormSetValue, UseFormWatch } from "react-hook-form";
 type TagsProps = {
   setValue: UseFormSetValue<BlogTableEntry>;
   watch: UseFormWatch<BlogTableEntry>;
+  formStateRefresh: () => Promise<void> | undefined;
 };
 
-export default function Tags({ setValue, watch }: TagsProps) {
+export default function Tags({ setValue, watch, formStateRefresh }: TagsProps) {
   const tags = watch("tags");
 
   const addTag = () => {
@@ -15,6 +16,7 @@ export default function Tags({ setValue, watch }: TagsProps) {
     if (tag) {
       setValue("tags", [...(tags || []), tag]);
     }
+    formStateRefresh();
   };
 
   const delTag = (tagToDelete: string) => {
@@ -22,6 +24,7 @@ export default function Tags({ setValue, watch }: TagsProps) {
       "tags",
       tags.filter((tag) => tag != tagToDelete),
     );
+    formStateRefresh();
   };
 
   return (

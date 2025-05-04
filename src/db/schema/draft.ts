@@ -1,3 +1,4 @@
+import { sql } from "drizzle-orm";
 import { integer, pgTable, varchar, text } from "drizzle-orm/pg-core";
 import { z } from "zod";
 
@@ -8,6 +9,9 @@ export const draftTable = pgTable("drafts", {
   content: text().notNull(),
   summary: varchar({ length: 500 }).notNull(),
   slug: varchar({ length: 255 }).notNull(),
+  tags: text()
+    .array()
+    .default(sql`'{}'::text[]`),
 });
 
 export const draftTableZodSchema = z.object({
@@ -22,4 +26,5 @@ export const draftTableZodSchema = z.object({
     .max(500, "Must be less than 500 characters. Be brief in the summary!"),
   draftId: z.string().uuid(),
   slug: z.string().nullable(),
+  tags: z.array(z.string()),
 });

@@ -1,4 +1,5 @@
 "use server";
+import "server-only";
 import { db } from "@/db";
 import { blogTable, blogTableZodValidator } from "@/db/schema";
 import { VerifyUserAuthorized } from "@/lib/supabase/server";
