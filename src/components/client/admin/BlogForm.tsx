@@ -80,7 +80,7 @@ export default function BlogForm({
         {state && <h1>{state.message}</h1>}
         <input type="hidden" {...form.register("slug")} />
         <input
-          type="text"
+          type="hidden"
           {...form.register("tags")}
           onChange={() => debouncedUpdateFormState()}
         />
