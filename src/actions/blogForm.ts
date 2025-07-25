@@ -1,6 +1,6 @@
 "use server";
 import "server-only";
-import { kebabCase } from "lodash";
+import kebabCase from "lodash/kebabCase";
 import { z } from "zod";
 
 import { VerifyUserAuthorized } from "@/lib/supabase/server";

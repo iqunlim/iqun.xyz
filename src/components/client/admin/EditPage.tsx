@@ -3,7 +3,7 @@ import BlogContent from "@/app/blog/[[...id]]/content";
 import BlogForm from "@/components/client/admin/BlogForm";
 import BlogCard from "@/components/client/blog/blogCard";
 import { blogTableInsertType } from "@/db/schema";
-import { kebabCase } from "lodash";
+import kebabCase from "lodash/kebabCase";
 import Link from "next/link";
 import React, { useState } from "react";
 

@@ -91,7 +91,7 @@ export default function About() {
               equipped me with a deep understanding of system architecture,
               troubleshooting, and efficiency—skills I now apply to building
               sleek, high-performing web applications. When not working on my
-              newest project, I enjoy old school videogames and making music.
+              newest project, I enjoy board games with my friends.
             </p>
           </div>
           <div>
