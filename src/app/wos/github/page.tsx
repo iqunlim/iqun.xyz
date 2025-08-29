@@ -12,16 +12,13 @@ import {
 
 export default async function WOSGithub() {
   const serviceAccountAuth = new JWT({
-    email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
-    key: process.env.GOOGLE_PRIVATE_KEY,
+    email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL ?? "",
+    key: process.env.GOOGLE_PRIVATE_KEY ?? "",
     scopes: ["https://www.googleapis.com/auth/spreadsheets.readonly"],
   });
 
-  if (!process.env.GOOGLE_SHEET_ID) {
-    throw new Error("GOOGLE_SHEET_ID must be set in env vars.");
-  }
   const doc = new GoogleSpreadsheet(
-    process.env.GOOGLE_SHEET_ID,
+    process.env.GOOGLE_SHEET_ID ?? "",
     serviceAccountAuth,
   );
 
