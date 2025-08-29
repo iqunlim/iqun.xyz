@@ -50,9 +50,9 @@ export const Pages: ComponentInformation[] = [
     internalName: "poring",
     title: "poring.xyz",
     img: poring.src,
-    href: "https://poring.xyz",
+    href: "https://poring.iqun.xyz",
     gh: "https://github.com/iqunlim/poring.xyz",
-    src: "https://poring.xyz",
+    src: "https://poring.iqun.xyz",
     description: "React 19 and S3-based File uploader",
   },
   {

@@ -47,7 +47,6 @@ export default function About() {
   const projectStyle = useFadeIn([projectRef, moreInfoRef], "down");
 
   const infoGenerator = DelayGenerator();
-  debugger;
 
   return (
     <main className="px-2">
